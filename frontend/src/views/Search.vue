@@ -1,6 +1,8 @@
 <template>
-  <div class="search">
-    <SearchTextInput />
+  <div class="container">
+    <div class="row">
+      <SearchTextInput class="col-md-6 offset-md-3"/>
+    </div>
   </div>
 </template>
 
@@ -16,5 +18,4 @@ export default {
 </script>
 
 <style>
-
 </style>

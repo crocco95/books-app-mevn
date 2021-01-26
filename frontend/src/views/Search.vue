@@ -2,6 +2,9 @@
   <div class="container">
     <div class="row">
       <SearchTextInput class="col-md-8 offset-md-2"/>
+      <small class="text-secondary">
+        <strong>Tip:</strong> Are you searching for a person? Put the "@" in the search bar before her username!
+      </small>
     </div>
 
     <div class="row">

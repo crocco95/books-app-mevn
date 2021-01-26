@@ -1,18 +1,28 @@
 <template>
-  <div class="home">
+  <div class="container home">
     <img alt="Vue logo" src="../assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <h1>Welcome to Your Vue.js App</h1>
+    
+    <h2></h2>
+    <LatestBooks limit="12"/>
+
+    <MostReadBooks limit="12"/>
   </div>
 </template>
 
 <script>
-// @ is an alias to /src
-import HelloWorld from '@/components/HelloWorld.vue'
+  import LatestBooks from '@/components/LatestBooks.vue'
+  import MostReadBooks from '@/components/MostReadBooks.vue'
 
-export default {
-  name: 'Home',
-  components: {
-    HelloWorld
+  export default {
+    name: 'Home',
+    components: {
+      LatestBooks,
+      MostReadBooks
+    }
   }
-}
 </script>
+
+<style scoped>
+
+</style>

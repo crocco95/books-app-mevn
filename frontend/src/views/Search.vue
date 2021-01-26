@@ -1,18 +1,40 @@
 <template>
   <div class="container">
     <div class="row">
-      <SearchTextInput class="col-md-6 offset-md-3"/>
+      <SearchTextInput class="col-md-8 offset-md-2"/>
     </div>
+
+    <div class="row">
+      <div class="col-md-8 offset-md-2">
+
+        <div class="row">
+          <div class="col-md-4 mt-4">
+            <BookPreviewCard :title="title" :description="description"/>
+          </div>
+        </div>
+      
+      </div>
+    </div>
+
   </div>
 </template>
 
 <script>
 
 import SearchTextInput from '@/components/SearchTextInput.vue'
+import BookPreviewCard from '@/components/BookPreviewCard.vue'
 
 export default {
   components: {
-    SearchTextInput
+    SearchTextInput,
+    BookPreviewCard
+  },
+
+  data(){
+    return{
+      title: "Test",
+      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
+    }
   }
 }
 </script>

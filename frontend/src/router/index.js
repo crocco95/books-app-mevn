@@ -22,7 +22,11 @@ const routes = [
     props: true,
     name: 'Book',
     component: () => import('../views/Book.vue')
-  }
+  },
+  {
+    path: '/:pathMatch(.*)*',
+    component: () => import('../views/PageNotFound.vue')
+  },
 ]
 
 const router = createRouter({

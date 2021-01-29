@@ -1,7 +1,7 @@
 <template>
   <div class="container home">
-    <img alt="Vue logo" src="../assets/logo.png">
-    <h1>Welcome to Your Vue.js App</h1>
+    <img alt="App logo" src="../assets/logo.png" width="150">
+    <h1>Welcome to Books App!</h1>
     
     <h2></h2>
     <LatestBooks limit="12"/>

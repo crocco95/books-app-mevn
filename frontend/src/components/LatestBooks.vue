@@ -2,7 +2,7 @@
   <div class="latests-books">
     <h2>LatestBooks</h2>
 
-    <BookPreviewCard class="col-md-3 col-sm-4" title="name" description="ciao" />
+    <BookPreviewCard class="col-md-3 col-sm-4 col-6" title="name" description="ciao" />
   </div>
 </template>
 

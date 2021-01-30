@@ -19,6 +19,28 @@ const list = async (req,res) => {
     });
 }
 
+const get = async (req,res) => {
+  
+  const volumeId = req.params.volumeId;
+
+  console.log(volumeId);
+
+  BookService
+    .get(volumeId)
+    .then(response => {
+      res
+        .status(response.status)
+        .json(response.data);
+    })
+    .catch(error => {
+      res
+        .status(error.response ? error.response.status : 500 )
+        .json(error.response ? error.response.data : 'Unexpected error');
+    });
+
+}
+
 module.exports = {
-  list
+  list,
+  get
 }

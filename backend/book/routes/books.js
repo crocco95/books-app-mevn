@@ -8,6 +8,7 @@ router
   .get(BookController.list);
 
 router
-  .route('/:volumeId');
+  .route('/:volumeId')
+  .get(BookController.get);
 
 module.exports = router;

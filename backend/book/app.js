@@ -13,7 +13,7 @@ const bodyParser = require('body-parser');
 app.use(bodyParser.json());
 
 const routes = require('./routes');
-app.use('/v1',routes);
+app.use('/api/v1',routes);
 
 // Setting up application port
 const port = process.env.PORT || 3000;

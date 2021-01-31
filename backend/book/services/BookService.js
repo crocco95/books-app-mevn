@@ -13,7 +13,7 @@ const list = async (query, filter, limit = 10, startIndex = 0, orderBy = 'releva
     q: query,
     filter: filter,
     orderBy: orderBy,
-    maxResult: limit,
+    maxResults: limit,
     projection, projection,
     key: process.env.GOOGLE_API_KEY,
   };

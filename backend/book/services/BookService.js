@@ -7,7 +7,7 @@ var axios = require('axios');
  * @param {*} limit 
  * @param {*} orderBy 
  */
-const list = async (query, filter, limit = 10, orderBy = 'relevance', projection = 'lite') => {
+const list = async (query, filter, limit = 10, startIndex = 0, orderBy = 'relevance', projection = 'lite') => {
 
   const params = {
     q: query,
@@ -17,8 +17,6 @@ const list = async (query, filter, limit = 10, orderBy = 'relevance', projection
     projection, projection,
     key: process.env.GOOGLE_API_KEY,
   };
-
-  console.log("KEY: " + process.env.GOOGLE_API_KEY);
 
   console.log("Called list BookService.function with params: " + JSON.stringify(params));
 

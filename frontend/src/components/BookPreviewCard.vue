@@ -1,7 +1,7 @@
 <template>
   <div class="book-preview-card">
-    <div style="background-image:url('{{ coverUrl }}')" class="cover"></div>
-    <h3 v-text="title" class="title mt-2"></h3>
+    <div :style="'background-image:url('+ coverUrl + ')'" class="cover"></div>
+    <h4 v-text="title" class="title mt-2"></h4>
     <p v-text="description" class="description"></p>
   </div>
 </template>
@@ -20,7 +20,9 @@ export default {
 
   .book-preview-card{
 
-    display: inline-block;
+    display: block;
+    width: 100%;
+    height: 100%;
 
     border-radius: 1rem;
     border: none;
@@ -39,12 +41,20 @@ export default {
   }
 
   .title {
+    display: -webkit-box;
+    
     padding: 0 1rem;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
   }
 
   .description {
     padding: 0 1rem;
-    height: 4rem;
+    height: 6rem;
     text-align: justify;
     overflow: hidden;
   }

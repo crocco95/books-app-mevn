@@ -17,6 +17,9 @@
 </template>
 
 <script>
+
+import { mapActions } from 'vuex';
+
 export default {
   data() {
     return {
@@ -27,7 +30,10 @@ export default {
   },
 
   methods: {
-    search: function(event) {
+
+    ...mapActions(['fetchBooks']),
+    
+    search: function( event ){
 
       // Prevent the submit event
       event.preventDefault();
@@ -39,17 +45,8 @@ export default {
       }
 
       // Perform the request
-      fetch('http://localhost:3000/api/v1/books?query='.concat(this.query),{
-        method: 'GET'
-      })
-      .then( res => res.json())
-      .then( data => {
-        console.log(data);
-        this.totalResults = data.totalItems;
-        this.results = data.items;
-      })
-      .catch( err => console.error(err));
-    }
+      this.fetchBooks(this.query);
+    },
   }
 }
 </script>

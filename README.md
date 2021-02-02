@@ -16,7 +16,9 @@ A simple NEVM application to manage books 📚
 ```bash
 $ npm serve # Debug/local purpose
 $ npm build # Prod environment
+```
 
 ### Start backend
 ```bash
 $ npm run dev # Debug/local purpose
+```

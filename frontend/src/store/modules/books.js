@@ -1,4 +1,5 @@
 import axios from 'axios';
+import httpUtils from '../../../utils/http';
 
 const state = {
   books: [],
@@ -13,15 +14,15 @@ const mutations = {
 }
 
 const actions = {
-  async fetchBooks({ commit }, query, filter, limit, startIndex, orderBy) {
+  async fetchBooks({ commit }, params) {
+
+    const str = httpUtils.paramsToUrlQuery(params);
 
     axios
-      .get('http://localhost:3000/api/v1/books?query='.concat(query),{
+      .get('http://localhost:3000/api/v1/books?' + str,{
         method: 'get'
       })
-      .then( res => {
-        commit('setBooks', res.data);
-      });
+      .then( res => commit('setBooks', res.data) );
   }
 }
 

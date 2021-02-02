@@ -10,7 +10,7 @@
 
       <button class="btn btn-white"
         type="submit"
-        id="button-search">Search</button>
+        id="button-search">Let's go!</button>
     </form>
 
   </div>
@@ -45,7 +45,10 @@ export default {
       }
 
       // Perform the request
-      this.fetchBooks(this.query);
+      this.fetchBooks({
+        query: this.query,
+        limit: 12,
+      });
     },
   }
 }

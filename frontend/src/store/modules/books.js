@@ -18,7 +18,7 @@ const actions = {
 
     const str = httpUtils.paramsToUrlQuery(params);
 
-    axios
+    return axios
       .get('http://localhost:3000/api/v1/books?' + str,{
         method: 'get'
       })

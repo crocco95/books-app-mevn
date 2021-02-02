@@ -6,11 +6,19 @@
         class="form-control"
         placeholder="Search something like 'Harry Potter'"
         aria-label="Example text with button addon"
-        aria-describedby="button-search" v-model="query"/>
+        aria-describedby="button-search"
+        :disabled="searchingFlag"
+        v-model="query"/>
 
       <button class="btn btn-white"
         type="submit"
-        id="button-search">Let's go!</button>
+        id="button-search"
+        :disabled="searchingFlag">
+        
+          <span v-if="!searchingFlag">Let's Go!</span>
+          <span v-else>Searching...</span>
+
+        </button>
     </form>
 
   </div>
@@ -23,6 +31,7 @@ import { mapActions } from 'vuex';
 export default {
   data() {
     return {
+      searchingFlag: false,
       query: '',
       totalResults: false,
       results: []
@@ -44,10 +53,14 @@ export default {
         return;
       }
 
+      this.searchingFlag = true;
+
       // Perform the request
       this.fetchBooks({
         query: this.query,
         limit: 12,
+      }).then( () => {
+        this.searchingFlag = false;
       });
     },
   }

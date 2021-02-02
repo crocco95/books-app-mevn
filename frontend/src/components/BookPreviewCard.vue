@@ -1,17 +1,26 @@
 <template>
   <div class="book-preview-card">
     <div :style="'background-image:url('+ coverUrl + ')'" class="cover"></div>
-    <h4 v-text="title" class="title mt-2"></h4>
-    <p v-text="description" class="description"></p>
+    <h4 v-text="title" class="title mt-2 mb-0"></h4>
+    
+    <div v-if="authors !== undefined">
+      <small class="author text-secondary">By </small>
+      <small>{{ authors.join() }}</small>
+    </div>
+
+    <p v-text="description" class="description mt-3"></p>
   </div>
 </template>
 
 <script>
 export default {
   props:{
+    id: String,
     coverUrl: String,
     title: String,
-    description: String
+    subtitle: String,
+    description: String,
+    authors: Array
   }
 }
 </script>

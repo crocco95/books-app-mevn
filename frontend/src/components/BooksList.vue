@@ -3,9 +3,12 @@
     <div class="col-md-4 col-sm-4 col-6 p-2" v-for="book in listBooks.items" :key="book.id">
 
       <BookPreviewCard
+        :id="book.id"
         :coverUrl="book?.volumeInfo?.imageLinks?.thumbnail"
         :title="book.volumeInfo.title"
-        :description="book.volumeInfo.description"/>
+        :subtitle="book.volumeInfo.subtitle"
+        :description="book.volumeInfo.description"
+        :authors="book.volumeInfo.authors"/>
 
     </div>
   </div>

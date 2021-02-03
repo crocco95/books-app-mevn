@@ -1,15 +1,24 @@
 <template>
-  <router-link :to="'/books/' + id" class="book-preview-card">
-    <div :style="'background-image:url('+ coverUrl + ')'" class="cover"></div>
-    <h4 v-text="title" class="title mt-2 mb-0"></h4>
-    
-    <div v-if="authors !== undefined" class="authors">
-      <small class="text-secondary">By </small>
-      <small class="text-secondary">{{ authors.join() }}</small>
-    </div>
+  <div class="card book-preview-card">
+    <div class="row g-0">
+      <div class="col-md-4">
+        <img :src="coverUrl" alt="Cover">
+      </div>
+      <div class="col-md-8 right-side">
+        <div class="card-body">
+          <h5 class="card-title">
+            {{ title && title.length > 50 ? title.substr(0, 50) + '...' : title }}
+          </h5>
+          <!-- <p class="card-text description">{{ description && description.length > 100 ? description.substr(0, 100) + '...' : description }}</p> -->
+          <p class="card-text">
+            <small class="text-muted">Writter by {{ authors.join() }}</small>
+          </p>
 
-    <p v-text="description" class="description mt-3"></p>
-  </router-link>
+          <router-link :to="'/books/' + id">Approfondisci</router-link>
+        </div>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -25,51 +34,24 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 
   .book-preview-card{
-
-    display: block;
-    width: 100%;
     height: 100%;
-
-    border-radius: 1rem;
     border: none;
+    border-radius: 1rem;
     box-shadow: 0 2px 5px 1px rgb(64 60 67 / 16%);
 
     text-decoration: none;
+
+    .card-title{
+      color: #333;
+    }
+
+    .right-side {
+      text-align: left;
+      padding-left: 1rem;
+    }
   }
 
-  .cover {
-    display: block;
-    height: 8rem;
-    
-    background-color: #666;
-    background-position: center;
-    background-size: cover;
-
-    border-radius: 1rem 1rem 0 0;
-  }
-
-  .title {
-    display: -webkit-box;
-    
-    padding: 0 1rem;
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    color: #333;
-
-    -webkit-line-clamp: 3;
-    -webkit-box-orient: vertical;
-  }
-
-  .description {
-    padding: 0 1rem;
-    height: 6rem;
-    text-align: justify;
-    overflow: hidden;
-
-    color: #333;
-  }
 </style>

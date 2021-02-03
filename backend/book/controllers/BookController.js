@@ -13,7 +13,7 @@ const list = async (req,res) => {
   
   // Call the service to perform the effective API call
   BookService
-    .list(params.query, params.filter, params.limit, params.orderBy)
+    .list(params.query, params.filter, params.limit, params.startIndex, params.orderBy)
     .then(response => {
       res
         .status(response.status)

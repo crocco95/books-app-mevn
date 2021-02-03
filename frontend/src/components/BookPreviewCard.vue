@@ -1,15 +1,15 @@
 <template>
-  <div class="book-preview-card">
+  <router-link :to="'/books/' + id" class="book-preview-card">
     <div :style="'background-image:url('+ coverUrl + ')'" class="cover"></div>
     <h4 v-text="title" class="title mt-2 mb-0"></h4>
     
-    <div v-if="authors !== undefined">
-      <small class="author text-secondary">By </small>
-      <small>{{ authors.join() }}</small>
+    <div v-if="authors !== undefined" class="authors">
+      <small class="text-secondary">By </small>
+      <small class="text-secondary">{{ authors.join() }}</small>
     </div>
 
     <p v-text="description" class="description mt-3"></p>
-  </div>
+  </router-link>
 </template>
 
 <script>
@@ -36,6 +36,8 @@ export default {
     border-radius: 1rem;
     border: none;
     box-shadow: 0 2px 5px 1px rgb(64 60 67 / 16%);
+
+    text-decoration: none;
   }
 
   .cover {
@@ -56,6 +58,7 @@ export default {
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
+    color: #333;
 
     -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;
@@ -66,5 +69,7 @@ export default {
     height: 6rem;
     text-align: justify;
     overflow: hidden;
+
+    color: #333;
   }
 </style>

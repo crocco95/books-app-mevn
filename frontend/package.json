@@ -12,6 +12,8 @@
     "axios": "^0.21.1",
     "bootstrap": "^5.0.0-beta1",
     "core-js": "^3.6.5",
+    "firebase": "^8.2.5",
+    "firebaseui": "^4.7.1",
     "register-service-worker": "^1.7.1",
     "vue": "^3.0.0",
     "vue-router": "^4.0.0-0",

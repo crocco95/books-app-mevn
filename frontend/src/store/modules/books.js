@@ -1,5 +1,5 @@
 import axios from 'axios';
-import httpUtils from '../../../utils/http';
+import httpUtils from '../../utils/http';
 
 const state = {
   books: [],

@@ -1,6 +1,6 @@
 <template>
   <div class="container home">
-    <img alt="App logo" src="../assets/logo.png" width="150">
+
     <h1 class="text-left">Welcome to Books App!</h1>
     
     <h2 class="mt-5">Humor</h2>

@@ -3,7 +3,7 @@
 
     <!-- START Error alert -->
     <div class="row">
-      <div class="col-md-6 offset-md-3">
+      <div class="col-md-12">
         <div class="alert alert-danger" v-if="error">
           <strong>Error: </strong>
           <span v-text="error.message"></span>
@@ -14,7 +14,7 @@
 
     <!-- START Registration form -->
     <div class="row">
-      <div class="col-md-6 offset-md-3">
+      <div class="col-md-12">
         <form class="text-start" @submit="registerWithEmailAndPassword">
           <div class="mb-3">
             <label for="email" class="form-label">Email address</label>

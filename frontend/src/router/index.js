@@ -24,6 +24,18 @@ const routes = [
     component: () => import('../views/Book.vue')
   },
   {
+    path: '/register',
+    props: true,
+    name: 'Register',
+    component: () => import('../views/Register.vue')
+  },
+  {
+    path: '/login',
+    props: true,
+    name: 'Login',
+    component: () => import('../views/Login.vue')
+  },
+  {
     path: '/:pathMatch(.*)*',
     component: () => import('../views/PageNotFound.vue')
   },

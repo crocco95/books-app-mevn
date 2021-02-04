@@ -15,7 +15,7 @@
     <!-- START Registration form -->
     <div class="row">
       <div class="col-md-6 offset-md-3">
-        <form class="text-start" @submit="registerWithGoogle">
+        <form class="text-start" @submit="registerWithEmailAndPassword">
           <div class="mb-3">
             <label for="email" class="form-label">Email address</label>
             <input type="email" class="form-control" id="email" v-model="email" aria-describedby="emailHelp" :disabled="isLoading">
@@ -55,7 +55,7 @@ export default {
   },
 
   methods: {
-    registerWithGoogle: function( event ){
+    registerWithEmailAndPassword: function( event ){
 
       event.preventDefault();
 

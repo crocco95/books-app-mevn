@@ -30,6 +30,14 @@ app.use(cors());
 const bodyParser = require('body-parser');
 app.use(bodyParser.json());
 
+// Setting up Firebase Admin SDK
+const firebaseAdmin = require('firebase-admin');
+var serviceAccount = require("./config/serviceAccountKey.json");
+
+firebaseAdmin.initializeApp({
+  credential: firebaseAdmin.credential.cert(serviceAccount)
+});
+
 const routes = require('./routes');
 app.use('/api/v1',routes);
 

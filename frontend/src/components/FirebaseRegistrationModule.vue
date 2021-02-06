@@ -12,17 +12,6 @@
     </div>
     <!-- END Error alert -->
 
-    <!-- START Success alert -->
-    <div class="row">
-      <div class="col-md-12">
-        <div class="alert alert-success" v-if="success">
-          <strong>Success: </strong>
-          <span>Registration completed!</span>
-        </div>
-      </div>
-    </div>
-    <!-- END Success alert -->
-
     <!-- START Registration form -->
     <div class="row">
       <div class="col-md-12">
@@ -127,7 +116,9 @@
 
 <script>
 
-import firebase from 'firebase';
+import firebase from 'firebase/app';
+import 'firebase/firebase-auth';
+
 import axios from 'axios';
 
 export default {
@@ -160,9 +151,8 @@ export default {
       firebase
         .auth()
         .createUserWithEmailAndPassword(this.email, this.password)
-        .then( userCredential => {
-          
-          const idToken = userCredential.user.getIdToken(true);
+        .then( userCredential => userCredential.user.getIdToken(true))
+        .then( idToken => {
 
           return axios.post('http://localhost:3000/api/v1/profiles',{
             name: this.name,

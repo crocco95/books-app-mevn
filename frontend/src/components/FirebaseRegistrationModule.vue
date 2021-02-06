@@ -54,6 +54,17 @@
           </div>
           <!-- END Surname field -->
 
+          <!-- START Genre field -->
+          <div class="mb-3">
+            <label for="genre" class="form-label">Genre</label>
+            <select name="genre" id="genre" class="form-select" v-model="genre">
+              <option value="none">I don't want say that</option>
+              <option value="male">Male</option>
+              <option value="female">Female</option>
+            </select>
+          </div>
+          <!-- END Genre field -->
+
           <!-- START Email field -->
           <div class="mb-3">
             <label for="email" class="form-label">Email address</label>
@@ -87,7 +98,7 @@
             <label for="pasword-confirm" class="form-label">Confirm the password</label>
             <input type="password"
               class="form-control"
-              placeholder="Choose a secure password!"
+              placeholder="Repeat the password"
               id="pasword-confirm"
               v-model="passwordConfirm"
               required
@@ -117,6 +128,7 @@
 <script>
 
 import firebase from 'firebase';
+import axios from 'axios';
 
 export default {
 
@@ -124,6 +136,7 @@ export default {
     return {
       name: '',
       surname: '',
+      genre: 'none',
       email: '',
       password: '',
       passwordConfirm: '',
@@ -148,7 +161,19 @@ export default {
         .auth()
         .createUserWithEmailAndPassword(this.email, this.password)
         .then( userCredential => {
+          
           const idToken = userCredential.user.getIdToken(true);
+
+          return axios.post('http://localhost:3000/api/v1/profiles',{
+            name: this.name,
+            surname: this.surname,
+            genre: this.genre,
+          },{
+            headers: {
+              'Authorization': idToken
+            }
+          });
+
         })
         .catch( err => this.error = err )
         .finally( () => {

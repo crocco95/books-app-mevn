@@ -116,10 +116,7 @@
 
 <script>
 
-import firebase from 'firebase/app';
-import 'firebase/firebase-auth';
-
-import axios from 'axios';
+import { mapActions } from 'vuex';
 
 export default {
 
@@ -137,38 +134,36 @@ export default {
   },
 
   methods: {
+
+    ...mapActions([ 'register' ]),
+
     registerWithEmailAndPassword: function( event ){
 
       event.preventDefault();
 
+      this.error = '';
+
       if( this.password !== this.passwordConfirm ){
-        alert("You wrote two different passwords");
+        this.error = {
+          message: "The password must match with its confirmation",
+        }
         return;
       }
 
       this.isLoading = true;
 
-      firebase
-        .auth()
-        .createUserWithEmailAndPassword(this.email, this.password)
-        .then( userCredential => userCredential.user.getIdToken(true))
-        .then( idToken => {
-
-          return axios.post('http://localhost:3000/api/v1/profiles',{
-            name: this.name,
-            surname: this.surname,
-            genre: this.genre,
-          },{
-            headers: {
-              'Authorization': idToken
-            }
-          });
-
-        })
-        .catch( err => this.error = err )
-        .finally( () => {
-          this.isLoading = false;
-        });
+      this.register({
+        email: this.email,
+        password: this.password,
+        name: this.name,
+        surname: this.surname,
+        genre: this.genre,
+      })
+      .then( () => this.$router.push('/registration-success') )
+      .catch( err => this.error = err )
+      .finally( () => {
+        this.isLoading = false;
+      });
     }
   }
 }

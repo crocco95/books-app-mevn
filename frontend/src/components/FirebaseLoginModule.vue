@@ -42,9 +42,7 @@
 
 <script>
 
-// Import Firebase Auth
-import firebase from 'firebase/app';
-import 'firebase/firebase-auth';
+import { mapActions } from 'vuex';
 
 export default {
 
@@ -59,34 +57,24 @@ export default {
   },
 
   methods: {
+
+    ...mapActions(['login']),
+
     loginWithEmailAndPassword: function( event ){
 
       event.preventDefault();
 
       this.isLoading = true;
 
-      firebase
-        .auth()
-        .signInWithEmailAndPassword(this.email, this.password)
-        .then( userCredential => userCredential.user.getIdToken(true))
-        .then( idToken => {
-
-          // If the user checked "Remember me"
-          if( this.rememberFlag ){
-            console.debug("ID Token saved in local storage.");
-
-            // Save the idToken to local storage in order to avoi login at next session
-            window.localStorage.setItem('_idToken', idToken);
-          }
-
-          // Saving the idToken in session storage, when the session ends this record will be destroyed
-          window.sessionStorage.setItem('_idToken', idToken);
-        })
-        .then(() => this.$router.push('/'))
-        .catch( err => this.error = err )
-        .finally( () => {
-          this.isLoading = false;
-        });
+      this.login({
+        email: this.email,
+        password: this.password,
+      })
+      .then(() => this.$router.push('/'))
+      .catch( err => this.error = err )
+      .finally( () => {
+        this.isLoading = false;
+      });
     }
   }
 }

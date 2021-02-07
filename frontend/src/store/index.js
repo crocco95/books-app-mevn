@@ -1,6 +1,7 @@
 import { createStore } from 'vuex'
 import axios from 'axios';
 import books from './modules/books';
+import users from './modules/users';
 
 export default createStore({
   state: {
@@ -11,5 +12,6 @@ export default createStore({
   },
   modules: {
     books,
+    users
   }
 })

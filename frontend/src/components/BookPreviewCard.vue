@@ -11,7 +11,7 @@
           </h5>
           <!-- <p class="card-text description">{{ description && description.length > 100 ? description.substr(0, 100) + '...' : description }}</p> -->
           <p class="card-text">
-            <small class="text-muted">Writter by {{ authors.join() }}</small>
+            <small class="text-muted">Writter by {{ authors?.join() }}</small>
           </p>
 
           <router-link :to="'/books/' + id">Approfondisci</router-link>

@@ -1,6 +1,6 @@
 <template>
   <div class="container-fluid">
-    <div class="row mt-5">
+    <div class="row my-5">
       <div class="col-md-6">
         <div class="bg-column"></div>
         <!-- <img src="../assets/bg_registration.jpg" class="bg" alt=""> -->

@@ -2,11 +2,37 @@
   <div class="row book">
     <div class="col-md-8 offset-md-2">
       <small>ID: {{ id }}</small>
-      <h1 v-text="title"></h1>
+      <h1 v-text="volumeInfo.title"></h1>
+
+      <div class="row mt-5">
+        <div class="col-md-4">
+          <img :src="coverUrl" alt="Book's cover" class="cover float-md-start"/>
+        </div>
+        <div class="col-md-4 text-start">
+          <h3>Authors</h3>
+          <ul>
+            <li v-for="author in volumeInfo.authors">{{ author }}</li>
+          </ul>
+        </div>
+        <div class="col-md-4">
+          <h3>Rating</h3>
+          <h4>N/D</h4>
+          <span>* * * * *</span>
+        </div>
+      </div>
+
+      <div class="row mt-3">
+        <div class="col-md-6">
+          <a :href="volumeInfo.previewLink" class="btn btn-outline-primary w-100">Read preview</a>
+        </div>
+        <div class="col-md-6" v-if="saleInfo.buyLink">
+          <a :href="saleInfo.buyLink" class="btn btn-primary w-100" target="_blank">Buy it now</a>
+        </div>
+      </div>
+
       <div class="row mt-5">
         <div class="clearfix">
-          <img :src="coverUrl" alt="Book's cover" class="cover float-md-start"/>
-          <p v-html="description" class="description "></p>
+          <p v-html="volumeInfo.description" class="description "></p>
         </div>
       </div>
     </div>
@@ -28,9 +54,8 @@ export default {
   data() {
     return {
       coverUrl: '',
-      title: '',
-      description: '',
-      releaseDate: ''
+      volumeInfo: '',
+      saleInfo: '',
     }
   },
 
@@ -44,8 +69,9 @@ export default {
           const book = res.data;
 
           this.coverUrl = book.volumeInfo.imageLinks?.thumbnail;
-          this.title = book.volumeInfo.title;
-          this.description = book.volumeInfo.description;
+
+          this.volumeInfo = book.volumeInfo;
+          this.saleInfo = book.saleInfo;
 
           console.log(res.data);
         })

@@ -4,6 +4,24 @@ const app = express();
 
 require('dotenv/config');
 
+// Setting up Mongoose
+const mongoose = require('mongoose');
+
+try{
+  mongoose.connect( process.env.MONGO_DB_CONNECTION ,
+    {
+      useUnifiedTopology: true,
+      useNewUrlParser:true
+    },
+    (o) => console.log({
+      log:'DB Connected successfully!',
+      o: o
+    })
+  );
+}catch(err){
+  console.log({error: err});
+}
+
 // Setting up cors: it helps to solve cors policy problem when client calls API
 const cors = require('cors');
 app.use(cors());

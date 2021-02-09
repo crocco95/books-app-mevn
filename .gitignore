@@ -1,3 +1,4 @@
 
 frontend/src/config/firebase.js
 backend/user/config/serviceAccountKey.json
+backend/book/config/serviceAccountKey.json

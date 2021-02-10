@@ -30,8 +30,6 @@ const get = async (req,res) => {
   
   const volumeId = req.params.volumeId;
 
-  console.log(volumeId);
-
   BookService
     .get(volumeId)
     .then(response => {

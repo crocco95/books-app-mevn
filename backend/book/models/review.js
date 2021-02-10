@@ -11,10 +11,14 @@ const ReviewSchema = mongoose.Schema({
   },
   title: {
     type: String,
-    required: true
+    required: true,
+    minLength: 3,
+    maxLength: 32,
   },
   description: {
     type: String,
+    minLength: 50,
+    maxLength: 2048,
   },
   vote: {
     type: Number,

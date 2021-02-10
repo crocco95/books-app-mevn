@@ -35,7 +35,7 @@
       <!-- START Description -->
       <div class="row mt-5">
         <div class="clearfix">
-          <LongText :text="volumeInfo.description" max="400" class="description" />
+          <LongText :text="volumeInfo.description" :max="400" v-if="volumeInfo" class="description" />
         </div>
       </div>
       <!-- END Description -->
@@ -60,7 +60,7 @@
       <div class="row review my-1" v-for="review in reviews" :key="review._id">
         <div class="col-md-12 text-start">
           <h3 v-text="review.title"></h3>
-          <p v-text="review.description"></p>
+          <LongText :text="review.description" :max="255" />
           <hr/>
           <p>
             Vote: <strong>{{ review.vote }}/5</strong>

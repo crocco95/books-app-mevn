@@ -1,11 +1,13 @@
 const Review = require('../models/review');
 
-const list = () => {
-  
+const list = ( bookId ) => {
+  return Review
+    .find({ bookId: bookId });
 }
 
-const get = () => {
-  
+const get = (bookId, reviewId) => {
+  return Review
+          .findOne({ bookId: bookId, _id: reviewId });
 }
 
 const add = async ( bookId, userId, title, description, vote ) => {

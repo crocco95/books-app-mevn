@@ -3,6 +3,12 @@ const reviewService = require('../services/ReviewService');
 
 const list = ( req, res ) => {
 
+  const bookId = req.params.bookId;
+
+  reviewService
+    .list(bookId)
+    .then(book => res.status(201).json(book))
+    .catch(error => res.status(error.code).json(error));
 }
 
 const get = ( req, res ) => {
@@ -17,7 +23,7 @@ const add = ( req, res ) => {
   reviewService
     .add( bookId, params.tokenUserId, params.title, params.description, params.vote )
     .then(book => res.status(201).json(book))
-    .catch(error => res.status(error.code).json(error));
+    .catch(error => res.status(error.code || 500).json(error));
 }
 
 const edit = ( req, res ) => {

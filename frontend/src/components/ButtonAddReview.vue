@@ -10,7 +10,7 @@
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
-            <form class="text-start">
+            <form class="text-start" v-if="!success">
               <!-- START Review title -->
               <div class="mb-3">
                 <label for="review-title" class="col-form-label">Title</label>
@@ -53,7 +53,7 @@
 
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-primary" @click="addReview">Send review</button>
+            <button type="button" class="btn btn-primary" @click="addReview" v-if="!success">Send review</button>
           </div>
         </div>
       </div>
@@ -109,11 +109,13 @@ export default {
         }
       })
       .then( book => {
+        this.error = '';
         this.success = {message:'Review added successfully!'};
       })
       .catch( err => {
-        console.log(err);
-        this.error = err;
+        console.error(err.response);
+        this.success = '';
+        this.error = err.response.data;
       })
       .finally(() => {
         this.isLoading = false;

@@ -32,9 +32,9 @@ apiEndpoints:
     methods: [ 'GET', 'POST', 'PUT' ]
 serviceEndpoints:
   books:
-    url: 'http://book:3000'
+    url: 'http://books:3000'
   users:
-    url: 'http://user:3000'
+    url: 'http://users:3000'
 policies:
   - basic-auth
   - cors

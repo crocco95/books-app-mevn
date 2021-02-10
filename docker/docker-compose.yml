@@ -1,0 +1,25 @@
+version: '3'
+
+services:
+  books:
+    container_name: books
+    build:
+      context: ..
+      dockerfile: docker/prod/node/Dockerfile
+      args:
+        name: book
+    networks:
+      - backend
+
+  users:
+    container_name: users
+    build:
+      context: ..
+      dockerfile: docker/prod/node/Dockerfile
+      args:
+        name: user
+    networks:
+      - backend
+networks:
+  backend:
+  frontend:

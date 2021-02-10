@@ -20,6 +20,18 @@ services:
         name: user
     networks:
       - backend
+
+  gateway: 
+    container_name: gateway
+    build: 
+      context: ..
+      dockerfile: docker/prod/gateway/Dockerfile
+    ports: 
+      - 8080:8080
+    networks: 
+      - backend
+      - frontend
+
 networks:
   backend:
   frontend:

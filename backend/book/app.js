@@ -4,6 +4,24 @@ const app = express();
 
 require('dotenv/config');
 
+// Setting up Mongoose
+const mongoose = require('mongoose');
+
+try{
+  mongoose.connect( process.env.MONGO_DB_CONNECTION ,
+    {
+      useUnifiedTopology: true,
+      useNewUrlParser:true
+    },
+    (o) => console.log({
+      log:'DB Connected successfully!',
+      o: o
+    })
+  );
+}catch(err){
+  console.log({error: err});
+}
+
 // Setting up cors: it helps to solve cors policy problem when client calls API
 const cors = require('cors');
 app.use(cors());
@@ -11,6 +29,14 @@ app.use(cors());
 // Setting up body-parser: it permits to extract data from http request body
 const bodyParser = require('body-parser');
 app.use(bodyParser.json());
+
+// Setting up Firebase Admin SDK
+const firebaseAdmin = require('firebase-admin');
+var serviceAccount = require("./config/serviceAccountKey.json");
+
+firebaseAdmin.initializeApp({
+  credential: firebaseAdmin.credential.cert(serviceAccount)
+});
 
 const routes = require('./routes');
 app.use('/api/v1',routes);

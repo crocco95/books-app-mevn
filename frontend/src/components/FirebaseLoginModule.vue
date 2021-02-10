@@ -42,7 +42,7 @@
 
 <script>
 
-import { mapActions } from 'vuex';
+import { mapActions, mapGetters } from 'vuex';
 
 export default {
 
@@ -59,6 +59,7 @@ export default {
   methods: {
 
     ...mapActions(['login']),
+    ...mapGetters(['getIdToken']),
 
     loginWithEmailAndPassword: function( event ){
 
@@ -66,11 +67,14 @@ export default {
 
       this.isLoading = true;
 
-      this.login({
+      this.$store.dispatch('login',{
         email: this.email,
         password: this.password,
       })
-      .then(() => this.$router.push('/'))
+      .then( () => {
+        window.localStorage.setItem('_token', this.getIdToken());
+      })
+      // .then(() => this.$router.push('/'))
       .catch( err => this.error = err )
       .finally( () => {
         this.isLoading = false;

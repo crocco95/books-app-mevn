@@ -1,0 +1,53 @@
+http:
+  port: 8080
+admin:
+  port: 9876
+  host: localhost
+apiEndpoints:
+  books:
+    host: localhost
+    paths: [
+      '/api/v1/books/',
+      '/api/v1/books/:bookId'
+    ]
+    methods: [ 'GET' ]
+  bookReviews:
+    host: localhost
+    paths: [
+      '/api/v1/books/:bookId/reviews',
+      '/api/v1/books/:bookId/reviews/:reviewId'
+    ]
+    methods: [ 'GET', 'POST', 'PUT', 'DELETE' ]
+  users:
+    host: localhost
+    paths: [
+      '/api/v1/profiles/:userId'
+    ]
+    methods: [ 'GET' ]
+  myUser:
+    host: localhost
+    paths: [
+      '/api/v1/profiles/me'
+    ]
+    methods: [ 'GET' ]
+serviceEndpoints:
+  books:
+    url: 'https://httpbin.org'
+policies:
+  - basic-auth
+  - cors
+  - expression
+  - key-auth
+  - log
+  - oauth2
+  - proxy
+  - rate-limit
+pipelines:
+  default:
+    apiEndpoints:
+      - books
+    policies:
+      - proxy:
+          - action:
+              serviceEndpoint: books 
+              changeOrigin: true

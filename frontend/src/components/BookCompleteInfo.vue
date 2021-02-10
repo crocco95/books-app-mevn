@@ -1,15 +1,14 @@
 <template>
   <div class="row book">
     <div class="col-md-8 offset-md-2">
-      <small>ID: {{ id }}</small>
-      <h1 v-text="volumeInfo.title"></h1>
+      <h1 class="mt-4" v-text="volumeInfo.title"></h1>
 
       <div class="row mt-5">
         <div class="col-md-4">
           <img :src="coverUrl" alt="Book's cover" class="cover float-md-start"/>
         </div>
         <div class="col-md-4 text-start">
-          <h3>Authors</h3>
+          <h3>Author<span v-if="volumeInfo && volumeInfo.authors.length > 1">s</span></h3>
           <ul>
             <li v-for="author in volumeInfo.authors">{{ author }}</li>
           </ul>

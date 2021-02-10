@@ -2,7 +2,7 @@
   <div>
     <p v-html="shortText" class="text"></p>
     <div class="text-center">
-      <button class="btn btn-link" @click="showMore">Read {{ moreFlag ? 'less' : 'more' }}</button>
+      <button class="btn btn-link" @click="showMore(!moreFlag)" v-if="text.length > max">Show {{ moreFlag ? 'less' : 'more' }}</button>
     </div>
   </div>
 </template>
@@ -18,28 +18,20 @@ export default {
   data(){
     return {
       shortText: '',
-      moreFlag: true,
+      moreFlag: false,
     }
   },
 
   methods:{
-    showMore(){
-      this.moreFlag = !this.moreFlag;
+    showMore(moreFlag){
+      this.moreFlag = moreFlag;
       this.shortText = this.moreFlag ? this.text : this.text.substr(0,this.max) + '...';
     }
   },
 
-  watch: {
-    text: [{
-      handler: 'showMore'
-    }]
+  mounted(){
+    this.showMore(false);
   },
-
-  mouted(){
-    this.moreFlag = true;
-    this.showMore()
-  }
-
 }
 </script>
 

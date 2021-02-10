@@ -35,12 +35,12 @@
       <!-- START Description -->
       <div class="row mt-5">
         <div class="clearfix">
-          <p v-html="volumeInfo.description" class="description"></p>
+          <LongText :text="volumeInfo.description" max="400" class="description" />
         </div>
       </div>
       <!-- END Description -->
 
-      <div class="row mt-3">
+      <div class="row my-3">
         <div class="col-md-6 text-start">
           <h2>Users reviews</h2>
         </div>
@@ -49,11 +49,22 @@
         </div>
       </div>
 
-      <div class="row my-3">
+      <div class="row my-3" v-if="reviews.length <= 0">
         <div class="col-md-12">
           <div class="alert alert-info">
             <strong>Hei!</strong> Nobody wrote a review for this book, be the first one!
           </div>
+        </div>
+      </div>
+
+      <div class="row review my-1" v-for="review in reviews" :key="review._id">
+        <div class="col-md-12 text-start">
+          <h3 v-text="review.title"></h3>
+          <p v-text="review.description"></p>
+          <hr/>
+          <p>
+            Vote: <strong>{{ review.vote }}/5</strong>
+          </p>
         </div>
       </div>
 
@@ -65,13 +76,15 @@
 
 import axios from 'axios';
 import ButtonAddReview from '../components/ButtonAddReview';
+import LongText from '@/components/LongText';
 
 export default {
 
   name: 'BookCompleteInfo',
 
   components: {
-    ButtonAddReview
+    ButtonAddReview,
+    LongText
   },
 
   props: {
@@ -104,11 +117,24 @@ export default {
         .catch( err => {
           console.error( err );
         });
+    },
+
+    fetchReviews(){
+      axios
+        .get(`http://localhost:3000/api/v1/books/${this.id}/reviews`)
+        .then( res => {
+          console.log(res.data);
+          this.reviews = res.data;
+        })
+        .catch( err => {
+          console.error( err );
+        });
     }
   },
 
   mounted(){
-    this.fetchData()
+    this.fetchData();
+    this.fetchReviews();
   }
 }
 </script>
@@ -121,5 +147,11 @@ export default {
 
   .description{
     text-align: justify;
+  }
+
+  .review{
+    background-color: #ececec;
+    padding: 1rem;
+    border-radius: 1rem;
   }
 </style>

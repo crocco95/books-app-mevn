@@ -29,10 +29,12 @@ apiEndpoints:
     paths: [
       '/api/v1/profiles/me'
     ]
-    methods: [ 'GET' ]
+    methods: [ 'GET', 'POST', 'PUT' ]
 serviceEndpoints:
   books:
-    url: 'https://httpbin.org'
+    url: 'http://book:3000'
+  users:
+    url: 'http://user:3000'
 policies:
   - basic-auth
   - cors
@@ -43,9 +45,19 @@ policies:
   - proxy
   - rate-limit
 pipelines:
-  default:
+  books:
     apiEndpoints:
       - books
+      - bookReviews
+    policies:
+      - proxy:
+          - action:
+              serviceEndpoint: books 
+              changeOrigin: true
+  users:
+    apiEndpoints:
+      - users
+      - myUser
     policies:
       - proxy:
           - action:

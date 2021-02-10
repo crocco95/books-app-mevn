@@ -21,6 +21,7 @@
         </div>
       </div>
 
+      <!-- START Links -->
       <div class="row mt-3">
         <div class="col-md-6">
           <a :href="volumeInfo.previewLink" class="btn btn-outline-primary w-100" target="_blank">Read preview</a>
@@ -29,12 +30,33 @@
           <a :href="saleInfo.buyLink" class="btn btn-primary w-100" target="_blank">Buy it now</a>
         </div>
       </div>
+      <!-- END Links -->
 
+      <!-- START Description -->
       <div class="row mt-5">
         <div class="clearfix">
-          <p v-html="volumeInfo.description" class="description "></p>
+          <p v-html="volumeInfo.description" class="description"></p>
         </div>
       </div>
+      <!-- END Description -->
+
+      <div class="row mt-3">
+        <div class="col-md-6 text-start">
+          <h2>Users reviews</h2>
+        </div>
+        <div class="col-md-6">
+          <ButtonAddReview :bookId="id"/>
+        </div>
+      </div>
+
+      <div class="row my-3">
+        <div class="col-md-12">
+          <div class="alert alert-info">
+            <strong>Hei!</strong> Nobody wrote a review for this book, be the first one!
+          </div>
+        </div>
+      </div>
+
     </div>
   </div>
 </template>
@@ -42,10 +64,15 @@
 <script>
 
 import axios from 'axios';
+import ButtonAddReview from '../components/ButtonAddReview';
 
 export default {
 
   name: 'BookCompleteInfo',
+
+  components: {
+    ButtonAddReview
+  },
 
   props: {
     id: String
@@ -56,6 +83,7 @@ export default {
       coverUrl: '',
       volumeInfo: '',
       saleInfo: '',
+      reviews: [],
     }
   },
 
@@ -72,8 +100,6 @@ export default {
 
           this.volumeInfo = book.volumeInfo;
           this.saleInfo = book.saleInfo;
-
-          console.log(res.data);
         })
         .catch( err => {
           console.error( err );

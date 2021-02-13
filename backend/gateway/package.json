@@ -1,11 +1,21 @@
 {
   "name": "gateway",
-  "description": "Express Gateway Instance Bootstraped from Command Line",
-  "repository": {},
-  "license": "UNLICENSED",
   "version": "1.0.0",
-  "main": "server.js",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node app.js",
+    "dev": "nodemon app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
   "dependencies": {
-    "express-gateway": "^1.16.10"
+    "cors": "^2.8.5",
+    "fast-gateway": "^2.8.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.7"
   }
 }

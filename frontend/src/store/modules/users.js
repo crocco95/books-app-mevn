@@ -45,14 +45,14 @@ const actions = {
           // Save idToken in state
           commit('setIdToken', idToken);
 
-          return axios.post('http://localhost:3000/api/v1/profiles',{
+          return axios.post('http://localhost:8080/api/v1/profiles',{
             name: prams.name,
             surname: prams.surname,
             genre: prams.genre,
           },{
             headers: {
               'Authorization': idToken
-            }
+            },
           });
 
         });

@@ -50,10 +50,8 @@ export default {
         orderBy: 'newest',
       }
 
-      console.log(`http://localhost:3000/api/v1/books?` + httpUtils.paramsToUrlQuery(params));
-
       axios
-        .get(`http://localhost:3000/api/v1/books?` + httpUtils.paramsToUrlQuery(params))
+        .get(`http://localhost:8080/api/v1/books?` + httpUtils.paramsToUrlQuery(params))
         .then( res => {
           console.log(res);
           this.books = res.data.items;

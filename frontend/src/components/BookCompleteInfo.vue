@@ -22,11 +22,14 @@
 
       <!-- START Links -->
       <div class="row mt-3">
-        <div class="col-md-6">
+        <div class="col-md">
           <a :href="volumeInfo.previewLink" class="btn btn-outline-primary w-100" target="_blank">Read preview</a>
         </div>
-        <div class="col-md-6" v-if="saleInfo.buyLink">
+        <div class="col-md" v-if="saleInfo.buyLink">
           <a :href="saleInfo.buyLink" class="btn btn-primary w-100" target="_blank">Buy it now</a>
+        </div>
+        <div class="col-md">
+          <BookMarkButton :totalPages="volumeInfo.printedPageCount"/>
         </div>
       </div>
       <!-- END Links -->
@@ -76,6 +79,7 @@
 import axios from 'axios';
 import ButtonAddReview from '../components/ButtonAddReview';
 import LongText from '@/components/LongText';
+import BookMarkButton from '@/components/BookMarkButton';
 
 export default {
 
@@ -83,7 +87,8 @@ export default {
 
   components: {
     ButtonAddReview,
-    LongText
+    LongText,
+    BookMarkButton,
   },
 
   props: {
@@ -103,7 +108,7 @@ export default {
     fetchData(){
 
       axios
-        .get(`http://localhost:3000/api/v1/books/${this.id}`)
+        .get(`http://localhost:8080/api/v1/books/${this.id}?projection=full`)
         .then( res => {
 
           const book = res.data;
@@ -120,7 +125,7 @@ export default {
 
     fetchReviews(){
       axios
-        .get(`http://localhost:3000/api/v1/books/${this.id}/reviews`)
+        .get(`http://localhost:8080/api/v1/books/${this.id}/reviews`)
         .then( res => {
           console.log(res.data);
           this.reviews = res.data;

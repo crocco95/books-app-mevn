@@ -99,7 +99,7 @@ export default {
 
       this.isLoading = true;
 
-      axios.post(`http://localhost:3000/api/v1/books/${this.bookId}/reviews`,{
+      axios.post(`http://localhost:8080/api/v1/books/${this.bookId}/reviews`,{
         title: this.title,
         description: this.description,
         vote: this.vote,

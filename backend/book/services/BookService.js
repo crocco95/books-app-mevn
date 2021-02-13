@@ -18,7 +18,7 @@ const list = async (query, filter, limit = 10, startIndex = 0, orderBy = 'releva
     key: process.env.GOOGLE_API_KEY,
   };
 
-  console.log("Called list BookService.function with params: " + JSON.stringify(params));
+  console.log("Called list BookService.list with params: " + JSON.stringify(params));
 
   return axios({
     method: 'GET',
@@ -28,13 +28,18 @@ const list = async (query, filter, limit = 10, startIndex = 0, orderBy = 'releva
 }
 
 const get = async (id, projection = 'lite') => {
+
+  const params = {
+    key: process.env.GOOGLE_API_KEY,
+    projection: projection
+  };
+
+  console.log("Called list BookService.get with params: " + JSON.stringify(params));
+
   return axios({
     method: 'GET',
     url: 'https://www.googleapis.com/books/v1/volumes/'.concat(id),
-    params: {
-      key: process.env.GOOGLE_API_KEY,
-      projection: projection
-    },
+    params: params,
   });
 }
 

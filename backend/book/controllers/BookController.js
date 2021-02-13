@@ -9,11 +9,11 @@ const BookService = require('../services/BookService');
 const list = async (req,res) => {
 
   // Pick from request query just the parameters we need
-  const params = pick(req.query, ['query', 'filter', 'limit', 'startIndex', 'orderBy']);
+  const params = pick(req.query, ['query', 'filter', 'limit', 'startIndex', 'orderBy', 'projection']);
   
   // Call the service to perform the effective API call
   BookService
-    .list(params.query, params.filter, params.limit, params.startIndex, params.orderBy)
+    .list(params.query, params.filter, params.limit, params.startIndex, params.orderBy, params.projection)
     .then(response => {
       res
         .status(response.status)
@@ -29,9 +29,10 @@ const list = async (req,res) => {
 const get = async (req,res) => {
   
   const volumeId = req.params.volumeId;
+  const params = pick(req.query, ['projection']);
 
   BookService
-    .get(volumeId)
+    .get(volumeId, params.projection)
     .then(response => {
       res
         .status(response.status)

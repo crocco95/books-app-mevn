@@ -24,7 +24,11 @@ try{
 
 // Setting up cors: it helps to solve cors policy problem when client calls API
 const cors = require('cors');
-app.use(cors());
+const corsOptions = {
+  origin: true,
+  allowedHeaders: ['Content-Type', 'Authorization'],
+};
+app.use(cors(corsOptions));
 
 // Setting up body-parser: it permits to extract data from http request body
 const bodyParser = require('body-parser');

@@ -25,7 +25,9 @@ services:
     container_name: gateway
     build: 
       context: ..
-      dockerfile: docker/prod/gateway/Dockerfile
+      dockerfile: docker/prod/node/Dockerfile
+      args:
+        name: gateway
     ports: 
       - 8080:8080
     networks: 

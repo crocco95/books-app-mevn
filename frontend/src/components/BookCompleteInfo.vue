@@ -29,7 +29,7 @@
           <a :href="saleInfo.buyLink" class="btn btn-primary w-100" target="_blank">Buy it now</a>
         </div>
         <div class="col-md">
-          <BookMarkButton :totalPages="volumeInfo.printedPageCount"/>
+          <BookMarkButton :bookId="id" :totalPages="volumeInfo.printedPageCount"/>
         </div>
       </div>
       <!-- END Links -->

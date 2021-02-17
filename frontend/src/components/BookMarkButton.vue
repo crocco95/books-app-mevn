@@ -109,8 +109,11 @@ export default {
         }
       })
       .then( res => {
-        console.log(res);
-        this.success = "Saved successfully!";
+        this.success = {
+          message: "Saved successfully!",
+          code: res.status
+        };
+        this.error = '';
       })
       .catch( err => this.error = err.response.data);
     }

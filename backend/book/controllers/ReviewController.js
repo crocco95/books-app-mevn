@@ -7,7 +7,7 @@ const list = ( req, res ) => {
 
   reviewService
     .list(bookId)
-    .then(book => res.status(201).json(book))
+    .then(book => res.status(200).json(book))
     .catch(error => res.status(error.code).json(error));
 }
 

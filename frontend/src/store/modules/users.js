@@ -3,20 +3,17 @@ import firebase from 'firebase/app';
 import 'firebase/firebase-auth';
 
 const state = {
-  user: false,
-  profile: false,
+  userId: false,
   idToken: false,
 }
 
 const getters = {
-  getUser: (state) => state.user,
-  getProfile: (state) => state.profile,
+  getUserId: (state) => state.userId,
   getIdToken: (state) => state.idToken,
 }
 
 const mutations = {
-  setUser: (state,user) => ( state.user = user ),
-  setProfile: (state,profile) => ( state.profile = profile ),
+  setUserId: (state,userId) => ( state.userId = userId ),
   setIdToken: (state,idToken) => ( state.idToken = idToken ),
 }
 
@@ -27,12 +24,14 @@ const actions = {
     return firebase
         .auth()
         .signInWithEmailAndPassword(params.email, params.password)
-        .then( userCredential => userCredential.user.getIdToken(true))
-        .then( idToken => {
+        .then( userCredential => userCredential.user)
+        .then( user => {
 
-          // Save idToken in state
-          commit('setIdToken', idToken);
-        });
+          // Save user id in state
+          commit('setUserId', user.uid);
+          return user.getIdToken();
+        })
+        .then( idToken => commit('setIdToken', idToken) );
   },
 
   async register({commit}, prams){

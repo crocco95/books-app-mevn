@@ -9,6 +9,10 @@ router
   .get(BookReadController.list);
 
 router
+  .route('/:userId/books/:bookId')
+  .get(BookReadController.get);
+
+router
   .use(AuthMiddleware.extractUserIdFromTokenToBody)
   .route('/:userId/books')
   .post(BookReadController.add);

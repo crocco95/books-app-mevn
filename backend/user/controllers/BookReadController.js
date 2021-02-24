@@ -10,6 +10,17 @@ const list = ( req, res ) => {
     .catch( err => res.status(400).json(err));
 };
 
+const get = ( req, res ) => {
+
+  const userId = req.params.userId;
+  const bookId = req.params.bookId;
+
+  bookReadService
+    .get( userId, bookId )
+    .then( rb => res.status(200).json(rb))
+    .catch( err => res.status(400).json(err));
+};
+
 const add = ( req, res ) => {
 
   const userId = req.body.tokenUserId;
@@ -37,5 +48,6 @@ const add = ( req, res ) => {
 
 module.exports = {
   list,
+  get,
   add,
 }

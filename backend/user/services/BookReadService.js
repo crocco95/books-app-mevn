@@ -4,6 +4,10 @@ const list = ( userId ) => {
   return bookRead.find({userId});
 };
 
+const get = ( userId, bookId ) => {
+  return bookRead.findOne({userId, bookId});
+};
+
 const add = (userId, bookId, currentPage, startDate, finishDate) => {
   const params = {
     userId,
@@ -18,5 +22,6 @@ const add = (userId, bookId, currentPage, startDate, finishDate) => {
 
 module.exports = {
   list,
+  get,
   add,
 }

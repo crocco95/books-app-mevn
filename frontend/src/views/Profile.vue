@@ -37,20 +37,23 @@
     <div class="row mt-4">
       <div class="col-md-12 text-center">
         <h1>Your activities</h1>
+        <h4 class="text-muted">Below you can see all the books you read and are reading now</h4>
       </div>
     </div>
-    <div class="row">
-      <div class="col-md-12 text-center">
-        <span class="text-secondary">No activities yet :(</span>
-      </div>
-    </div>
+    
+    <UserBookReadList class="my-5" />
 
   </div>
 </template>
 
 <script>
-export default {
 
+import UserBookReadList from '../components/UserBookReadList';
+
+export default {
+  components: {
+    UserBookReadList,
+  }
 }
 </script>
 

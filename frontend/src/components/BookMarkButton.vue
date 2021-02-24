@@ -14,7 +14,7 @@
               <!-- START Start date -->
               <div class="mb-3">
                 <label for="date-start" class="col-form-label">Start reading date (if you remember)</label>
-                <input type="date" class="form-control" id="date-start" v-model="dateStart">
+                <input type="date" class="form-control" id="date-start" v-model="startDate">
               </div>
               <!-- END Start date -->
 
@@ -35,7 +35,7 @@
               <!-- START End date -->
               <div class="mb-3" v-if="finishedFlag">
                 <label for="date-end" class="col-form-label">End reading date</label>
-                <input type="date" class="form-control" id="date-end" v-model="dateEnd">
+                <input type="date" class="form-control" id="date-end" v-model="finishDate">
               </div>
               <!-- END End date -->
 
@@ -86,8 +86,8 @@ export default {
 
   data(){
     return {
-      dateStart: '',
-      dateEnd: '',
+      startDate: '',
+      finishDate: '',
       currentPage: 0,
       finishedFlag: false,
       success: '',
@@ -98,11 +98,11 @@ export default {
 
   methods: {
     add(){
-      axios.post(`http://localhost:3000/api/v1/users/me/books`,{
+      axios.post(`http://localhost:8080/api/v1/users/me/books`,{
         bookId: this.bookId,
-        currentPage: this.currentPage,
-        dateStart: this.dateStart,
-        dateEnd: this.dateEnd,
+        currentPage: this.finishDate ? null : this.currentPage,
+        startDate: this.startDate,
+        finishDate: this.finishDate,
       },{
         headers:{
           'Authorization': window.localStorage.getItem('_token')

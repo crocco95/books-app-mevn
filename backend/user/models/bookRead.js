@@ -3,10 +3,12 @@ const mongoose = require('mongoose');
 const BookReadSchema = mongoose.Schema({
   userId: {
     type: String,
+    index: true,
     required: true
   },
   bookId: {
     type: String,
+    index: true,
     required: true
   },
   currentPage: {

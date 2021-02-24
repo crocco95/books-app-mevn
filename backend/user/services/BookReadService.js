@@ -1,5 +1,9 @@
 const bookRead = require('../models/bookRead');
 
+const list = ( userId ) => {
+  return bookRead.find({userId});
+};
+
 const add = (userId, bookId, currentPage, startDate, finishDate) => {
   const params = {
     userId,
@@ -13,5 +17,6 @@ const add = (userId, bookId, currentPage, startDate, finishDate) => {
 }
 
 module.exports = {
+  list,
   add,
 }

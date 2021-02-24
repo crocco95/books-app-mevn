@@ -1,7 +1,14 @@
-const bookRead = require("../models/bookRead");
-
-const firebaseAdmin = require('firebase-admin');
 const bookReadService = require('../services/BookReadService');
+
+const list = ( req, res ) => {
+  
+  const userId = req.params.userId;
+
+  bookReadService
+    .list(userId)
+    .then( rb => res.status(200).json(rb) )
+    .catch( err => res.status(400).json(err));
+};
 
 const add = ( req, res ) => {
 
@@ -29,5 +36,6 @@ const add = ( req, res ) => {
 };
 
 module.exports = {
+  list,
   add,
 }

@@ -22,13 +22,13 @@
 
       <!-- START Links -->
       <div class="row mt-3">
-        <div class="col-md">
+        <div class="col-md my-1">
           <a :href="volumeInfo.previewLink" class="btn btn-outline-primary w-100" target="_blank">Read preview</a>
         </div>
-        <div class="col-md" v-if="saleInfo.buyLink">
+        <div class="col-md my-1" v-if="saleInfo.buyLink">
           <a :href="saleInfo.buyLink" class="btn btn-primary w-100" target="_blank">Buy it now</a>
         </div>
-        <div class="col-md">
+        <div class="col-md my-1">
           <BookMarkButton :bookId="id" :totalPages="volumeInfo.printedPageCount"/>
         </div>
       </div>

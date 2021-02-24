@@ -59,7 +59,7 @@ export default {
   methods: {
 
     ...mapActions(['login']),
-    ...mapGetters(['getIdToken']),
+    ...mapGetters(['getUserId', 'getIdToken']),
 
     loginWithEmailAndPassword: function( event ){
 
@@ -73,6 +73,7 @@ export default {
       })
       .then( () => {
         window.localStorage.setItem('_token', this.getIdToken());
+        window.localStorage.setItem('_userId', this.getUserId());
       })
       // .then(() => this.$router.push('/'))
       .catch( err => this.error = err )

@@ -61,7 +61,7 @@
 
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-primary" @click="add" v-if="!success">Send review</button>
+            <button type="button" class="btn btn-primary" @click="newBookReadFlag ? edit : add" v-if="!success">Save</button>
           </div>
         </div>
       </div>
@@ -90,6 +90,7 @@ export default {
       finishDate: '',
       currentPage: 0,
       finishedFlag: false,
+      newBookReadFlag: true,
       success: '',
       error: '',
       authenticatedUserFlag: window.localStorage.getItem('_token')
@@ -97,8 +98,26 @@ export default {
   },
 
   methods: {
+
+    fetch(){
+      const userId = window.localStorage.getItem('_userId');
+
+      axios.get(`http://localhost:3000/api/v1/users/${userId}/books/${this.bookId}`)
+      .then( res => {
+        if( res.data ){
+          this.startDate = res.data.startDate.split('T')[0];
+          this.finishDate = res.data.finishDate?.split('T')[0];
+          this.currentPage = res.data.currentPage;
+          this.newBookReadFlag = false;
+        }
+      })
+      .catch( err => console.error(err));
+    },
+    
     add(){
-      axios.post(`http://localhost:8080/api/v1/users/me/books`,{
+      const userId = window.localStorage.getItem('_userId');
+
+      axios.post(`http://localhost:8080/api/v1/users/${userId}/books`,{
         bookId: this.bookId,
         currentPage: this.finishDate ? null : this.currentPage,
         startDate: this.startDate,
@@ -116,8 +135,24 @@ export default {
         this.error = '';
       })
       .catch( err => this.error = err.response.data);
+    },
+
+    edit(){
+      axios.put(`http://localhost:3000/api/v1/users/${userId}/books/${this.bookId}`)
+      .then( res => {
+        this.success = {
+          message: "Saved successfully!",
+          code: res.status
+        };
+        this.error = '';
+      })
+      .catch( err => this.error = err.response.data);
     }
-  }
+  },
+
+  mounted(){
+    this.fetch();
+  },
 }
 </script>
 

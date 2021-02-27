@@ -54,7 +54,8 @@ const edit = ( req, res) => {
   if(req.params.userId !== userId){
     res.status(403).json({
       message: 'Unauthorized',
-    })
+    });
+    return;
   }
 
   const params = {

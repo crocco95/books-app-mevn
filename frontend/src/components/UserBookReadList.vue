@@ -36,6 +36,10 @@
                 </div>
               </div>
 
+              <div class="text-end">
+                <button class="btn btn-link text-danger" @click="removeBookRead(book.bookId)">Remove</button>
+              </div>
+
               <!-- <router-link :to="'/books/' + book.bookId">Approfondisci</router-link> -->
             
             </div>
@@ -97,7 +101,21 @@ export default {
         })
         .catch( err => console.error( err ));
         
-    }
+    },
+
+    removeBookRead(bookId){
+      const userId = window.localStorage.getItem('_userId');
+      const token = window.localStorage.getItem('_token');
+
+      axios
+        .delete(`http://localhost:3000/api/v1/users/${userId}/books/${bookId}`,{
+          headers:{
+            'Authorization': token
+          }
+        })
+        .then( () => this.fetchBooks())
+        .catch( err => console.error(err.response.data));
+    },
   },
 
   mounted(){

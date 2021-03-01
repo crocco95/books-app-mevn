@@ -55,6 +55,10 @@ export default {
     UserBookReadList,
   },
 
+  props: {
+    userId: String
+  },
+
   data(){
     return {
       readingBooks: 0,

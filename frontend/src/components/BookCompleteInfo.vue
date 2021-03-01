@@ -29,7 +29,8 @@
           <a :href="saleInfo.buyLink" class="btn btn-primary w-100" target="_blank">Buy it now</a>
         </div>
         <div class="col-md my-1">
-          <BookMarkButton :bookId="id" :totalPages="volumeInfo.printedPageCount"/>
+          <BookMarkAsReadModal :bookId="id" :totalPages="volumeInfo.printedPageCount"/>
+          <button class="btn btn-primary w-100" data-bs-toggle="modal" :data-bs-target="'#bookMarkModal' + id">Mark book as read or in reading</button>
         </div>
       </div>
       <!-- END Links -->
@@ -79,7 +80,7 @@
 import axios from 'axios';
 import ButtonAddReview from '../components/ButtonAddReview';
 import LongText from '@/components/LongText';
-import BookMarkButton from '@/components/BookMarkButton';
+import BookMarkAsReadModal from '@/components/BookMarkAsReadModal';
 
 export default {
 
@@ -88,7 +89,7 @@ export default {
   components: {
     ButtonAddReview,
     LongText,
-    BookMarkButton,
+    BookMarkAsReadModal,
   },
 
   props: {
@@ -127,7 +128,6 @@ export default {
       axios
         .get(`http://localhost:8080/api/v1/books/${this.id}/reviews`)
         .then( res => {
-          console.log(res.data);
           this.reviews = res.data;
         })
         .catch( err => {

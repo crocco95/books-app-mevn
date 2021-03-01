@@ -17,17 +17,16 @@
           <tbody>
             <tr>
               <th>Books you are reading</th>
-              <td>10</td>
-            </tr>
-
-            <tr>
-              <th>Favorite genres</th>
-              <td>10</td>
+              <td>
+                <span v-text="readingBooks"></span>
+              </td>
             </tr>
 
             <tr>
               <th>Total books read</th>
-              <td>10</td>
+              <td>
+                <span v-text="readBooks"></span>
+              </td>
             </tr>
           </tbody>
         </table>
@@ -48,11 +47,45 @@
 
 <script>
 
+import axios from 'axios';
 import UserBookReadList from '../components/UserBookReadList';
 
 export default {
   components: {
     UserBookReadList,
+  },
+
+  data(){
+    return {
+      readingBooks: 0,
+      readBooks: 0,
+      followers: 0,
+      following: 0,
+    }
+  },
+
+  methods:{
+    fetchUserBooks(){
+      const userId = window.localStorage.getItem('_userId');
+
+      return axios
+        .get(`http://localhost:8080/api/v1/users/${userId}/books`)
+        .then( res => {
+          res.data.forEach( b => {
+            
+            if( b.finishDate ){
+              this.readBooks += 1;
+            }else{
+              this.readingBooks += 1;
+            }
+          })
+        })
+        .catch( err => console.error(err.response.data));
+    }
+  },
+
+  mounted(){
+    this.fetchUserBooks();
   }
 }
 </script>

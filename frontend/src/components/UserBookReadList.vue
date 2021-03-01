@@ -37,11 +37,10 @@
               </div>
 
               <div class="text-end">
-                <router-link :to="'/books/' + book.bookId">Read about it</router-link>
-                
                 <BookMarkAsReadModal :bookId="book.bookId" :totalPages="book.totalPages"/>
-                <button class="btn btn-link text-primary" data-bs-toggle="modal" :data-bs-target="'#bookMarkModal' + book.bookId">Edit</button>
                 
+                <router-link :to="'/books/' + book.bookId" class="btn btn-link text-primary">Read more</router-link>
+                <button class="btn btn-link text-primary" data-bs-toggle="modal" :data-bs-target="'#bookMarkModal' + book.bookId">Edit</button>
                 <button class="btn btn-link text-danger" @click="removeBookRead(book.bookId)">Remove</button>
               </div>
 

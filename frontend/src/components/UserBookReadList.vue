@@ -98,7 +98,7 @@ export default {
       const userId = window.localStorage.getItem('_userId');
 
       axios
-        .get(`http://localhost:3000/api/v1/users/${userId}/books`)
+        .get(`http://localhost:8080/api/v1/users/${userId}/books`)
         .then( res => {
 
           this.books = res.data;
@@ -117,7 +117,7 @@ export default {
       const token = window.localStorage.getItem('_token');
 
       axios
-        .delete(`http://localhost:3000/api/v1/users/${userId}/books/${bookId}`,{
+        .delete(`http://localhost:8080/api/v1/users/${userId}/books/${bookId}`,{
           headers:{
             'Authorization': token
           }

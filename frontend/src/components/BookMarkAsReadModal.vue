@@ -102,7 +102,7 @@ export default {
     fetch(){
       const userId = window.localStorage.getItem('_userId');
 
-      axios.get(`http://localhost:3000/api/v1/users/${userId}/books/${this.bookId}`)
+      axios.get(`http://localhost:8080/api/v1/users/${userId}/books/${this.bookId}`)
       .then( res => {
         if( res.data ){
           this.startDate = res.data.startDate.split('T')[0];
@@ -142,7 +142,7 @@ export default {
       const userId = window.localStorage.getItem('_userId');
       const token = window.localStorage.getItem('_token');
 
-      axios.put(`http://localhost:3000/api/v1/users/${userId}/books/${this.bookId}`,{
+      axios.put(`http://localhost:8080/api/v1/users/${userId}/books/${this.bookId}`,{
         currentPage: this.finishDate ? null : this.currentPage,
         startDate: this.startDate,
         finishDate: this.finishDate,

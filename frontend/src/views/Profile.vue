@@ -4,10 +4,10 @@
     <h1 v-text="profile.name + ' ' + profile.surname"></h1>
     <div class="row">
       <div class="col-md-3 offset-md-3 text-center">
-        Followers: <strong>100</strong>
+        Followers: <strong v-text="followers"></strong>
       </div>
       <div class="col-md-3 text-center">
-        Following: <strong>100</strong>
+        Following: <strong v-text="following"></strong>
       </div>
     </div>
 

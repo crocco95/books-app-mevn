@@ -15,8 +15,24 @@
         </div>
         <div class="col-md-4">
           <h3>Rating</h3>
-          <h4>N/D</h4>
-          <span>* * * * *</span>
+          <div class="row">
+            <div class="col-md">
+              <h4 v-if="volumeInfo.averageRating">Internal</h4>
+              <h5>
+                5<small class="fw-normal"> / 5</small>
+              </h5>
+              <span>* * * * </span>
+            </div>
+            <div class="col-md" v-if="volumeInfo.averageRating">
+              <h4>Google</h4>
+              <div class="review-vote py-1">
+                <h5 class="fw-bolder my-0">
+                  {{ volumeInfo.averageRating }}<small class="fw-normal"> / 5</small>
+                </h5>
+              </div>
+              <small>{{ volumeInfo.ratingsCount }} reviews</small>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -113,6 +129,8 @@ export default {
         .then( res => {
 
           const book = res.data;
+
+          console.log(book);
 
           this.coverUrl = book.volumeInfo.imageLinks?.thumbnail;
 

@@ -1,7 +1,7 @@
 <template>
   <div class="container profile">
     <img src="https://thispersondoesnotexist.com/image" alt="Profile picture" class="main-picture" />
-    <h1>Lorenzo Croccolino</h1>
+    <h1 v-text="profile.name + ' ' + profile.surname"></h1>
     <div class="row">
       <div class="col-md-3 offset-md-3 text-center">
         Followers: <strong>100</strong>
@@ -35,12 +35,12 @@
 
     <div class="row mt-4">
       <div class="col-md-12 text-center">
-        <h1>Your activities</h1>
+        <h1>Activities</h1>
         <h4 class="text-muted">Below you can see all the books you read and are reading now</h4>
       </div>
     </div>
     
-    <UserBookReadList class="my-5" />
+    <UserBookReadList class="my-5" :userId="userId" />
 
   </div>
 </template>
@@ -61,6 +61,7 @@ export default {
 
   data(){
     return {
+      profile: {},
       readingBooks: 0,
       readBooks: 0,
       followers: 0,
@@ -69,11 +70,19 @@ export default {
   },
 
   methods:{
-    fetchUserBooks(){
-      const userId = window.localStorage.getItem('_userId');
 
-      return axios
-        .get(`http://localhost:8080/api/v1/users/${userId}/books`)
+    fetchUserDetails(){
+
+      axios
+        .get(`http://localhost:3000/api/v1/profiles/${this.userId}`)
+        .then( res => this.profile = res.data )
+        .catch( err => console.error(err));
+    },
+
+    fetchUserBooks(){
+
+      axios
+        .get(`http://localhost:8080/api/v1/users/${this.userId}/books`)
         .then( res => {
           res.data.forEach( b => {
             
@@ -89,6 +98,7 @@ export default {
   },
 
   mounted(){
+    this.fetchUserDetails();
     this.fetchUserBooks();
   }
 }

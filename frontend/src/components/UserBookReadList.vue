@@ -63,6 +63,10 @@ export default {
     BookMarkAsReadModal
   },
 
+  props:{
+    userId: String
+  },
+
   data(){
     return {
       books: []
@@ -95,10 +99,8 @@ export default {
 
     fetchBooks(){
 
-      const userId = window.localStorage.getItem('_userId');
-
       axios
-        .get(`http://localhost:8080/api/v1/users/${userId}/books`)
+        .get(`http://localhost:8080/api/v1/users/${this.userId}/books`)
         .then( res => {
 
           this.books = res.data;

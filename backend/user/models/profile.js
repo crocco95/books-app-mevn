@@ -16,6 +16,9 @@ const ProfileSchema = mongoose.Schema({
   genre: {
     type: String,
   },
+  profilePictureUri: {
+    type: String,
+  },
   createdAt: {
     type: Date,
     default: Date.now

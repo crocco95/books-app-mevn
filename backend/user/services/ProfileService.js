@@ -14,6 +14,11 @@ const add = ( uid, name, surname, genre ) => {
   return Profile.create(params);
 }
 
+const get = ( userId ) => {
+  return Profile.findById(userId);
+}
+
 module.exports = {
-  add
+  add,
+  get,
 }

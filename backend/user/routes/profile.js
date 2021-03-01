@@ -3,12 +3,12 @@ const router = express.Router();
 
 const ProfileController = require('../controllers/ProfileController');
 
-// router
-//   .route('/')
-//   .get(ProfileController.list);
-
 router
   .route('/')
     .post(ProfileController.create);
+
+router
+  .route('/:userId')
+    .get(ProfileController.get);
 
 module.exports = router;

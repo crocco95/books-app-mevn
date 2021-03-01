@@ -76,16 +76,7 @@
         </div>
       </div>
 
-      <div class="row review my-1" v-for="review in reviews" :key="review._id">
-        <div class="col-md-12 text-start">
-          <h3 v-text="review.title"></h3>
-          <LongText :text="review.description" :max="255" />
-          <hr/>
-          <p>
-            Vote: <strong>{{ review.vote }}/5</strong>
-          </p>
-        </div>
-      </div>
+      <UserBookReview v-for="review in reviews" :key="review._id" :title="review.title" :vote="review.vote" :description="review.description"/>
 
     </div>
   </div>
@@ -97,6 +88,7 @@ import axios from 'axios';
 import ButtonAddReview from '../components/ButtonAddReview';
 import LongText from '@/components/LongText';
 import BookMarkAsReadModal from '@/components/BookMarkAsReadModal';
+import UserBookReview from '@/components/UserBookReview';
 
 export default {
 
@@ -106,6 +98,7 @@ export default {
     ButtonAddReview,
     LongText,
     BookMarkAsReadModal,
+    UserBookReview,
   },
 
   props: {
@@ -129,8 +122,6 @@ export default {
         .then( res => {
 
           const book = res.data;
-
-          console.log(book);
 
           this.coverUrl = book.volumeInfo.imageLinks?.thumbnail;
 

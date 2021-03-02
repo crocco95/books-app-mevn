@@ -105,7 +105,6 @@ export default {
     checkFollow(){
 
       const loggedUserId = window.localStorage.getItem('_userId');
-      const token = window.localStorage.getItem('_token');
 
       axios
         .get(`http://localhost:3000/api/v1/users/${loggedUserId}/social/${this.userId}`)

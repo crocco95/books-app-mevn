@@ -13,10 +13,10 @@
             Following: <strong v-text="following"></strong>
           </div>
           <div class="col-md" v-if="followingButtonVisible">
-            <button class="btn btn-primary" @click="followUser">Follow</button>
+            <button class="btn btn-sm btn-primary" @click="followUser">Follow</button>
           </div>
           <div class="col-md" v-if="unfollowingButtonVisible">
-            <button class="btn btn-danger" @click="followUser">Unfollow</button>
+            <button class="btn btn-sm btn-danger" @click="unfollowUser">Unfollow</button>
           </div>
         </div>
       </div>
@@ -96,9 +96,24 @@ export default {
           'Authorization': token
         })
         .then( res => {
-          console.log(res);
+          this.followingButtonVisible = false;
+          this.unfollowingButtonVisible = true;
         })
         .catch( err => console.error( err ));
+    },
+
+    checkFollow(){
+
+      const loggedUserId = window.localStorage.getItem('_userId');
+      const token = window.localStorage.getItem('_token');
+
+      axios
+        .get(`http://localhost:3000/api/v1/users/${loggedUserId}/social/${this.userId}`)
+        .then( res => {
+          this.followingButtonVisible = res.data === null;
+          this.unfollowingButtonVisible = !this.followingButtonVisible;
+        })
+        .catch(err => console.error(err));
     },
 
     fetchUserDetails(){
@@ -132,9 +147,7 @@ export default {
 
     this.fetchUserDetails();
     this.fetchUserBooks();
-
-    this.followingButtonVisible = loggedUserId !== this.userId;
-    this.unfollowingButtonVisible = false;
+    this.checkFollow();
   }
 }
 </script>

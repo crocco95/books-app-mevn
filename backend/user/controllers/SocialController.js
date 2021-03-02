@@ -30,6 +30,13 @@ const list = ( req, res ) => {
 
 const get = ( req, res ) => {
 
+  const userId = req.params.userId;
+  const followingUserId = req.params.followingUserId;
+
+  socialService
+    .get(userId, followingUserId)
+    .then( f => res.status(200).json(f))
+    .catch( err => res.status(400).json(err));
 };
 
 const remove = ( req, res ) => {

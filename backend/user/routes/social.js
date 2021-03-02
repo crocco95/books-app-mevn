@@ -9,6 +9,10 @@ router
 
 router
   .route('/:userId/social')
+    .get(SocialController.list);
+
+router
+  .route('/:userId/social/:followingUserId')
     .get(SocialController.get);
 
 router

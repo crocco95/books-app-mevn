@@ -2,12 +2,23 @@
   <div class="container profile">
     <img src="https://thispersondoesnotexist.com/image" alt="Profile picture" class="main-picture" />
     <h1 v-text="profile.name + ' ' + profile.surname"></h1>
+    
     <div class="row">
-      <div class="col-md-3 offset-md-3 text-center">
-        Followers: <strong v-text="followers"></strong>
-      </div>
-      <div class="col-md-3 text-center">
-        Following: <strong v-text="following"></strong>
+      <div class="col-md-6 offset-md-3">
+        <div class="row">
+          <div class="col-md text-center">
+            Followers: <strong v-text="followers"></strong>
+          </div>
+          <div class="col-md text-center">
+            Following: <strong v-text="following"></strong>
+          </div>
+          <div class="col-md" v-if="followingButtonVisible">
+            <button class="btn btn-primary" @click="followUser">Follow</button>
+          </div>
+          <div class="col-md" v-if="unfollowingButtonVisible">
+            <button class="btn btn-danger" @click="followUser">Unfollow</button>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -66,10 +77,29 @@ export default {
       readBooks: 0,
       followers: 0,
       following: 0,
+      followingButtonVisible: false,
+      unfollowingButtonVisible: false,
     }
   },
 
   methods:{
+
+    followUser(){
+
+      const loggedUserId = window.localStorage.getItem('_userId');
+      const token = window.localStorage.getItem('_token');
+
+      axios
+        .post(`http://localhost:3000/api/v1/users/${loggedUserId}/social`,{
+          followingUserId: this.userId
+        },{
+          'Authorization': token
+        })
+        .then( res => {
+          console.log(res);
+        })
+        .catch( err => console.error( err ));
+    },
 
     fetchUserDetails(){
 
@@ -98,8 +128,13 @@ export default {
   },
 
   mounted(){
+    const loggedUserId = window.localStorage.getItem('_userId');
+
     this.fetchUserDetails();
     this.fetchUserBooks();
+
+    this.followingButtonVisible = loggedUserId !== this.userId;
+    this.unfollowingButtonVisible = false;
   }
 }
 </script>

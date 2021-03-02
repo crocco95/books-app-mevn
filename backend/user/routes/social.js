@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-
+const AuthMiddleware = require('./middleware/auth');
 const SocialController = require('../controllers/SocialController');
 
 router
@@ -16,7 +16,8 @@ router
     .get(SocialController.get);
 
 router
-  .delete('/:userId/social')
-    .get(SocialController.remove);
+  .use(AuthMiddleware.extractUserIdFromTokenToBody)
+    .route('/:userId/social/:followingUserId')
+      .delete(SocialController.remove);
 
 module.exports = router;

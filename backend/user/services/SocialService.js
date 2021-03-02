@@ -18,7 +18,12 @@ const add = async ( userId, followingUserId ) => {
     .then(() => social.create({userId, followingUserId}));
 }
 
+const remove = async ( userId, followingUserId ) => {
+  return social.deleteOne({userId, followingUserId});
+}
+
 module.exports = {
   get,
-  add
+  add,
+  remove
 }

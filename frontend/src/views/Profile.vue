@@ -15,7 +15,7 @@
           <div class="col-md" v-if="followingButtonVisible">
             <button class="btn btn-sm btn-primary" @click="followUser">Follow</button>
           </div>
-          <div class="col-md" v-if="unfollowingButtonVisible">
+          <div class="col-md" v-if="!followingButtonVisible">
             <button class="btn btn-sm btn-danger" @click="unfollowUser">Unfollow</button>
           </div>
         </div>
@@ -78,7 +78,6 @@ export default {
       followers: 0,
       following: 0,
       followingButtonVisible: false,
-      unfollowingButtonVisible: false,
     }
   },
 
@@ -97,9 +96,25 @@ export default {
         })
         .then( res => {
           this.followingButtonVisible = false;
-          this.unfollowingButtonVisible = true;
         })
         .catch( err => console.error( err ));
+    },
+
+    unfollowUser(){
+
+      const loggedUserId = window.localStorage.getItem('_userId');
+      const token = window.localStorage.getItem('_token');
+
+      axios
+        .delete(`http://localhost:3000/api/v1/users/${loggedUserId}/social/${this.userId}`,{
+          headers:{
+            'Authorization': token
+          }
+        })
+        .then( res => {
+          this.followingButtonVisible = true;
+        })
+        .catch(err => console.error(err));
     },
 
     checkFollow(){
@@ -110,7 +125,6 @@ export default {
         .get(`http://localhost:3000/api/v1/users/${loggedUserId}/social/${this.userId}`)
         .then( res => {
           this.followingButtonVisible = res.data === null;
-          this.unfollowingButtonVisible = !this.followingButtonVisible;
         })
         .catch(err => console.error(err));
     },

@@ -25,7 +25,12 @@ const add = ( req, res ) => {
 };
 
 const list = ( req, res ) => {
+  const userId = req.params.userId;
 
+  socialService
+    .list(userId)
+    .then( f => res.status(200).json(f))
+    .catch( err => res.status(400).json(err));
 };
 
 const get = ( req, res ) => {

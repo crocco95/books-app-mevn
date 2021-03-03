@@ -7,10 +7,10 @@
       <div class="col-md-6 offset-md-3">
         <div class="row">
           <div class="col-md text-center">
-            Followers: <strong v-text="followers"></strong>
+            Followers: <strong v-text="followers.length"></strong>
           </div>
           <div class="col-md text-center">
-            Following: <strong v-text="following"></strong>
+            Following: <strong v-text="following.length"></strong>
           </div>
           <div class="col-md" v-if="followingButtonVisible">
             <button class="btn btn-sm btn-primary" @click="followUser">Follow</button>
@@ -113,8 +113,21 @@ export default {
         })
         .then( res => {
           this.followingButtonVisible = true;
+          this.followers -= 1;
         })
         .catch(err => console.error(err));
+    },
+
+    listSocialRelationships(){
+
+      axios
+        .get(`http://localhost:3000/api/v1/users/${this.userId}/social`)
+        .then( res => {
+          console.log(res.data);
+          this.following = res.data.following;
+          this.followers = res.data.followers;
+        })
+        .catch( err => console.error(err));
     },
 
     checkFollow(){
@@ -161,6 +174,7 @@ export default {
     this.fetchUserDetails();
     this.fetchUserBooks();
     this.checkFollow();
+    this.listSocialRelationships();
   }
 }
 </script>

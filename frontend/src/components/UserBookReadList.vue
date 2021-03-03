@@ -36,8 +36,14 @@
                 </div>
               </div>
 
-              <!-- <router-link :to="'/books/' + book.bookId">Approfondisci</router-link> -->
-            
+              <div class="text-end">
+                <BookMarkAsReadModal :bookId="book.bookId" :totalPages="book.totalPages"/>
+                
+                <router-link :to="'/books/' + book.bookId" class="btn btn-link text-primary">Read more</router-link>
+                <button class="btn btn-link text-primary" data-bs-toggle="modal" :data-bs-target="'#bookMarkModal' + book.bookId">Edit</button>
+                <button class="btn btn-link text-danger" @click="removeBookRead(book.bookId)">Remove</button>
+              </div>
+
             </div>
           </div>
         </div>
@@ -49,13 +55,24 @@
 <script>
 
 import axios from 'axios';
+import BookMarkAsReadModal from '@/components/BookMarkAsReadModal.vue';
 
 export default {
+
+  components:{
+    BookMarkAsReadModal
+  },
+
+  props:{
+    userId: String
+  },
+
   data(){
     return {
       books: []
     }
   },
+
   methods: {
 
     formatDate(string){
@@ -82,10 +99,8 @@ export default {
 
     fetchBooks(){
 
-      const userId = window.localStorage.getItem('_userId');
-
       axios
-        .get(`http://localhost:3000/api/v1/users/${userId}/books`)
+        .get(`http://localhost:8080/api/v1/users/${this.userId}/books`)
         .then( res => {
 
           this.books = res.data;
@@ -97,7 +112,21 @@ export default {
         })
         .catch( err => console.error( err ));
         
-    }
+    },
+
+    removeBookRead(bookId){
+      const userId = window.localStorage.getItem('_userId');
+      const token = window.localStorage.getItem('_token');
+
+      axios
+        .delete(`http://localhost:8080/api/v1/users/${userId}/books/${bookId}`,{
+          headers:{
+            'Authorization': token
+          }
+        })
+        .then( () => this.fetchBooks())
+        .catch( err => console.error(err.response.data));
+    },
   },
 
   mounted(){

@@ -15,8 +15,24 @@
         </div>
         <div class="col-md-4">
           <h3>Rating</h3>
-          <h4>N/D</h4>
-          <span>* * * * *</span>
+          <div class="row">
+            <div class="col-md">
+              <h4 v-if="volumeInfo.averageRating">Internal</h4>
+              <h5>
+                5<small class="fw-normal"> / 5</small>
+              </h5>
+              <span>* * * * </span>
+            </div>
+            <div class="col-md" v-if="volumeInfo.averageRating">
+              <h4>Google</h4>
+              <div class="review-vote py-1">
+                <h5 class="fw-bolder my-0">
+                  {{ volumeInfo.averageRating }}<small class="fw-normal"> / 5</small>
+                </h5>
+              </div>
+              <small>{{ volumeInfo.ratingsCount }} reviews</small>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -29,7 +45,8 @@
           <a :href="saleInfo.buyLink" class="btn btn-primary w-100" target="_blank">Buy it now</a>
         </div>
         <div class="col-md my-1">
-          <BookMarkButton :bookId="id" :totalPages="volumeInfo.printedPageCount"/>
+          <BookMarkAsReadModal :bookId="id" :totalPages="volumeInfo.printedPageCount"/>
+          <button class="btn btn-primary w-100" data-bs-toggle="modal" :data-bs-target="'#bookMarkModal' + id">Mark book as read or in reading</button>
         </div>
       </div>
       <!-- END Links -->
@@ -59,16 +76,12 @@
         </div>
       </div>
 
-      <div class="row review my-1" v-for="review in reviews" :key="review._id">
-        <div class="col-md-12 text-start">
-          <h3 v-text="review.title"></h3>
-          <LongText :text="review.description" :max="255" />
-          <hr/>
-          <p>
-            Vote: <strong>{{ review.vote }}/5</strong>
-          </p>
-        </div>
-      </div>
+      <UserBookReview v-for="review in reviews"
+      :key="review._id"
+      :title="review.title"
+      :vote="review.vote"
+      :description="review.description"
+      :userId="review.userId"/>
 
     </div>
   </div>
@@ -79,7 +92,8 @@
 import axios from 'axios';
 import ButtonAddReview from '../components/ButtonAddReview';
 import LongText from '@/components/LongText';
-import BookMarkButton from '@/components/BookMarkButton';
+import BookMarkAsReadModal from '@/components/BookMarkAsReadModal';
+import UserBookReview from '@/components/UserBookReview';
 
 export default {
 
@@ -88,7 +102,8 @@ export default {
   components: {
     ButtonAddReview,
     LongText,
-    BookMarkButton,
+    BookMarkAsReadModal,
+    UserBookReview,
   },
 
   props: {
@@ -127,7 +142,6 @@ export default {
       axios
         .get(`http://localhost:8080/api/v1/books/${this.id}/reviews`)
         .then( res => {
-          console.log(res.data);
           this.reviews = res.data;
         })
         .catch( err => {

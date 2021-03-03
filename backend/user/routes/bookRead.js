@@ -17,4 +17,14 @@ router
   .route('/:userId/books')
   .post(BookReadController.add);
 
+router
+  .use(AuthMiddleware.extractUserIdFromTokenToBody)
+  .route('/:userId/books/:bookId')
+  .put(BookReadController.edit);
+
+router
+  .use(AuthMiddleware.extractUserIdFromTokenToBody)
+  .route('/:userId/books/:bookId')
+  .delete(BookReadController.remove);
+
 module.exports = router;

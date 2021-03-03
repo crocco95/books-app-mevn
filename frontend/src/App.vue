@@ -15,16 +15,29 @@
           <li class="nav-item">
             <router-link class="nav-link" to="/search">Search</router-link>
           </li>
-          <li class="nav-item">
-            <router-link class="nav-link" to="/profile">My Profile</router-link>
+          <li class="nav-item" v-if="userId">
+            <router-link class="nav-link" :to="'/profiles/' + userId">My Profile</router-link>
           </li>
         </ul>
       </div>
     </div>
   </nav>
-
   <router-view/>
 </template>
+
+<script>
+export default {
+  data(){
+    return{
+      userId: ''
+    }
+  },
+
+  mounted(){
+    this.userId = window.localStorage.getItem('_userId');
+  }
+}
+</script>
 
 <style>
 #app {

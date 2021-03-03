@@ -2,11 +2,11 @@
   
   <div>
     <!-- START Modal -->
-    <div class="modal fade" id="bookMarkModal" tabindex="-1" aria-labelledby="bookMarkModalLabel" aria-hidden="true">
+    <div class="modal fade" :id="'bookMarkModal' + bookId" tabindex="-1" :aria-labelledby="'bookMarkModalLabel' + bookId" aria-hidden="true">
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="bookMarkModalLabel">Mark book as read or in reading</h5>
+            <h5 class="modal-title" :id="'bookMarkModalLabel' + bookId">Mark book as read or in reading</h5>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
@@ -61,14 +61,14 @@
 
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-primary" @click="add" v-if="!success">Send review</button>
+            <button type="button" class="btn btn-primary" @click="newBookReadFlag ? add() : edit()" v-if="!success">Save</button>
           </div>
         </div>
       </div>
     </div>
     <!-- END Modal -->
 
-    <button class="btn btn-primary w-100" data-bs-toggle="modal" data-bs-target="#bookMarkModal">Mark book as read or in reading</button>
+    <!-- <button class="btn btn-primary w-100" data-bs-toggle="modal" data-bs-target="#bookMarkModal">Mark book as read or in reading</button> -->
   </div>
 
 </template>
@@ -90,6 +90,7 @@ export default {
       finishDate: '',
       currentPage: 0,
       finishedFlag: false,
+      newBookReadFlag: true,
       success: '',
       error: '',
       authenticatedUserFlag: window.localStorage.getItem('_token')
@@ -97,8 +98,27 @@ export default {
   },
 
   methods: {
+
+    fetch(){
+      const userId = window.localStorage.getItem('_userId');
+
+      axios.get(`http://localhost:8080/api/v1/users/${userId}/books/${this.bookId}`)
+      .then( res => {
+        if( res.data ){
+          this.startDate = res.data.startDate.split('T')[0];
+          this.finishDate = res.data.finishDate?.split('T')[0];
+          this.finishedFlag = this.finishDate ? true : false;
+          this.currentPage = res.data.currentPage;
+          this.newBookReadFlag = false;
+        }
+      })
+      .catch( err => console.error(err));
+    },
+    
     add(){
-      axios.post(`http://localhost:8080/api/v1/users/me/books`,{
+      const userId = window.localStorage.getItem('_userId');
+
+      axios.post(`http://localhost:8080/api/v1/users/${userId}/books`,{
         bookId: this.bookId,
         currentPage: this.finishDate ? null : this.currentPage,
         startDate: this.startDate,
@@ -116,8 +136,35 @@ export default {
         this.error = '';
       })
       .catch( err => this.error = err.response.data);
+    },
+
+    edit(){
+      const userId = window.localStorage.getItem('_userId');
+      const token = window.localStorage.getItem('_token');
+
+      axios.put(`http://localhost:8080/api/v1/users/${userId}/books/${this.bookId}`,{
+        currentPage: this.finishDate ? null : this.currentPage,
+        startDate: this.startDate,
+        finishDate: this.finishDate,
+      },{
+        headers:{
+          'Authorization': token
+        }
+      })
+      .then( res => {
+        this.success = {
+          message: "Edited successfully!",
+          code: res.status
+        };
+        this.error = '';
+      })
+      .catch( err => this.error = err.response.data);
     }
-  }
+  },
+
+  mounted(){
+    this.fetch();
+  },
 }
 </script>
 

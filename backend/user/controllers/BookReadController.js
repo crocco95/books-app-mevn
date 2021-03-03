@@ -46,8 +46,50 @@ const add = ( req, res ) => {
 
 };
 
+const edit = ( req, res) => {
+
+  const userId = req.body.tokenUserId;
+  const bookId = req.params.bookId;
+
+  if(req.params.userId !== userId){
+    res.status(403).json({
+      message: 'Unauthorized',
+    });
+    return;
+  }
+
+  const params = {
+    currentPage: req.body.currentPage,
+    startDate: req.body.startDate,
+    finishDate: req.body.finishDate,
+  };
+
+  bookReadService
+    .edit(userId, bookId, params)
+    .then( rb => res.status(200).json(rb))
+    .catch( err => res.status(400).json(err));
+};
+
+const remove = ( req, res ) => {
+
+  const userId = req.body.tokenUserId;
+  const bookId = req.params.bookId;
+
+  if(req.params.userId !== userId){
+    res.status(403).json({
+      message: 'Unauthorized',
+    })
+  }
+
+  bookReadService.remove(userId, bookId)
+  .then( () => res.status(200).json())
+  .catch( err => res.status(400).json(err));
+};
+
 module.exports = {
   list,
   get,
   add,
+  edit,
+  remove,
 }

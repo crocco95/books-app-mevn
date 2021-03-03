@@ -89,7 +89,7 @@ export default {
       const token = window.localStorage.getItem('_token');
 
       axios
-        .post(`http://localhost:3000/api/v1/users/${loggedUserId}/social`,{
+        .post(`http://localhost:8080/api/v1/users/${loggedUserId}/social`,{
           followingUserId: this.userId
         },{
           'Authorization': token
@@ -106,7 +106,7 @@ export default {
       const token = window.localStorage.getItem('_token');
 
       axios
-        .delete(`http://localhost:3000/api/v1/users/${loggedUserId}/social/${this.userId}`,{
+        .delete(`http://localhost:8080/api/v1/users/${loggedUserId}/social/${this.userId}`,{
           headers:{
             'Authorization': token
           }
@@ -121,7 +121,7 @@ export default {
     listSocialRelationships(){
 
       axios
-        .get(`http://localhost:3000/api/v1/users/${this.userId}/social`)
+        .get(`http://localhost:8080/api/v1/users/${this.userId}/social`)
         .then( res => {
           console.log(res.data);
           this.following = res.data.following;
@@ -135,7 +135,7 @@ export default {
       const loggedUserId = window.localStorage.getItem('_userId');
 
       axios
-        .get(`http://localhost:3000/api/v1/users/${loggedUserId}/social/${this.userId}`)
+        .get(`http://localhost:8080/api/v1/users/${loggedUserId}/social/${this.userId}`)
         .then( res => {
           this.followingButtonVisible = res.data === null;
         })
@@ -145,7 +145,7 @@ export default {
     fetchUserDetails(){
 
       axios
-        .get(`http://localhost:3000/api/v1/profiles/${this.userId}`)
+        .get(`http://localhost:8080/api/v1/profiles/${this.userId}`)
         .then( res => this.profile = res.data )
         .catch( err => console.error(err));
     },

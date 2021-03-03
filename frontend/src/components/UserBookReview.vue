@@ -41,7 +41,7 @@ export default {
   methods: {
     fetchUserDetails(){
       axios
-        .get(`http://localhost:3000/api/v1/profiles/${this.userId}`)
+        .get(`http://localhost:8080/api/v1/profiles/${this.userId}`)
         .then( res => {
           this.author = res.data;
         })

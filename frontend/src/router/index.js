@@ -43,6 +43,12 @@ const routes = [
     component: () => import('../views/SuccessfulRegistration.vue')
   },
   {
+    path: '/logout',
+    props: true,
+    name: 'Logout',
+    component: () => import('../views/Logout.vue')
+  },
+  {
     path: '/:pathMatch(.*)*',
     component: () => import('../views/PageNotFound.vue')
   },

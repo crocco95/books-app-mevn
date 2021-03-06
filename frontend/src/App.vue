@@ -19,6 +19,13 @@
             <router-link class="nav-link" :to="'/profiles/' + userId">My Profile</router-link>
           </li>
         </ul>
+        <div class="d-flex">
+          <router-link to="/logout" v-if="userId">Logout</router-link>
+          <div v-else>
+            <router-link to="/register" class="mx-1">Register</router-link>
+            <router-link to="/login" class="mx-1">Login</router-link>
+          </div>
+        </div>
       </div>
     </div>
   </nav>

@@ -75,7 +75,7 @@ export default {
         window.localStorage.setItem('_token', this.getIdToken());
         window.localStorage.setItem('_userId', this.getUserId());
       })
-      // .then(() => this.$router.push('/'))
+      .then(() => this.$router.push('/'))
       .catch( err => this.error = err )
       .finally( () => {
         this.isLoading = false;

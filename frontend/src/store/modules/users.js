@@ -3,8 +3,8 @@ import firebase from 'firebase/app';
 import 'firebase/firebase-auth';
 
 const state = {
-  userId: false,
-  idToken: false,
+  userId: window.localStorage.getItem('_userId') || '',
+  idToken: window.localStorage.getItem('_token') || '',
 }
 
 const getters = {
@@ -27,22 +27,41 @@ const actions = {
         .then( userCredential => userCredential.user)
         .then( user => {
 
-          // Save user id in state
+          if( !user.emailVerified ){
+            throw {
+              message: 'The email address must be verified, check you email',
+              code: 401
+            }
+          }
+
+          // Save user id in state and 
           commit('setUserId', user.uid);
+          window.localStorage.setItem('_userId', user.uid);
           return user.getIdToken();
         })
-        .then( idToken => commit('setIdToken', idToken) );
+        .then( idToken => {
+          commit('setIdToken', idToken);
+          window.localStorage.setItem('_token', idToken);
+        });
   },
 
   async register({commit}, prams){
     return firebase
         .auth()
         .createUserWithEmailAndPassword(prams.email, prams.password)
-        .then( userCredential => userCredential.user.getIdToken(true))
+        .then( userCredential => {
+          // Send email confirmation
+          userCredential.user.sendEmailVerification();
+          
+          // Return the ID Token for the next step
+          return userCredential.user.getIdToken(true);
+        })
         .then( idToken => {
 
           // Save idToken in state
           commit('setIdToken', idToken);
+          window.localStorage.setItem('_token', idToken)
+          axios.defaults.headers.common['Authorization'] = idToken
 
           return axios.post('http://localhost:8080/api/v1/profiles',{
             name: prams.name,
@@ -55,6 +74,13 @@ const actions = {
           });
 
         });
+  },
+
+  async logout({commit}){
+    commit('logout')
+    localStorage.removeItem('token');
+    delete axios.defaults.headers.common['Authorization'];
+    resolve();
   }
 }
 

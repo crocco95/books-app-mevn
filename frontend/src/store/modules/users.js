@@ -18,6 +18,10 @@ const mutations = {
 }
 
 const actions = {
+
+  isLogged(){
+    return this.state.idToken;
+  },
   
   async login({commit}, params) {
 

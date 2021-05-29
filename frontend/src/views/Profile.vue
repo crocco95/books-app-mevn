@@ -12,10 +12,10 @@
           <div class="col-md text-center">
             Following: <strong v-text="following.length"></strong>
           </div>
-          <div class="col-md" v-if="followingButtonVisible">
+          <div class="col-md" v-if="followButtonVisible && !unfollowButtonVisible">
             <button class="btn btn-sm btn-primary" @click="followUser">Follow</button>
           </div>
-          <div class="col-md" v-if="!followingButtonVisible">
+          <div class="col-md" v-if="!followButtonVisible && unfollowButtonVisible">
             <button class="btn btn-sm btn-danger" @click="unfollowUser">Unfollow</button>
           </div>
         </div>
@@ -77,7 +77,8 @@ export default {
       readBooks: 0,
       followers: 0,
       following: 0,
-      followingButtonVisible: false,
+      followButtonVisible: false,
+      unfollowButtonVisible: false,
     }
   },
 
@@ -95,7 +96,8 @@ export default {
           'Authorization': token
         })
         .then( res => {
-          this.followingButtonVisible = false;
+          this.followButtonVisible = false;
+          this.unfollowButtonVisible = true;
         })
         .catch( err => console.error( err ));
     },
@@ -112,7 +114,8 @@ export default {
           }
         })
         .then( res => {
-          this.followingButtonVisible = true;
+          this.followButtonVisible = true;
+          this.unfollowButtonVisible = true;
           this.followers -= 1;
         })
         .catch(err => console.error(err));
@@ -137,7 +140,8 @@ export default {
       axios
         .get(`http://localhost:8080/api/v1/users/${loggedUserId}/social/${this.userId}`)
         .then( res => {
-          this.followingButtonVisible = res.data === null;
+          this.followButtonVisible = res.data === null;
+          this.unfollowButtonVisible = !this.followButtonVisible;
         })
         .catch(err => console.error(err));
     },
@@ -171,9 +175,12 @@ export default {
   mounted(){
     const loggedUserId = window.localStorage.getItem('_userId');
 
+    if(loggedUserId !== this.userId){
+      this.checkFollow();
+    }
+
     this.fetchUserDetails();
-    this.fetchUserBooks();
-    this.checkFollow();
+    this.fetchUserBooks();    
     this.listSocialRelationships();
   }
 }

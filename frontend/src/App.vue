@@ -18,14 +18,21 @@
           <li class="nav-item" v-if="userId">
             <router-link class="nav-link" :to="'/profiles/' + userId">My Profile</router-link>
           </li>
+
+          <li class="nav-item" v-if="!userId">
+              <router-link to="/register" class="nav-link mx-1">Register</router-link>
+          </li>
+          <li class="nav-item" v-if="!userId">
+            <router-link to="/login" class="nav-link mx-1">
+              <button class="btn btn-sm btn-success">Login</button>
+            </router-link>
+          </li>
+          <li class="nav-item" v-if="userId">
+            <router-link to="/logout" class="nav-link mx-1">
+              <button class="btn btn-sm btn-secondary">Logout</button>
+            </router-link>
+          </li>
         </ul>
-        <div class="d-flex">
-          <router-link to="/logout" v-if="userId">Logout</router-link>
-          <div v-else>
-            <router-link to="/register" class="mx-1">Register</router-link>
-            <router-link to="/login" class="mx-1">Login</router-link>
-          </div>
-        </div>
       </div>
     </div>
   </nav>

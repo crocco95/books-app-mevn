@@ -71,10 +71,6 @@ export default {
         email: this.email,
         password: this.password,
       })
-      .then( () => {
-        window.localStorage.setItem('_token', this.getIdToken());
-        window.localStorage.setItem('_userId', this.getUserId());
-      })
       .then(() => this.$router.push('/'))
       .catch( err => this.error = err )
       .finally( () => {

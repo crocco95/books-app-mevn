@@ -40,8 +40,10 @@
                 <BookMarkAsReadModal :bookId="book.bookId" :totalPages="book.totalPages"/>
                 
                 <router-link :to="'/books/' + book.bookId" class="btn btn-link text-primary">Read more</router-link>
-                <button class="btn btn-link text-primary" data-bs-toggle="modal" :data-bs-target="'#bookMarkModal' + book.bookId">Edit</button>
-                <button class="btn btn-link text-danger" @click="removeBookRead(book.bookId)">Remove</button>
+                <div class="d-inline" v-if="ownProfile">
+                  <button class="btn btn-link text-primary" data-bs-toggle="modal" :data-bs-target="'#bookMarkModal' + book.bookId">Edit</button>
+                  <button class="btn btn-link text-danger" @click="removeBookRead(book.bookId)">Remove</button>
+                </div>
               </div>
 
             </div>
@@ -56,6 +58,7 @@
 
 import axios from 'axios';
 import BookMarkAsReadModal from '@/components/BookMarkAsReadModal.vue';
+import { mapGetters } from 'vuex';
 
 export default {
 
@@ -69,11 +72,14 @@ export default {
 
   data(){
     return {
-      books: []
+      books: [],
+      ownProfile: false
     }
   },
 
   methods: {
+
+    ...mapGetters(['getUserId', 'getIdToken']),
 
     formatDate(string){
       const date = new Date(string);
@@ -130,6 +136,8 @@ export default {
   },
 
   mounted(){
+
+    this.ownProfile = this.userId === this.getUserId();
     this.fetchBooks();
   }
 }

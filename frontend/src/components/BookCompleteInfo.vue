@@ -64,7 +64,8 @@
           <h2>Users reviews</h2>
         </div>
         <div class="col-md-6">
-          <ButtonAddReview :bookId="id"/>
+          <AddBookReviewModal :bookId="id"/>
+          <button class="btn btn-primary w-100" data-bs-toggle="modal" data-bs-target="#addReviewModal">Write a Review</button>
         </div>
       </div>
 
@@ -78,10 +79,7 @@
 
       <UserBookReview v-for="review in reviews"
       :key="review._id"
-      :title="review.title"
-      :vote="review.vote"
-      :description="review.description"
-      :userId="review.userId"/>
+      :review="review"/>
 
     </div>
   </div>
@@ -90,17 +88,18 @@
 <script>
 
 import axios from 'axios';
-import ButtonAddReview from '../components/ButtonAddReview';
+import AddBookReviewModal from '../components/AddBookReviewModal';
 import LongText from '@/components/LongText';
 import BookMarkAsReadModal from '@/components/BookMarkAsReadModal';
 import UserBookReview from '@/components/UserBookReview';
+import { mapGetters } from 'vuex';
 
 export default {
 
   name: 'BookCompleteInfo',
 
   components: {
-    ButtonAddReview,
+    AddBookReviewModal,
     LongText,
     BookMarkAsReadModal,
     UserBookReview,
@@ -120,6 +119,9 @@ export default {
   },
 
   methods: {
+
+    ...mapGetters(['isLogged']),
+
     fetchData(){
 
       axios

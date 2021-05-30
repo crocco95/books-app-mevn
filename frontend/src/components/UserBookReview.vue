@@ -1,23 +1,28 @@
 <template>
-  <div class="review mt-1 text-start">
+  <div class="review mt-1 mb-1 text-start">
     <div class="row review-header">
         
         <!-- Title + Author -->
         <div class="col-md-6 col-6">
-          <h3 v-text="title" class="d-inline"></h3>
+          <h3 v-text="review.title" class="d-inline"></h3>
           <small class="mx-2" v-if="author">by <router-link v-text="author.name" :to="`/profiles/${author._id}`"></router-link></small>
         </div>
 
         <!-- Edit button -->
         <div class="col-md-6 col-6 text-end">
-          <button v-if="editButtonVisible" class="btn btn-sm btn-primary">Edit</button>
+          <AddBookReviewModal :bookId="review.bookId" :review="review"/>
+          <button
+            v-if="sameLoggedUserFlag"
+            class="btn btn-sm btn-primary"
+            data-bs-toggle="modal"
+            data-bs-target="#editReviewModal">Edit</button>
         </div>
       </div>
       
       <!-- Content -->
       <div class="row">
         <div class="col-md-12">
-          <LongText :text="description" :max="255" />
+          <LongText :text="review.description" :max="255" />
         </div>
       </div>
 
@@ -27,7 +32,7 @@
       <div class="row">
         <div class="col-md-12">
           <p>
-            Vote: <strong>{{ vote }}/5</strong>
+            Vote: <strong>{{ review.vote }}/5</strong>
           </p>
         </div>
       </div>
@@ -38,31 +43,33 @@
 
 import axios from 'axios';
 import LongText from '@/components/LongText';
+import AddBookReviewModal from '@/components/AddBookReviewModal';
+import { mapGetters } from 'vuex';
 
 export default {
   components: {
-    LongText
+    LongText,
+    AddBookReviewModal,
   },
 
   props: {
-    bookId: String,
-    title: String,
-    vote: Number,
-    description: String,
-    userId: String,
+    review: Object,
   },
 
   data(){
     return {
       author: '',
-      editButtonVisible: false
+      sameLoggedUserFlag: false
     }
   },
 
   methods: {
+
+    ...mapGetters(['getUserId']),
+
     async fetchUserDetails(){
       return axios
-        .get(`http://localhost:8080/api/v1/profiles/${this.userId}`)
+        .get(`http://localhost:8080/api/v1/profiles/${this.review.userId}`)
         .then( res => this.author = res.data)
         .catch( err => {
           console.error( err.response.data );
@@ -73,7 +80,7 @@ export default {
   mounted(){
     this.fetchUserDetails()
     .then( author => {
-      this.editButtonVisible = author._id === this.userId;
+      this.sameLoggedUserFlag = (author._id === this.getUserId());
     });
   }
 }

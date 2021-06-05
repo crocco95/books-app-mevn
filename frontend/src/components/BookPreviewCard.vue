@@ -2,7 +2,7 @@
   <div class="card book-preview-card">
     <div class="row g-0">
       <div class="col-md-4">
-        <img :src="coverUrl" alt="Cover">
+        <img :src="coverUrl" class="w-100" alt="Cover">
       </div>
       <div class="col-md-8 right-side">
         <div class="card-body">
@@ -10,7 +10,7 @@
             {{ title && title.length > 50 ? title.substr(0, 50) + '...' : title }}
           </h5>
           <!-- <p class="card-text description">{{ description && description.length > 100 ? description.substr(0, 100) + '...' : description }}</p> -->
-          <p class="card-text">
+          <p class="card-text text-written-by">
             <small class="text-muted">Writter by {{ authors?.join() }}</small>
           </p>
 
@@ -46,6 +46,11 @@ export default {
 
     .card-title{
       color: #333;
+    }
+
+    .card-title, .text-written-by{
+      text-overflow: ellipsis;
+      overflow: hidden;
     }
 
     .right-side {

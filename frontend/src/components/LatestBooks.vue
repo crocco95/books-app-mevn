@@ -1,7 +1,7 @@
 <template>
   <div class="latests-books">
 
-    <div class="row">
+    <div class="row pb-4">
       <div class="col col-md-3 col-sm-4 col-6"
         v-for="book in books"
         :key="book.id">
@@ -53,7 +53,6 @@ export default {
       axios
         .get(`http://localhost:8080/api/v1/books?` + httpUtils.paramsToUrlQuery(params))
         .then( res => {
-          console.log(res);
           this.books = res.data.items;
         })
         .catch( err => {
@@ -71,13 +70,13 @@ export default {
 <style lang="scss" scoped>
 
   /* The heart of the matter */
-.row {
-  display: block;
-  overflow-x: auto;
-  white-space: nowrap;
-}
-.row > .col {
-  display: inline-block;
-}
+  .row {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+  .row > .col {
+    display: inline-block;
+  }
 
 </style>

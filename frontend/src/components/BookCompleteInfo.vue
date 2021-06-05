@@ -4,21 +4,21 @@
       <h1 class="mt-4" v-text="volumeInfo.title"></h1>
 
       <div class="row mt-5">
-        <div class="col-md-4">
+        <div class="col-md-4 col-sm-12">
           <img :src="coverUrl" alt="Book's cover" class="cover float-md-start"/>
         </div>
-        <div class="col-md-4 text-start">
+        <div class="col-md-4 col-sm-6 text-md-start">
           <h3>Author<span v-if="volumeInfo && volumeInfo.authors.length > 1">s</span></h3>
-          <ul>
+          <ul class="authors-list">
             <li v-for="author in volumeInfo.authors">{{ author }}</li>
           </ul>
         </div>
-        <div class="col-md-4">
+        <div class="col-md-4 col-sm-6">
           <h3>Rating</h3>
           <div class="row">
             
             <!-- START Internal rating -->
-            <div class="col-md" v-if="volumeInfo.averageRating">
+            <div class="col-md" v-if="internalReviewsSummary.avg">
               <h4>Internal</h4>
               <div class="review-vote py-1">
                 <h5 class="fw-bolder my-0">
@@ -136,7 +136,6 @@ export default {
      * Fetch all data related to the current book
      */
     fetchData(){
-
       axios
         .get(`http://localhost:8080/api/v1/books/${this.id}?projection=full`)
         .then( res => {
@@ -174,6 +173,7 @@ export default {
       axios
         .get(`http://localhost:8080/api/v1/books/${this.id}/reviews/average`)
         .then( res => {
+          console.log(res.data[0]);
           this.internalReviewsSummary = res.data[0];
         })
         .catch( err => {
@@ -190,7 +190,7 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 
   img.cover{
     margin: 0 25px 0 0;
@@ -205,4 +205,18 @@ export default {
     padding: 1rem;
     border-radius: 1rem;
   }
+
+  ul.authors-list{
+
+    padding-left: 0;
+    
+    li::before{
+      content: '✍️ ';
+    }
+
+    li{
+      list-style: none;
+    }
+  }
+  
 </style>

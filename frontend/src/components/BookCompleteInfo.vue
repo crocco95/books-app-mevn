@@ -18,10 +18,12 @@
           <div class="row">
             <div class="col-md">
               <h4 v-if="volumeInfo.averageRating">Internal</h4>
-              <h5>
-                5<small class="fw-normal"> / 5</small>
-              </h5>
-              <span>* * * * </span>
+              <div class="review-vote py-1">
+                <h5 class="fw-bolder my-0">
+                  {{ internalReviewsSummary.avg }}<small class="fw-normal"> / 5</small>
+                </h5>
+              </div>
+              <small>{{ internalReviewsSummary.total }} reviews</small>
             </div>
             <div class="col-md" v-if="volumeInfo.averageRating">
               <h4>Google</h4>
@@ -115,6 +117,7 @@ export default {
       volumeInfo: '',
       saleInfo: '',
       reviews: [],
+      internalReviewsSummary: '',
     }
   },
 
@@ -149,12 +152,24 @@ export default {
         .catch( err => {
           console.error( err );
         });
+    },
+
+    fetchAverageInternalReviews(){
+      axios
+        .get(`http://localhost:8080/api/v1/books/${this.id}/reviews/average`)
+        .then( res => {
+          this.internalReviewsSummary = res.data[0];
+        })
+        .catch( err => {
+          console.error( err );
+        });
     }
   },
 
   mounted(){
     this.fetchData();
     this.fetchReviews();
+    this.fetchAverageInternalReviews();
   }
 }
 </script>

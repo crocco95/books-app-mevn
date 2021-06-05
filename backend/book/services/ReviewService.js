@@ -33,8 +33,31 @@ const add = async ( bookId, userId, title, description, vote ) => {
           .then(() => Review.create(params));
 }
 
-const edit = () => {
-  
+const edit = async ( bookId, reviewId, userId, title, description, vote ) => {
+  return Review
+          .findOneAndUpdate({_id: reviewId, userId: userId},{
+            title,
+            description,
+            vote,
+          },{
+            new: true,
+          });
+}
+
+const avg = async (bookId) => {
+  return Review.aggregate([
+    {
+      $match: {bookId},
+    },
+    {
+      $group:
+      {
+        _id: bookId,
+        avg: {$avg: "$vote"},
+        total: {$sum: 1}
+      }
+    },
+  ]);
 }
 
 module.exports = {
@@ -42,4 +65,5 @@ module.exports = {
   get,
   add,
   edit,
+  avg,
 }

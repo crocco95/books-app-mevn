@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 
 const ReviewController = require('../controllers/ReviewController');
+const { route } = require('./books');
 
 /**
  * List all reviews associated to a specific book
@@ -9,6 +10,10 @@ const ReviewController = require('../controllers/ReviewController');
 router
   .route('/:bookId/reviews/')
   .get(ReviewController.list);
+
+router
+  .route('/:bookId/reviews/average')
+  .get(ReviewController.avg);
 
 /**
  * Get all details of a specific review
@@ -28,7 +33,7 @@ router
  * Edit one or more field of a specific review
  */
 router
-  .route('/:reviewId/')
+  .route('/:bookId/reviews/:reviewId/')
   .put(ReviewController.edit);
 
 module.exports = router;

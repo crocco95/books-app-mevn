@@ -16,8 +16,10 @@
         <div class="col-md-4">
           <h3>Rating</h3>
           <div class="row">
-            <div class="col-md">
-              <h4 v-if="volumeInfo.averageRating">Internal</h4>
+            
+            <!-- START Internal rating -->
+            <div class="col-md" v-if="volumeInfo.averageRating">
+              <h4>Internal</h4>
               <div class="review-vote py-1">
                 <h5 class="fw-bolder my-0">
                   {{ internalReviewsSummary.avg }}<small class="fw-normal"> / 5</small>
@@ -25,6 +27,9 @@
               </div>
               <small>{{ internalReviewsSummary.total }} reviews</small>
             </div>
+            <!-- STOP Internal rating -->
+            
+            <!-- START Google rating -->
             <div class="col-md" v-if="volumeInfo.averageRating">
               <h4>Google</h4>
               <div class="review-vote py-1">
@@ -34,6 +39,8 @@
               </div>
               <small>{{ volumeInfo.ratingsCount }} reviews</small>
             </div>
+            <!-- STOP Google rating -->
+
           </div>
         </div>
       </div>
@@ -125,6 +132,9 @@ export default {
 
     ...mapGetters(['isLogged']),
 
+    /**
+     * Fetch all data related to the current book
+     */
     fetchData(){
 
       axios
@@ -143,6 +153,9 @@ export default {
         });
     },
 
+    /**
+     * Fetch all the reviews
+     */
     fetchReviews(){
       axios
         .get(`http://localhost:8080/api/v1/books/${this.id}/reviews`)
@@ -154,6 +167,9 @@ export default {
         });
     },
 
+    /**
+     * Fetch the average rating based on internal software reviews
+     */
     fetchAverageInternalReviews(){
       axios
         .get(`http://localhost:8080/api/v1/books/${this.id}/reviews/average`)

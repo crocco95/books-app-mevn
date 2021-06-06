@@ -109,10 +109,6 @@ export default {
         title: this.title,
         description: this.description,
         vote: this.vote,
-      },{
-        headers:{
-          'Authorization': window.localStorage.getItem('_token'),
-        }
       })
       .then( book => {
         this.error = '';
@@ -133,10 +129,6 @@ export default {
         title: this.title,
         description: this.description,
         vote: this.vote,
-      },{
-        headers:{
-          'Authorization': this.getIdToken(),
-        }
       })
       .then( review => {
 

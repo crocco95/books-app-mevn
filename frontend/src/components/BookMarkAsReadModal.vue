@@ -93,7 +93,6 @@ export default {
       newBookReadFlag: true,
       success: '',
       error: '',
-      authenticatedUserFlag: window.localStorage.getItem('_token')
     }
   },
 
@@ -123,10 +122,6 @@ export default {
         currentPage: this.finishDate ? null : this.currentPage,
         startDate: this.startDate,
         finishDate: this.finishDate,
-      },{
-        headers:{
-          'Authorization': window.localStorage.getItem('_token')
-        }
       })
       .then( res => {
         this.success = {
@@ -140,16 +135,11 @@ export default {
 
     edit(){
       const userId = window.localStorage.getItem('_userId');
-      const token = window.localStorage.getItem('_token');
 
       axios.put(`http://localhost:8080/api/v1/users/${userId}/books/${this.bookId}`,{
         currentPage: this.finishDate ? null : this.currentPage,
         startDate: this.startDate,
         finishDate: this.finishDate,
-      },{
-        headers:{
-          'Authorization': token
-        }
       })
       .then( res => {
         this.success = {

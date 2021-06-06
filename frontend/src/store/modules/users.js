@@ -1,31 +1,30 @@
 import axios from 'axios';
-import firebase from 'firebase/app';
+import firebaseApp from '../../config/firebase';
 import 'firebase/firebase-auth';
 
 const state = {
-  userId: window.localStorage.getItem('_userId') || '',
-  idToken: window.localStorage.getItem('_token') || '',
+  user: firebaseApp.app.auth().currentUser,
 }
 
 const getters = {
-  getUserId: (state) => state.userId,
-  getIdToken: (state) => state.idToken,
+  getUser: (state) => state.user,
+  isLogged: (state) => state.user ? true : false,
 }
 
 const mutations = {
-  setUserId: (state,userId) => ( state.userId = userId ),
-  setIdToken: (state,idToken) => ( state.idToken = idToken ),
+  setUser: (state,user) => ( state.user = user ),
 }
 
 const actions = {
 
-  isLogged(){
-    return this.state.idToken;
+  loadUser({commit}, user){
+    commit('setUser', user);
+    user.getIdToken().then(token => axios.defaults.headers.common['Authorization'] = token);
   },
   
   async login({commit}, params) {
 
-    return firebase
+    return firebaseApp.app
         .auth()
         .signInWithEmailAndPassword(params.email, params.password)
         .then( userCredential => userCredential.user)
@@ -38,53 +37,33 @@ const actions = {
             }
           }
 
-          // Save user id in state and 
-          commit('setUserId', user.uid);
-          window.localStorage.setItem('_userId', user.uid);
+          commit('setUser', user);
+
           return user.getIdToken();
         })
         .then( idToken => {
-          commit('setIdToken', idToken);
-          window.localStorage.setItem('_token', idToken);
+          console.log(`Setting token: ${idToken}`)
+          axios.defaults.headers.common['Authorization'] = idToken;
         });
   },
 
   async register({commit}, prams){
-    return firebase
+    return firebaseApp.app
         .auth()
         .createUserWithEmailAndPassword(prams.email, prams.password)
         .then( userCredential => {
+
           // Send email confirmation
           userCredential.user.sendEmailVerification();
-          
-          // Return the ID Token for the next step
-          return userCredential.user.getIdToken(true);
-        })
-        .then( idToken => {
-
-          // Save idToken in state
-          commit('setIdToken', idToken);
-          window.localStorage.setItem('_token', idToken)
-          axios.defaults.headers.common['Authorization'] = idToken
-
-          return axios.post('http://localhost:8080/api/v1/profiles',{
-            name: prams.name,
-            surname: prams.surname,
-            genre: prams.genre,
-          },{
-            headers: {
-              'Authorization': idToken
-            },
-          });
-
         });
   },
 
   async logout({commit}){
-    commit('logout')
-    localStorage.removeItem('token');
-    delete axios.defaults.headers.common['Authorization'];
-    resolve();
+    console.log("Logging out...");
+    firebaseApp.app.auth().signOut().then(() => {
+      delete axios.defaults.headers.common['Authorization'];
+    })
+    .catch(error => console.error(`Impossible to logout: ${error}`));
   }
 }
 

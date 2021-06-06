@@ -60,6 +60,7 @@
 
 import axios from 'axios';
 import UserBookReadList from '../components/UserBookReadList';
+import {mapActions} from 'vuex';
 
 export default {
   components: {
@@ -84,16 +85,15 @@ export default {
 
   methods:{
 
+    ...mapActions(['refreshToken']),
+
     followUser(){
 
       const loggedUserId = window.localStorage.getItem('_userId');
-      const token = window.localStorage.getItem('_token');
 
       axios
         .post(`http://localhost:8080/api/v1/users/${loggedUserId}/social`,{
           followingUserId: this.userId
-        },{
-          'Authorization': token
         })
         .then( res => {
           this.followButtonVisible = false;
@@ -105,14 +105,9 @@ export default {
     unfollowUser(){
 
       const loggedUserId = window.localStorage.getItem('_userId');
-      const token = window.localStorage.getItem('_token');
 
       axios
-        .delete(`http://localhost:8080/api/v1/users/${loggedUserId}/social/${this.userId}`,{
-          headers:{
-            'Authorization': token
-          }
-        })
+        .delete(`http://localhost:8080/api/v1/users/${loggedUserId}/social/${this.userId}`)
         .then( res => {
           this.followButtonVisible = true;
           this.unfollowButtonVisible = true;
@@ -182,6 +177,11 @@ export default {
     this.fetchUserDetails();
     this.fetchUserBooks();    
     this.listSocialRelationships();
+
+    this
+    .refreshToken()
+    .then(user => console.log(`Logged in: ${user}`));
+    
   }
 }
 </script>

@@ -59,7 +59,6 @@ export default {
   methods: {
 
     ...mapActions(['login']),
-    ...mapGetters(['getUserId', 'getIdToken']),
 
     loginWithEmailAndPassword: function( event ){
 

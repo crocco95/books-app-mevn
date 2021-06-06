@@ -65,7 +65,7 @@ export default {
 
   methods: {
 
-    ...mapGetters(['getUserId']),
+    ...mapGetters(['getUser']),
 
     async fetchUserDetails(){
       return axios
@@ -80,7 +80,7 @@ export default {
   mounted(){
     this.fetchUserDetails()
     .then( author => {
-      this.sameLoggedUserFlag = (author._id === this.getUserId());
+      this.sameLoggedUserFlag = (author._id === this.getUser().uid);
     });
   }
 }

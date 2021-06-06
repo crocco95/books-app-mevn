@@ -79,7 +79,7 @@ export default {
 
   methods: {
 
-    ...mapGetters(['getUserId', 'getIdToken']),
+    ...mapGetters(['getUser']),
 
     formatDate(string){
       const date = new Date(string);
@@ -122,14 +122,9 @@ export default {
 
     removeBookRead(bookId){
       const userId = window.localStorage.getItem('_userId');
-      const token = window.localStorage.getItem('_token');
 
       axios
-        .delete(`http://localhost:8080/api/v1/users/${userId}/books/${bookId}`,{
-          headers:{
-            'Authorization': token
-          }
-        })
+        .delete(`http://localhost:8080/api/v1/users/${userId}/books/${bookId}`)
         .then( () => this.fetchBooks())
         .catch( err => console.error(err.response.data));
     },
@@ -137,7 +132,7 @@ export default {
 
   mounted(){
 
-    this.ownProfile = this.userId === this.getUserId();
+    this.ownProfile = this.userId === this.getUser().uid;
     this.fetchBooks();
   }
 }

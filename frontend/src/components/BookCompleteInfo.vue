@@ -54,8 +54,17 @@
           <a :href="saleInfo.buyLink" class="btn btn-primary w-100" target="_blank">Buy it now</a>
         </div>
         <div class="col-md my-1">
-          <BookMarkAsReadModal :bookId="id" :totalPages="volumeInfo.printedPageCount"/>
-          <button class="btn btn-primary w-100" data-bs-toggle="modal" :data-bs-target="'#bookMarkModal' + id">Mark book as read or in reading</button>
+          <BookMarkAsReadModal
+            :bookId="id"
+            :totalPages="volumeInfo.printedPageCount"
+            v-if="isLogged()"/>
+
+          <button class="btn btn-primary w-100"
+            data-bs-toggle="modal"
+            :data-bs-target="'#bookMarkModal' + id"
+            :disabled="!isLogged()">
+            <span v-if="!isLogged()">🔒</span>Mark book as read or in reading
+          </button>          
         </div>
       </div>
       <!-- END Links -->
@@ -73,8 +82,13 @@
           <h2>Users reviews</h2>
         </div>
         <div class="col-md-6">
-          <AddBookReviewModal :bookId="id"/>
-          <button class="btn btn-primary w-100" data-bs-toggle="modal" data-bs-target="#addReviewModal">Write a Review</button>
+          <AddBookReviewModal :bookId="id" v-if="isLogged()"/>
+          <button
+            class="btn btn-primary w-100"
+            data-bs-toggle="modal"
+            data-bs-target="#addReviewModal"
+            :disabled="!isLogged()">
+            <span v-if="!isLogged()">🔒</span>Write a Review</button>
         </div>
       </div>
 

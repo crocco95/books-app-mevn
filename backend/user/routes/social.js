@@ -5,6 +5,7 @@ const SocialController = require('../controllers/SocialController');
 
 router
   .route('/:userId/social')
+  .use(AuthMiddleware.extractUserIdFromTokenToBody)
     .post(SocialController.add);
 
 router

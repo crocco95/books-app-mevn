@@ -1,7 +1,5 @@
 const firebaseAdmin = require('firebase-admin');
-const pick = require('../utils/pick');
 const profileService = require('../services/ProfileService');
-const profile = require('../models/profile');
 
 const create = async ( req, res ) => {
 
@@ -21,7 +19,7 @@ const create = async ( req, res ) => {
     .auth()
     .verifyIdToken( idToken )
     .then( decodedToken => params.uid = decodedToken.uid )
-    .then( () => profileService.add( params.uid, params.name, params.surname, params.genre ))
+    .then( () => profileService.add( params ))
     .then( profile => res.status( 201 ).json( profile ))
     .catch( err => res.status( 400 ).json( err ));
 };
@@ -36,7 +34,19 @@ const get = ( req, res ) => {
     .catch( err => res.status(400).json(err) );
 }
 
+const edit = ( req, res ) => {
+
+  const userId = req.params.userId;
+  const params = req.body;
+
+  profileService
+    .edit( userId, params )
+    .then( profile => res.status(200).json(profile) )
+    .catch( err => res.status(400).json(err) );
+}
+
 module.exports = {
   create,
   get,
+  edit,
 }

@@ -1,28 +1,29 @@
 <template>
   <div class="container home">
 
+    <PageLoader />
+
     <h1 class="text-left">Welcome to Books App!</h1>
     
-    <h2 class="mt-5">Humor</h2>
-    <LatestBooks category="humor" limit="12"/>
+    <LatestBooks category="humor" limit="12" class="mt-5"/>
 
-    <h2 class="mt-5">History</h2>
-    <LatestBooks category="history" limit="12"/>
+    <LatestBooks category="history" limit="12" class="mt-5"/>
 
-    <h2 class="mt-5">Travel</h2>
-    <LatestBooks category="travel" limit="12"/>
+    <LatestBooks category="travel" limit="12" class="mt-5"/>
   </div>
 </template>
 
 <script>
-  import LatestBooks from '@/components/LatestBooks.vue'
-  import MostReadBooks from '@/components/MostReadBooks.vue'
+  import LatestBooks from '@/components/LatestBooks.vue';
+  import MostReadBooks from '@/components/MostReadBooks.vue';
+  import PageLoader from '@/components/PageLoader.vue';
 
   export default {
     name: 'Home',
     components: {
       LatestBooks,
-      MostReadBooks
+      MostReadBooks,
+      PageLoader,
     }
   }
 </script>

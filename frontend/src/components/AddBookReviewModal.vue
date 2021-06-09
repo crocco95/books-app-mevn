@@ -43,7 +43,7 @@
 
             <div class="row" v-if="success">
               <div class="col-md-12">
-                <div class="alert alert-success">
+                <div class="alert alert-success text-center">
                   <strong>Done!</strong> {{ success.message }}
                 </div>
               </div>
@@ -96,8 +96,6 @@ export default {
   },
 
   methods: {
-
-    ...mapGetters(['getIdToken']),
 
     addReview( event ){
 

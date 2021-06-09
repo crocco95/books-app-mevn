@@ -75,6 +75,7 @@
 
 <script>
 
+import {mapGetters} from 'vuex';
 import axios from 'axios';
 
 export default {
@@ -98,8 +99,11 @@ export default {
 
   methods: {
 
+    ...mapGetters(['getUser', 'isLogged']),
+
     fetch(){
-      const userId = window.localStorage.getItem('_userId');
+
+      const userId = this.getUser()?.uid;
 
       axios.get(`http://localhost:8080/api/v1/users/${userId}/books/${this.bookId}`)
       .then( res => {
@@ -153,7 +157,9 @@ export default {
   },
 
   mounted(){
-    this.fetch();
+    if(this.isLogged()){
+      this.fetch();
+    }
   },
 }
 </script>

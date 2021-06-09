@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const AuthMiddleware = require('./middleware/auth');
-
+const validator = require('../utils/validator');
 const BookReadController = require('../controllers/BookReadController');
 
 router
@@ -15,7 +15,7 @@ router
 router
   .use(AuthMiddleware.extractUserIdFromTokenToBody)
   .route('/:userId/books')
-  .post(BookReadController.add);
+  .post(validator.addBookRead,BookReadController.add);
 
 router
   .use(AuthMiddleware.extractUserIdFromTokenToBody)

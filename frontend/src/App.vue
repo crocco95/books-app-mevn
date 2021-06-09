@@ -16,14 +16,11 @@ export default {
   },
 
   methods:{
-    ...mapActions(['loadUser']),
+    ...mapActions(['registerAuthStateChangedListener']),
   },
 
   mounted(){
-    const self = this;
-    firebase.auth().onAuthStateChanged(function(user) {
-      self.loadUser(user);
-    });
+    this.registerAuthStateChangedListener();
   }
 }
 </script>

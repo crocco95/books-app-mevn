@@ -17,9 +17,12 @@ const mutations = {
 
 const actions = {
 
-  loadUser({commit}, user){
-    commit('setUser', user);
-    user.getIdToken().then(token => axios.defaults.headers.common['Authorization'] = token);
+  registerAuthStateChangedListener({commit}){
+    firebaseApp.app
+      .auth().onAuthStateChanged(function(user) {
+        commit('setUser', user);
+        user.getIdToken().then(token => axios.defaults.headers.common['Authorization'] = token);
+      });
   },
   
   async login({commit}, params) {

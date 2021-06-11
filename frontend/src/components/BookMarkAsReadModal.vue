@@ -67,8 +67,6 @@
       </div>
     </div>
     <!-- END Modal -->
-
-    <!-- <button class="btn btn-primary w-100" data-bs-toggle="modal" data-bs-target="#bookMarkModal">Mark book as read or in reading</button> -->
   </div>
 
 </template>
@@ -103,9 +101,11 @@ export default {
 
     fetch(){
 
+      console.log(`AUTH TOKEN: ${axios.defaults.headers.common['Authorization']}`);
+
       const userId = this.getUser()?.uid;
 
-      axios.get(`http://localhost:8080/api/v1/users/${userId}/books/${this.bookId}`)
+      axios.get(`http://localhost:8080/api/v1/books/${this.bookId}/read/${userId}`)
       .then( res => {
         if( res.data ){
           this.startDate = res.data.startDate.split('T')[0];
@@ -119,10 +119,10 @@ export default {
     },
     
     add(){
-      const userId = window.localStorage.getItem('_userId');
+      const userId = this.getUser()?.uid;
 
-      axios.post(`http://localhost:8080/api/v1/users/${userId}/books`,{
-        bookId: this.bookId,
+      axios.post(`http://localhost:8080/api/v1/books/${this.bookId}/read`,{
+        userId,
         currentPage: this.finishDate ? null : this.currentPage,
         startDate: this.startDate,
         finishDate: this.finishDate,
@@ -138,9 +138,7 @@ export default {
     },
 
     edit(){
-      const userId = window.localStorage.getItem('_userId');
-
-      axios.put(`http://localhost:8080/api/v1/users/${userId}/books/${this.bookId}`,{
+      axios.put(`http://localhost:8080/api/v1/books/${this.bookId}/read`,{
         currentPage: this.finishDate ? null : this.currentPage,
         startDate: this.startDate,
         finishDate: this.finishDate,

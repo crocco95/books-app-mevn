@@ -101,8 +101,6 @@ export default {
 
     fetch(){
 
-      console.log(`AUTH TOKEN: ${axios.defaults.headers.common['Authorization']}`);
-
       const userId = this.getUser()?.uid;
 
       axios.get(`http://localhost:8080/api/v1/books/${this.bookId}/read/${userId}`)

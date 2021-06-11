@@ -1,12 +1,10 @@
 <template>
   <Navbar />
-  <router-view/>
+  <router-view v-if="readyFlag"/>
 </template>
 
 <script>
 import Navbar from '@/components/Navbar.vue';
-import firebase from 'firebase/app';
-import 'firebase/firebase-auth';
 
 import { mapActions } from 'vuex';
 
@@ -15,12 +13,20 @@ export default {
     Navbar,
   },
 
+  data(){
+    return {
+      readyFlag: false,
+    };
+  },
+
   methods:{
     ...mapActions(['registerAuthStateChangedListener']),
   },
 
-  mounted(){
-    this.registerAuthStateChangedListener();
+  async mounted(){
+    await this.registerAuthStateChangedListener();
+    console.log("Registered auth changed listener");
+    this.readyFlag = true;
   }
 }
 </script>

@@ -40,7 +40,7 @@
                 <BookMarkAsReadModal :bookId="book.bookId" :totalPages="book.totalPages"/>
                 
                 <router-link :to="'/books/' + book.bookId" class="btn btn-link text-primary">Read more</router-link>
-                <div class="d-inline" v-if="ownProfile">
+                <div class="d-inline" v-if="userId === user.uid">
                   <button class="btn btn-link text-primary" data-bs-toggle="modal" :data-bs-target="'#bookMarkModal' + book.bookId">Edit</button>
                   <button class="btn btn-link text-danger" @click="removeBookRead(book.bookId)">Remove</button>
                 </div>
@@ -58,7 +58,7 @@
 
 import axios from 'axios';
 import BookMarkAsReadModal from '@/components/BookMarkAsReadModal.vue';
-import { mapGetters } from 'vuex';
+import { mapState,mapGetters } from 'vuex';
 
 export default {
 
@@ -73,9 +73,10 @@ export default {
   data(){
     return {
       books: [],
-      ownProfile: false
     }
   },
+
+  computed: mapState(['user']),
 
   methods: {
 
@@ -131,9 +132,15 @@ export default {
   },
 
   mounted(){
-    this.ownProfile = this.userId === this.getUser().uid;
+
+    this.$store.subscribe((mutation, state) => {
+      if(mutation.type === 'setUser'){
+        this.user = mutation.payload;
+      }
+    });
+
     this.fetchBooks();
-  }
+  },
 }
 </script>
 

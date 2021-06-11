@@ -8,7 +8,6 @@ import App from './App.vue'
 import router from './router'
 
 import store from './store'
-import firebase from './config/firebase';
 
 import bootstrapCss from 'bootstrap/dist/css/bootstrap.min.css'
 import bootstrapJs from 'bootstrap/dist/js/bootstrap'

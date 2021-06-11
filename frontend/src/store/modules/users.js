@@ -24,19 +24,15 @@ const actions = {
         commit('setUser', user);
 
         user.getIdToken().then(token => {
-
-          // axios.defaults.headers.common['Authorization'] = token;
           
           // Add a request interceptor
           axios.interceptors.request.use(function (config) {
-            console.log(token);
             config.headers.Authorization =  token;
             return config;
           });
         });
 
         console.log("Auth state changed!");
-        
       });
   },
   
@@ -84,7 +80,6 @@ const actions = {
     .catch(error => console.error(`Impossible to logout: ${error}`));
   }
 }
-
 
 export default {
   state,

@@ -18,6 +18,12 @@
           <div class="col-md" v-if="!followButtonVisible && unfollowButtonVisible">
             <button class="btn btn-sm btn-danger" @click="unfollowUser">Unfollow</button>
           </div>
+
+          <div class="col-md" v-if="!isLogged()">
+            <router-link to="/login" class="btn btn-sm btn-primary">
+              <span v-if="!isLogged()">🔒</span>Follow
+            </router-link>
+          </div>
         </div>
       </div>
     </div>
@@ -60,7 +66,7 @@
 
 import axios from 'axios';
 import UserBookReadList from '../components/UserBookReadList';
-import {mapActions} from 'vuex';
+import {mapGetters} from 'vuex';
 
 export default {
   components: {
@@ -85,11 +91,11 @@ export default {
 
   methods:{
 
-    ...mapActions(['refreshToken']),
+    ...mapGetters(['getUser', 'isLogged']),
 
     followUser(){
 
-      const loggedUserId = window.localStorage.getItem('_userId');
+      const loggedUserId = this.getUser()?.uid;
 
       axios
         .post(`http://localhost:8080/api/v1/users/${loggedUserId}/social`,{
@@ -104,7 +110,7 @@ export default {
 
     unfollowUser(){
 
-      const loggedUserId = window.localStorage.getItem('_userId');
+      const loggedUserId = this.getUser()?.uid;
 
       axios
         .delete(`http://localhost:8080/api/v1/users/${loggedUserId}/social/${this.userId}`)
@@ -130,7 +136,7 @@ export default {
 
     checkFollow(){
 
-      const loggedUserId = window.localStorage.getItem('_userId');
+      const loggedUserId = this.getUser()?.uid;
 
       axios
         .get(`http://localhost:8080/api/v1/users/${loggedUserId}/social/${this.userId}`)
@@ -168,7 +174,19 @@ export default {
   },
 
   mounted(){
-    const loggedUserId = window.localStorage.getItem('_userId');
+    const loggedUserId = this.getUser()?.uid;
+
+    this.$store.subscribe((mutation, state) => {
+      if(mutation.type === 'setUser'){
+        const user = mutation.payload;
+        
+        if(user.uid === this.userId){
+          this.followButtonVisible = false;
+          this.unfollowButtonVisible = false;
+        }
+
+      }
+    })
 
     if(loggedUserId !== this.userId){
       this.checkFollow();
@@ -177,12 +195,7 @@ export default {
     this.fetchUserDetails();
     this.fetchUserBooks();    
     this.listSocialRelationships();
-
-    this
-    .refreshToken()
-    .then(user => console.log(`Logged in: ${user}`));
-    
-  }
+  },
 }
 </script>
 

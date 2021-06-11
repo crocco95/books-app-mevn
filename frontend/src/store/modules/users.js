@@ -17,11 +17,26 @@ const mutations = {
 
 const actions = {
 
-  registerAuthStateChangedListener({commit}){
-    firebaseApp.app
-      .auth().onAuthStateChanged(function(user) {
+  async registerAuthStateChangedListener({commit}){
+    return firebaseApp.app
+      .auth().onAuthStateChanged( (user) => {
+
         commit('setUser', user);
-        user.getIdToken().then(token => axios.defaults.headers.common['Authorization'] = token);
+
+        user.getIdToken().then(token => {
+
+          // axios.defaults.headers.common['Authorization'] = token;
+          
+          // Add a request interceptor
+          axios.interceptors.request.use(function (config) {
+            console.log(token);
+            config.headers.Authorization =  token;
+            return config;
+          });
+        });
+
+        console.log("Auth state changed!");
+        
       });
   },
   

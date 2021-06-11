@@ -121,7 +121,7 @@ export default {
     },
 
     removeBookRead(bookId){
-      const userId = window.localStorage.getItem('_userId');
+      const userId = this.getUser()?.uid;
 
       axios
         .delete(`http://localhost:8080/api/v1/users/${userId}/books/${bookId}`)
@@ -131,7 +131,6 @@ export default {
   },
 
   mounted(){
-
     this.ownProfile = this.userId === this.getUser().uid;
     this.fetchBooks();
   }

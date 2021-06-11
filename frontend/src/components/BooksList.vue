@@ -1,6 +1,6 @@
 <template>
   <div class="row">
-    <div class="col-md-6 col-sm-6 col-6 mb-4" v-for="book in listBooks.items" :key="book.id">
+    <div class="col-md-4 col-sm-6 col-6 mb-4" v-for="book in listBooks.items" :key="book.id">
 
       <BookPreviewCard
         :id="book.id"

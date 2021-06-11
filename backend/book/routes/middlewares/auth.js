@@ -2,7 +2,7 @@ const firebaseAdmin = require('firebase-admin');
 
 const extractUserIdFromTokenToBody = async (req, res, next) => {
 
-  let error = false;
+  let error = '';
 
   if( req.headers.authorization ){
     await firebaseAdmin
@@ -10,16 +10,21 @@ const extractUserIdFromTokenToBody = async (req, res, next) => {
       .verifyIdToken(req.headers.authorization)
       .then( decodedToken => req.body.tokenUserId = decodedToken.uid )
       .catch( err =>  {
+        req.body.tokenUserId = null;
         error = err;
       });
+
+      if(req.body.tokenUserId){
+        next();
+        return;
+      }
   }
 
-  if( !error ){
-    next();
-  }else{
-    console.error( error );
-    res.status(401).json( {message: 'Authentication error'} );
-  }
+  res.status(401).json( {
+    message: 'You must be authenticated',
+    details: error,
+    code: 401,
+  } );
 }
 
 module.exports = {

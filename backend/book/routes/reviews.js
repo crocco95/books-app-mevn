@@ -1,8 +1,8 @@
 const express = require('express');
 const router = express.Router();
+const authMiddleware = require('./middlewares/auth');
 
 const ReviewController = require('../controllers/ReviewController');
-const { route } = require('./books');
 
 /**
  * List all reviews associated to a specific book
@@ -27,13 +27,13 @@ router
  */
 router
   .route('/:bookId/reviews/')
-  .post(ReviewController.add);
+  .post(authMiddleware.extractUserIdFromTokenToBody, ReviewController.add);
 
 /**
  * Edit one or more field of a specific review
  */
 router
   .route('/:bookId/reviews/:reviewId/')
-  .put(ReviewController.edit);
+  .put(authMiddleware.extractUserIdFromTokenToBody, ReviewController.edit);
 
 module.exports = router;

@@ -12,10 +12,10 @@
           <div class="col-md text-center">
             Following: <strong v-text="following.length"></strong>
           </div>
-          <div class="col-md" v-if="followButtonVisible && !unfollowButtonVisible">
+          <div class="col-md" v-if="getUser().uid !== userId && followButtonVisible && !unfollowButtonVisible">
             <button class="btn btn-sm btn-primary" @click="followUser">Follow</button>
           </div>
-          <div class="col-md" v-if="!followButtonVisible && unfollowButtonVisible">
+          <div class="col-md" v-if="getUser().uid !== userId && !followButtonVisible && unfollowButtonVisible">
             <button class="btn btn-sm btn-danger" @click="unfollowUser">Unfollow</button>
           </div>
 
@@ -158,7 +158,7 @@ export default {
     fetchUserBooks(){
 
       axios
-        .get(`http://localhost:8080/api/v1/users/${this.userId}/books`)
+        .get(`http://localhost:8080/api/v1/books/read/search?userId=${this.userId}`)
         .then( res => {
           res.data.forEach( b => {
             
@@ -174,24 +174,6 @@ export default {
   },
 
   mounted(){
-    const loggedUserId = this.getUser()?.uid;
-
-    this.$store.subscribe((mutation, state) => {
-      if(mutation.type === 'setUser'){
-        const user = mutation.payload;
-        
-        if(user.uid === this.userId){
-          this.followButtonVisible = false;
-          this.unfollowButtonVisible = false;
-        }
-
-      }
-    })
-
-    if(loggedUserId !== this.userId){
-      this.checkFollow();
-    }
-
     this.fetchUserDetails();
     this.fetchUserBooks();    
     this.listSocialRelationships();

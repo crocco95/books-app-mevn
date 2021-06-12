@@ -40,7 +40,7 @@
                 <BookMarkAsReadModal :bookId="book.bookId" :totalPages="book.totalPages"/>
                 
                 <router-link :to="'/books/' + book.bookId" class="btn btn-link text-primary">Read more</router-link>
-                <div class="d-inline" v-if="userId === user.uid">
+                <div class="d-inline" v-if="userId === getUser()?.uid">
                   <button class="btn btn-link text-primary" data-bs-toggle="modal" :data-bs-target="'#bookMarkModal' + book.bookId">Edit</button>
                   <button class="btn btn-link text-danger" @click="removeBookRead(book.bookId)">Remove</button>
                 </div>
@@ -107,7 +107,7 @@ export default {
     fetchBooks(){
 
       axios
-        .get(`http://localhost:8080/api/v1/users/${this.userId}/books`)
+        .get(`http://localhost:8080/api/v1/books/read/search?userId=${this.userId}`)
         .then( res => {
 
           this.books = res.data;
@@ -132,13 +132,6 @@ export default {
   },
 
   mounted(){
-
-    this.$store.subscribe((mutation, state) => {
-      if(mutation.type === 'setUser'){
-        this.user = mutation.payload;
-      }
-    });
-
     this.fetchBooks();
   },
 }

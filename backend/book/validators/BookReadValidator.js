@@ -1,7 +1,7 @@
-const { body, param, oneOf } = require('express-validator');
+const { body, param, query } = require('express-validator');
 const bookService = require('../services/BookService');
 
-const addBookRead = [
+const add = [
   param('bookId').exists().custom( bookId => {
     console.log(`Validating ${bookId}...`);
     return bookService
@@ -13,10 +13,15 @@ const addBookRead = [
       });
   }),
   body('tokenUserId', 'You have to be authenticated').exists(),
-  body('currentPage', 'The currentPage field is required').isInt(),
-  body('startDate', 'The startDate field is required').isDate(),
+  body('currentPage', 'The currentPage field is required').if(body('endDate').exists()).isInt(),
+  body('endDate', 'The endDate field is required').if(body('currentPage').not().exists()).isDate(),
+];
+
+const search = [
+  query('query').exists(true, true),
 ];
 
 module.exports = {
-  addBookRead,
+  add,
+  search,
 }

@@ -8,11 +8,9 @@ router
   .route('/:bookId/read')
   .get(bookReadController.list);
 
-/*
 router
   .route('/read/search')
-  .get(bookReadController.listByUser);
-*/
+  .get(bookReadController.search);
 
 router
   .route('/:bookId/read/:userId')
@@ -20,7 +18,7 @@ router
 
 router
   .route('/:bookId/read')
-  .post(authMiddleware.extractUserIdFromTokenToBody, validator.addBookRead,bookReadController.add);
+  .post(authMiddleware.extractUserIdFromTokenToBody, validator.add, bookReadController.add);
 
 router
   .route('/:bookId/read')

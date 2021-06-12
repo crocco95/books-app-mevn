@@ -2,6 +2,7 @@ const bookService = require('../services/BookService');
 const bookReadService = require('../services/BookReadService');
 const amqpController = require('./AmqpController');
 const { validationResult } = require('express-validator');
+const pick = require('../utils/pick');
 
 /**
  * Get all BookRead object related to a specific book
@@ -114,10 +115,27 @@ const remove = ( req, res ) => {
   .catch( err => res.status(400).json(err));
 };
 
+const search = ( req, res ) => {
+
+  const validation = validationResult(req).array();
+  if(validation.length > 0){
+    res.status(422).json(validation);
+    return;
+  }
+
+  bookReadService.search(req.query)
+  .then( results => res.status(200).json(results))
+  .catch( err => res.status(400).json({
+    message: err,
+    code: 400,
+  }));
+}
+
 module.exports = {
   list,
   get,
   add,
   edit,
   remove,
+  search,
 }

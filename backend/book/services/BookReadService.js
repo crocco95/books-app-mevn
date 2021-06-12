@@ -30,10 +30,15 @@ const remove = (userId, bookId) => {
   return bookRead.deleteMany({userId, bookId});
 }
 
+const search = ( query ) => {
+  return bookRead.find( query );
+}
+
 module.exports = {
   list,
   get,
   add,
   edit,
   remove,
+  search,
 }

@@ -8,7 +8,7 @@
         <div class="w-100 text-center">
           <h1 class="title w-100" :style="`color: ${titleColor}`">{{ title }}</h1>
         </div>
-        <img :src="imageUri" alt="">
+        <img v-if="imageUri" :src="imageUri" alt="">
       </div>
 
       <div class="col col-md-3 col-sm-4 col-6"
@@ -80,15 +80,15 @@ export default {
 
   mounted(){
 
-    const category = categories.categories[this.category];
+    const category = categories.categories[this.category.toLowerCase];
 
     this.fetchBooks();
 
-    this.imageUri = category.imageUri;
-    this.bgSolidColor = category.color;
-    this.bgColor = `linear-gradient(90deg, ${category.color}44 0%, ${category.color}aa 75%, ${category.color}ff 100%);`;
-    this.title = category.title;
-    this.titleColor = category.titleColor;
+    this.imageUri = category?.imageUri ?? `https://source.unsplash.com/250x350/?${this.category}`;
+    this.bgSolidColor = category?.color ?? '#cccccc';
+    this.bgColor = `linear-gradient(90deg, ${this.bgSolidColor}44 0%, ${this.bgSolidColor}aa 75%, ${this.bgSolidColor}ff 100%);`;
+    this.title = category?.title ?? this.category.toUpperCase();
+    this.titleColor = category?.titleColor ?? '#ffffff';
   }
 }
 </script>
@@ -103,10 +103,15 @@ a {
 
   /* The heart of the matter */
   .row {
-    display: block;
+    display: flex;
     overflow-x: auto;
     white-space: nowrap;
     border-radius: 10px;
+    align-items: center;
+    justify-content: flex-start;
+    align-content: center;
+    flex-wrap: nowrap;
+    flex-direction: row;
 
     .title{
       position: absolute;

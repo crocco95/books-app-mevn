@@ -19,6 +19,11 @@ const server = gateway({
     {
       prefix: '/api/v1/users',
       prefixRewrite: '/api/v1/users',
+      target: 'http://preferences:3000'
+    },
+    {
+      prefix: '/api/v1/users',
+      prefixRewrite: '/api/v1/users',
       target: 'http://users:3000'
     },
     {

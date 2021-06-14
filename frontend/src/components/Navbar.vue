@@ -53,11 +53,6 @@
     methods: {
       ...mapGetters(['getUser']),
     },
-
-    mounted(){
-      this.user = this.getUser();
-      console.log(this.user);
-    }
   }
 </script>
 

@@ -4,35 +4,46 @@ import 'firebase/firebase-auth';
 
 const state = {
   user: firebaseApp.app.auth().currentUser,
+  isLoadedFlag : false,
 }
 
 const getters = {
   getUser: (state) => state.user,
   isLogged: (state) => state.user ? true : false,
+  isLoaded: (state) => state.isLoadedFlag,
 }
 
 const mutations = {
   setUser: (state,user) => ( state.user = user ),
+  setLoadedFlag: (state, value) => ( state.isLoadedFlag = value )
 }
 
 const actions = {
 
   async registerAuthStateChangedListener({commit}){
-    return firebaseApp.app
-      .auth().onAuthStateChanged( (user) => {
-
-        commit('setUser', user);
-
-        user.getIdToken().then(token => {
-          
-          // Add a request interceptor
-          axios.interceptors.request.use(function (config) {
-            config.headers.Authorization =  token;
-            return config;
-          });
-        });
+    return await firebaseApp.app
+      .auth()
+      .onAuthStateChanged( async (user) => {
 
         console.log("Auth state changed!");
+
+        if(user){
+
+          commit('setUser', user);
+
+          user.getIdToken().then(token => {
+
+            commit('setLoadedFlag', true);
+          
+            // Add a request interceptor
+            axios.interceptors.request.use(function (config) {
+              config.headers.Authorization =  token;
+              return config;
+            });
+          });
+        }else{
+          commit('setLoadedFlag', true);
+        }
       });
   },
   

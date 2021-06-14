@@ -1,12 +1,14 @@
 <template>
-  <Navbar />
-  <router-view v-if="readyFlag"/>
+  <div v-if="isLoaded()">
+    <Navbar />
+    <router-view/>
+  </div>
 </template>
 
 <script>
 import Navbar from '@/components/Navbar.vue';
 
-import { mapActions } from 'vuex';
+import { mapActions, mapGetters } from 'vuex';
 
 export default {
   components: {
@@ -15,18 +17,18 @@ export default {
 
   data(){
     return {
-      readyFlag: false,
+      readyFlag: this.isLoaded(),
     };
   },
 
   methods:{
     ...mapActions(['registerAuthStateChangedListener']),
+    ...mapGetters(['isLoaded']),
   },
 
   async mounted(){
     await this.registerAuthStateChangedListener();
     console.log("Registered auth changed listener");
-    this.readyFlag = true;
   }
 }
 </script>

@@ -14,11 +14,12 @@ const add = (preference) => {
 }
 
 const edit = (preference) => {
-  const pc = `preferredCategories.${preference.category}`;
-  const action = preference.action === 'inc' ? '$inc' : '$dec';
+  const pc = `categories.${preference.category}`;
+
+  console.log(pc);
 
   return Preference.updateOne({userId: preference.userId}, {
-    [action] : {
+    $inc : {
       [pc] : 1
     }
   }, {

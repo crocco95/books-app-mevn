@@ -75,11 +75,32 @@ const add = ( req, res ) => {
   bookReadService
     .add(params)
     .then( rd => res.status(201).json(rd) )
-    .then( () => amqpController.publish('update-preferences', {userId: params.userId, category: 'humor'}) )
+    .then( () => publishPreferences(params.userId, params.bookId) )
     .catch( err => res.status(400).json({
       message: err,
       code: 400
     }));
+};
+
+const publishPreferences = async (userId, bookId) => {
+
+  bookService
+    .get(bookId, 'full')
+    .then( book => {
+
+      const categories = [];
+
+      book.data.volumeInfo.categories.forEach(c => {
+
+        const category = c.split(" / ")[0];
+
+        if(category && categories.indexOf(category) === -1){
+          categories.push(category);
+          amqpController.publish('update-preferences', {userId, category})
+        }
+      });
+    })
+    .catch( err => console.error(err));
 };
 
 const edit = ( req, res) => {

@@ -1,8 +1,8 @@
 <template>
-  <div class="card book-preview-card">
+  <router-link :to="`/books/${id}`" class="card book-preview-card">
     <div class="row g-0">
       <div class="col-md-4">
-        <img :src="coverUrl" class="w-100" alt="Cover">
+        <img :src="coverUrl ?? `https://eu.ui-avatars.com/api/?size=150&name=${title}`" class="w-100" alt="Cover">
       </div>
       <div class="col-md-8 right-side">
         <div class="card-body">
@@ -15,7 +15,7 @@
         </div>
       </div>
     </div>
-  </div>
+  </router-link>
 </template>
 
 <script>
@@ -41,6 +41,8 @@ export default {
 
     text-decoration: none;
 
+    transition: all .3s;
+
     .card-title{
       color: #333;
     }
@@ -54,6 +56,10 @@ export default {
       text-align: left;
       padding-left: 1rem;
     }
+  }
+
+  .book-preview-card:hover{
+    box-shadow: 0 2px 10px 1px rgb(64 60 67 / 80%);
   }
 
 </style>

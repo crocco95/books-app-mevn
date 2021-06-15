@@ -1,29 +1,76 @@
 <template>
   <div class="container home">
-
-    <PageLoader />
-
-    <h1 class="text-left">Welcome to Books App!</h1>
     
-    <LatestBooks category="humor" limit="12" class="mt-5"/>
-
-    <LatestBooks category="history" limit="12" class="mt-5"/>
-
-    <LatestBooks category="travel" limit="12" class="mt-5"/>
+    <PreferenceHero v-if="getUser()" />
+    <HomeStaticHero v-else />
+    
+    <div v-if="readyFlag">
+      <LatestBooks v-for="category in categories" :key="categories.indexOf(category)" :category="category" limit="12" class="mt-5"/>
+    </div>
   </div>
 </template>
 
 <script>
+  import axios from 'axios';
+  import availableCategories from '../config/available_categories' 
+  import HomeStaticHero from '@/components/HomeStaticHero.vue';
+  import PreferenceHero from '@/components/PreferenceHero.vue';
   import LatestBooks from '@/components/LatestBooks.vue';
   import MostReadBooks from '@/components/MostReadBooks.vue';
   import PageLoader from '@/components/PageLoader.vue';
 
+  import {mapGetters} from 'vuex';
+
   export default {
     name: 'Home',
     components: {
+      HomeStaticHero,
+      PreferenceHero,
       LatestBooks,
       MostReadBooks,
       PageLoader,
+    },
+
+    data() {
+      return {
+        categories: [],
+        readyFlag: false,
+      };
+    },
+
+    methods:{
+      ...mapGetters(['getUser', 'isLogged']),
+
+      async getPreferences(){
+
+        const user = this.getUser();
+
+        return axios
+          .get(`http://localhost:8080/api/v1/users/${user.uid}/preferences`)
+          .then( response => response.data.categories);
+      }
+    },
+
+    async mounted(){
+      const user = this.getUser();
+
+      if(user){
+        await this.getPreferences()
+          .then( preferences => {
+            this.categories = Object.keys(preferences);
+          });
+      }
+
+      for(let i = this.categories.length ; i < 10 ; i++){
+        
+        const c = availableCategories.categories[Math.floor(Math.random()*availableCategories.categories.length)];
+        
+        if(this.categories.indexOf(c) === -1){
+          this.categories.push(c);
+        }
+      }
+      
+      this.readyFlag = true;
     }
   }
 </script>

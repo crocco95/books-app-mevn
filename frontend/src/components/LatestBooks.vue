@@ -1,7 +1,16 @@
 <template>
   <div class="latests-books">
 
-    <div class="row" :style="`background-color:${bgSolidColor}`">
+    <div class="row line-header-mobile" :style="`background-image: url(${imageUriMobile})`">
+      <div class="dark-overlay" :style="`background: ${bgColorMobile};`"></div>
+      <div class="col-md-12 p-0">
+        <div class="w-100 text-center title-container">
+          <h1 class="title w-100" :style="`color: ${titleColor}`">{{ title }}</h1>
+        </div>
+      </div>
+    </div>
+
+    <div class="row books-row" :style="`background-color:${bgSolidColor}`">
 
       <div class="line-header">
         <div class="dark-overlay" :style="`background: ${bgColor};`"></div>
@@ -49,6 +58,7 @@ export default {
       books: [],
       imageUri: '',
       bgColor: '',
+      bgColorMobile: '',
       bgSolidColor: '',
       title: '',
       titleColor: '',
@@ -85,8 +95,10 @@ export default {
     this.fetchBooks();
 
     this.imageUri = category?.imageUri ?? `https://source.unsplash.com/250x350/?${this.category}`;
+    this.imageUriMobile = category?.imageUriMobile ?? `https://source.unsplash.com/350x250/?${this.category}`;
     this.bgSolidColor = category?.color ?? '#cccccc';
     this.bgColor = `linear-gradient(90deg, ${this.bgSolidColor}44 0%, ${this.bgSolidColor}aa 75%, ${this.bgSolidColor}ff 100%);`;
+    this.bgColorMobile = `linear-gradient(180deg, ${this.bgSolidColor}44 0%, ${this.bgSolidColor}aa 75%, ${this.bgSolidColor}ff 100%);`;
     this.title = category?.title ?? this.category.toUpperCase();
     this.titleColor = category?.titleColor ?? '#ffffff';
   }
@@ -102,7 +114,7 @@ a {
 .latests-books{
 
   /* The heart of the matter */
-  .row {
+  .books-row {
     display: flex;
     overflow-x: auto;
     white-space: nowrap;
@@ -135,6 +147,11 @@ a {
   
 
   @media screen and (min-width: 1000px) {
+
+    .line-header-mobile{
+      display: none;
+    }
+
     .line-header {
       position: relative;
       display: inline-block;
@@ -155,6 +172,43 @@ a {
         width: 250px;
         
         border-radius: 10px 0 0 10px;
+      }
+    }
+  }
+
+  @media screen and (max-width: 1000px) {
+    .line-header{
+      display: none;
+    }
+
+    .books-row {
+      border-radius: 0 0 10px 10px!important;
+    }
+
+    .line-header-mobile{
+      display: block;
+      height: 30vh;
+
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+
+      div{
+        height: 100%;
+      }
+
+      .title-container{
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        flex-wrap: nowrap;
+        align-content: center;
+        justify-content: center;
+        align-items: center;
+
+        h1{
+          margin: 0 auto;
+        }
       }
     }
   }

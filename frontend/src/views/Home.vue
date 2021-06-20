@@ -1,11 +1,13 @@
 <template>
-  <div class="container home">
-    
-    <PreferenceHero v-if="getUser()" />
-    <HomeStaticHero v-else />
-    
-    <div v-if="readyFlag">
-      <LatestBooks v-for="category in categories" :key="categories.indexOf(category)" :category="category" limit="12" class="mt-5"/>
+  <div class="home">
+    <div class="container-fluid">
+      <HomePreferenceHero v-if="getUser()" />
+      <HomeStaticHero v-else />
+    </div>
+    <div class="container">
+      <div v-if="readyFlag">
+        <LatestBooks v-for="category in categories" :key="categories.indexOf(category)" :category="category" limit="12" class="mt-5"/>
+      </div>
     </div>
   </div>
 </template>
@@ -14,7 +16,7 @@
   import axios from 'axios';
   import availableCategories from '../config/available_categories' 
   import HomeStaticHero from '@/components/HomeStaticHero.vue';
-  import PreferenceHero from '@/components/PreferenceHero.vue';
+  import HomePreferenceHero from '@/components/HomePreferenceHero.vue';
   import LatestBooks from '@/components/LatestBooks.vue';
   import MostReadBooks from '@/components/MostReadBooks.vue';
   import PageLoader from '@/components/PageLoader.vue';
@@ -25,7 +27,7 @@
     name: 'Home',
     components: {
       HomeStaticHero,
-      PreferenceHero,
+      HomePreferenceHero,
       LatestBooks,
       MostReadBooks,
       PageLoader,

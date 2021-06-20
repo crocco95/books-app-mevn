@@ -7,7 +7,6 @@ const httpUtils = {
           }
           str += key + "=" + params[key];
       }
-      console.log(str);
       return str;
   }
 }

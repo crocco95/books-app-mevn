@@ -88,7 +88,6 @@ export default {
     },
 
     mergeBookInfo(book){
-      console.log(book);
       this.books.forEach( b => {
         if( b.bookId === book.id ){
           b.coverUrl = book.volumeInfo.imageLinks?.thumbnail;

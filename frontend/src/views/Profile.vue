@@ -127,7 +127,6 @@ export default {
       axios
         .get(`http://localhost:8080/api/v1/users/${this.userId}/social`)
         .then( res => {
-          console.log(res.data);
           this.following = res.data.following;
           this.followers = res.data.followers;
         })

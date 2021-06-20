@@ -187,7 +187,6 @@ export default {
       axios
         .get(`http://localhost:8080/api/v1/books/${this.id}/reviews/average`)
         .then( res => {
-          console.log(res.data[0]);
           this.internalReviewsSummary = res.data[0];
         })
         .catch( err => {

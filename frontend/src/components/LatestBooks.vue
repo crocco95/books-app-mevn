@@ -1,9 +1,9 @@
 <template>
   <div class="latests-books">
 
-    <div class="row line-header-mobile" :style="`background-image: url(${imageUriMobile})`">
-      <div class="dark-overlay" :style="`background: ${bgColorMobile};`"></div>
+    <div class="row line-header-mobile position-relative" :style="`background-image: url(${imageUriMobile})`">
       <div class="col-md-12 p-0">
+        <div class="dark-overlay" :style="`background: ${bgColorMobile};`"></div>
         <div class="w-100 text-center title-container">
           <h1 class="title w-100" :style="`color: ${titleColor}`">{{ title }}</h1>
         </div>
@@ -90,7 +90,7 @@ export default {
 
   mounted(){
 
-    const category = categories.categories[this.category.toLowerCase];
+    const category = categories.categories[this.category.toLowerCase()];
 
     this.fetchBooks();
 
@@ -125,26 +125,33 @@ a {
     flex-wrap: nowrap;
     flex-direction: row;
 
-    .title{
-      position: absolute;
-      text-align: center;
-      font-weight: bolder;
-      
-      display: flex;
-      flex-wrap: nowrap;
-      align-content: center;
-      justify-content: center;
-      align-items: center;
-
-      height: 100%;
-    }
-
     .col {
       display: inline-block;
     }
   }
 }
+
+.title{
+  position: absolute;
+  text-align: center;
+  font-weight: bolder;
   
+  display: flex;
+  flex-wrap: nowrap;
+  align-content: center;
+  justify-content: center;
+  align-items: center;
+
+  height: 100%;
+}
+
+.dark-overlay{
+  position: absolute;
+  top: 0;
+  left:0;
+  width: 100%;
+  height: 100%;
+}
 
   @media screen and (min-width: 1000px) {
 
@@ -158,14 +165,6 @@ a {
       width: 250px;
       padding-left: 0;
       background-color: #fff;
-
-      .dark-overlay{
-        position: absolute;
-        top: 0;
-        left:0;
-        width: 100%;
-        height: 100%;
-      }
 
       img {
         display: inline-block;
@@ -205,10 +204,6 @@ a {
         align-content: center;
         justify-content: center;
         align-items: center;
-
-        h1{
-          margin: 0 auto;
-        }
       }
     }
   }

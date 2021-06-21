@@ -57,6 +57,7 @@ export default {
     return {
       books: [],
       imageUri: '',
+      imageUriMobile: '',
       bgColor: '',
       bgColorMobile: '',
       bgSolidColor: '',

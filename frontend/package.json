@@ -14,6 +14,7 @@
     "core-js": "^3.14.0",
     "firebase": "^8.6.5",
     "firebaseui": "^4.8.0",
+    "iso-639-1": "^2.1.9",
     "register-service-worker": "^1.7.1",
     "vue": "^3.0.11",
     "vue-router": "^4.0.8",

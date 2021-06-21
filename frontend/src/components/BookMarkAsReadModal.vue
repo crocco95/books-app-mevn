@@ -103,9 +103,12 @@ export default {
 
       const userId = this.getUser()?.uid;
 
-      axios.get(`http://localhost:8080/api/v1/books/${this.bookId}/read/${userId}`)
+      axios
+        .get(`http://localhost:8080/api/v1/books/${this.bookId}/read/${userId}`,{
+        validateStatus: false,
+      })
       .then( res => {
-        if( res.data ){
+        if( res.data && res.status === 200){
           this.startDate = res.data.startDate.split('T')[0];
           this.finishDate = res.data.finishDate?.split('T')[0];
           this.finishedFlag = this.finishDate ? true : false;
@@ -113,7 +116,9 @@ export default {
           this.newBookReadFlag = false;
         }
       })
-      .catch( err => console.error(err));
+      .catch( err => {
+        console.error(err);
+      });
     },
     
     add(){

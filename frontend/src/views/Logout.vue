@@ -2,7 +2,7 @@
   <div>
     <div class="mt-5">
       <span class="h1">👋</span>
-      <h1>Logout done!</h1>
+      <h1 v-text="title"></h1>
       <h4 class="text-muted">We hope to see you soon again</h4>
     </div>
     <div class="mt-3">
@@ -18,12 +18,20 @@ import {mapActions} from 'vuex';
 
 export default {
 
+  data(){
+    return {
+      title: 'Logging out ...',
+    }
+  },
+
   methods:{
     ...mapActions(['logout']),
   },
 
   mounted(){
-    this.logout();
+    this.logout()
+      .then(() => this.title = 'Logged out!')
+      .catch( () => this.title = 'Problems during the log out procedure...');
   }
 }
 </script>

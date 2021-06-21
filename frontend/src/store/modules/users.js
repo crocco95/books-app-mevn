@@ -67,7 +67,6 @@ const actions = {
           return user.getIdToken();
         })
         .then( idToken => {
-          console.log(`Setting token: ${idToken}`)
           axios.defaults.headers.common['Authorization'] = idToken;
         });
   },
@@ -87,6 +86,7 @@ const actions = {
     console.log("Logging out...");
     firebaseApp.app.auth().signOut().then(() => {
       delete axios.defaults.headers.common['Authorization'];
+      commit('setUser', null);
     })
     .catch(error => console.error(`Impossible to logout: ${error}`));
   }

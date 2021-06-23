@@ -35,8 +35,8 @@ services:
       - backend
       - db
 
-  preference:
-    container_name: preference
+  preferences:
+    container_name: preferences
     build:
       context: ..
       dockerfile: docker/prod/node/Dockerfile

@@ -2,7 +2,7 @@
   <router-link :to="`/books/${id}`" class="card book-preview-card">
     <div class="row g-0">
       <div class="col-md-4">
-        <img :src="coverUrl ?? `https://eu.ui-avatars.com/api/?size=150&name=${title}`" class="w-100" alt="Cover">
+        <img :src="coverUrl ?? `https://eu.ui-avatars.com/api/?size=150&name=${title}`" class="w-100 book-cover" alt="Cover">
       </div>
       <div class="col-md-8 right-side">
         <div class="card-body">
@@ -55,6 +55,10 @@ export default {
     .right-side {
       text-align: left;
       padding-left: 1rem;
+    }
+
+    .book-cover{
+      border-radius: 1rem;
     }
   }
 

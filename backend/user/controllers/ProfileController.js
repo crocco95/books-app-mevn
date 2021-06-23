@@ -7,6 +7,7 @@ const create = async ( req, res ) => {
     surname: req.body.surname,
     name: req.body.name,
     genre: req.body.genre,
+    language: req.body.language,
   }
 
   const idToken = req.headers.authorization;

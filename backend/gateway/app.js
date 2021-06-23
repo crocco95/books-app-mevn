@@ -17,7 +17,7 @@ const server = gateway({
       target: 'http://books:3000'
     },
     {
-      prefix: '/api/v1/users',
+      prefix: '/api/v1/user_preferences',
       prefixRewrite: '/api/v1/users',
       target: 'http://preferences:3000'
     },

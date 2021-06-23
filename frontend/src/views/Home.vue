@@ -48,7 +48,7 @@
         const user = this.getUser();
 
         return axios
-          .get(`http://localhost:8080/api/v1/users/${user.uid}/preferences`)
+          .get(`/user_preferences/${user.uid}/preferences`)
           .then( response => response.data.categories);
       }
     },

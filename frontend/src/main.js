@@ -1,7 +1,8 @@
 import axios from 'axios';
-axios.create({
-  baseURL: 'http://localhost:8080/api/v1'
-});
+axios.create();
+axios.defaults.baseURL = process.env.VUE_APP_API_BASE_URL;
+
+console.log(process.env);
 
 import { createApp } from 'vue'
 import App from './App.vue'

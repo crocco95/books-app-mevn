@@ -5,7 +5,7 @@
         <!-- Title + Author -->
         <div class="col-md-6 col-6">
           <h3 v-text="review.title" class="d-inline"></h3>
-          <small class="mx-2" v-if="author">by <router-link v-text="author.name" :to="`/profiles/${author._id}`"></router-link></small>
+          <small class="mx-2" v-if="author">by <router-link v-text="author.name" :to="`profiles/${author._id}`"></router-link></small>
         </div>
 
         <!-- Edit button -->
@@ -69,7 +69,7 @@ export default {
 
     async fetchUserDetails(){
       return axios
-        .get(`/profiles/${this.review.userId}`)
+        .get(`profiles/${this.review.userId}`)
         .then( res => this.author = res.data)
         .catch( err => {
           console.error( err.response.data );

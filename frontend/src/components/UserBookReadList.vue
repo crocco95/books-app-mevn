@@ -99,14 +99,14 @@ export default {
     
     async fetchBook(bookId){
       return axios
-        .get(`/books/${bookId}?projection=full`)
+        .get(`books/${bookId}?projection=full`)
         .then( res => res.data);
     },
 
     fetchBooks(){
 
       axios
-        .get(`/books/read/search?userId=${this.userId}`)
+        .get(`books/read/search?userId=${this.userId}`)
         .then( res => {
 
           this.books = res.data;
@@ -124,7 +124,7 @@ export default {
       const userId = this.getUser()?.uid;
 
       axios
-        .delete(`/users/${userId}/books/${bookId}`)
+        .delete(`users/${userId}/books/${bookId}`)
         .then( () => this.fetchBooks())
         .catch( err => console.error(err.response.data));
     },

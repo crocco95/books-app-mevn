@@ -79,7 +79,7 @@ export default {
       }
 
       axios
-        .get(`/books?` + httpUtils.paramsToUrlQuery(params))
+        .get(`books?` + httpUtils.paramsToUrlQuery(params))
         .then( res => {
           this.books = res.data.items;
         })

@@ -151,7 +151,7 @@ export default {
      */
     fetchData(){
       axios
-        .get(`/books/${this.id}?projection=full`)
+        .get(`books/${this.id}?projection=full`)
         .then( res => {
 
           const book = res.data;
@@ -171,7 +171,7 @@ export default {
      */
     fetchReviews(){
       axios
-        .get(`/books/${this.id}/reviews`)
+        .get(`books/${this.id}/reviews`)
         .then( res => {
           this.reviews = res.data;
         })
@@ -185,7 +185,7 @@ export default {
      */
     fetchAverageInternalReviews(){
       axios
-        .get(`/books/${this.id}/reviews/average`)
+        .get(`books/${this.id}/reviews/average`)
         .then( res => {
           this.internalReviewsSummary = res.data[0];
         })

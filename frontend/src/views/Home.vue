@@ -48,7 +48,7 @@
         const user = this.getUser();
 
         return axios
-          .get(`/user_preferences/${user.uid}/preferences`)
+          .get(`user_preferences/${user.uid}/preferences`)
           .then( response => response.data.categories);
       }
     },

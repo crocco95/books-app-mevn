@@ -60,7 +60,7 @@ export default {
       const user = this.getUser();
 
       return axios
-        .get(`/user_preferences/${user.uid}/preferences`)
+        .get(`user_preferences/${user.uid}/preferences`)
         .then( res => res.data )
     },
 

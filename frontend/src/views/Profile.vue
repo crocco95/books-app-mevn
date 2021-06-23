@@ -98,7 +98,7 @@ export default {
       const loggedUserId = this.getUser()?.uid;
 
       axios
-        .post(`http://localhost:8080/api/v1/users/${loggedUserId}/social`,{
+        .post(`/users/${loggedUserId}/social`,{
           followingUserId: this.userId
         })
         .then( res => {
@@ -113,7 +113,7 @@ export default {
       const loggedUserId = this.getUser()?.uid;
 
       axios
-        .delete(`http://localhost:8080/api/v1/users/${loggedUserId}/social/${this.userId}`)
+        .delete(`/users/${loggedUserId}/social/${this.userId}`)
         .then( res => {
           this.followButtonVisible = true;
           this.unfollowButtonVisible = true;
@@ -125,7 +125,7 @@ export default {
     listSocialRelationships(){
 
       axios
-        .get(`http://localhost:8080/api/v1/users/${this.userId}/social`)
+        .get(`/users/${this.userId}/social`)
         .then( res => {
           this.following = res.data.following;
           this.followers = res.data.followers;
@@ -138,7 +138,7 @@ export default {
       const loggedUserId = this.getUser()?.uid;
 
       axios
-        .get(`http://localhost:8080/api/v1/users/${loggedUserId}/social/${this.userId}`)
+        .get(`/users/${loggedUserId}/social/${this.userId}`)
         .then( res => {
           this.followButtonVisible = res.data === null;
           this.unfollowButtonVisible = !this.followButtonVisible;
@@ -149,7 +149,7 @@ export default {
     fetchUserDetails(){
 
       axios
-        .get(`http://localhost:8080/api/v1/profiles/${this.userId}`)
+        .get(`/profiles/${this.userId}`)
         .then( res => this.profile = res.data )
         .catch( err => console.error(err));
     },
@@ -157,7 +157,7 @@ export default {
     fetchUserBooks(){
 
       axios
-        .get(`http://localhost:8080/api/v1/books/read/search?userId=${this.userId}`)
+        .get(`/books/read/search?userId=${this.userId}`)
         .then( res => {
           res.data.forEach( b => {
             

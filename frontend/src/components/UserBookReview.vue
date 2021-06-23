@@ -69,7 +69,7 @@ export default {
 
     async fetchUserDetails(){
       return axios
-        .get(`http://localhost:8080/api/v1/profiles/${this.review.userId}`)
+        .get(`/profiles/${this.review.userId}`)
         .then( res => this.author = res.data)
         .catch( err => {
           console.error( err.response.data );

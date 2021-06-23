@@ -104,7 +104,7 @@ export default {
       const userId = this.getUser()?.uid;
 
       axios
-        .get(`http://localhost:8080/api/v1/books/${this.bookId}/read/${userId}`,{
+        .get(`/books/${this.bookId}/read/${userId}`,{
         validateStatus: false,
       })
       .then( res => {
@@ -124,7 +124,7 @@ export default {
     add(){
       const userId = this.getUser()?.uid;
 
-      axios.post(`http://localhost:8080/api/v1/books/${this.bookId}/read`,{
+      axios.post(`/books/${this.bookId}/read`,{
         userId,
         currentPage: this.finishDate ? null : this.currentPage,
         startDate: this.startDate,
@@ -141,7 +141,7 @@ export default {
     },
 
     edit(){
-      axios.put(`http://localhost:8080/api/v1/books/${this.bookId}/read`,{
+      axios.put(`/books/${this.bookId}/read`,{
         currentPage: this.finishDate ? null : this.currentPage,
         startDate: this.startDate,
         finishDate: this.finishDate,

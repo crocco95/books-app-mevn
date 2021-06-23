@@ -103,7 +103,7 @@ export default {
 
       this.isLoading = true;
 
-      axios.post(`http://localhost:8080/api/v1/books/${this.bookId}/reviews`,{
+      axios.post(`/books/${this.bookId}/reviews`,{
         title: this.title,
         description: this.description,
         vote: this.vote,
@@ -123,7 +123,7 @@ export default {
     },
 
     editReview(){
-      axios.put(`http://localhost:8080/api/v1/books/${this.bookId}/reviews/${this.review._id}`,{
+      axios.put(`/books/${this.bookId}/reviews/${this.review._id}`,{
         title: this.title,
         description: this.description,
         vote: this.vote,

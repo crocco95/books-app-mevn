@@ -24,7 +24,7 @@
 <script>
 
 import SearchTextInput from '@/components/SearchTextInput.vue'
-import BooksList from '../components/BooksList.vue'
+import BooksList from '@/components/BooksList.vue'
 
 export default {
   components: {

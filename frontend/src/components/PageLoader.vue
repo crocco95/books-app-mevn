@@ -1,5 +1,5 @@
 <template>
-  <div class="loader" v-if="!readyFlag">
+  <div class="loader">
     <div class="text-center">
       <img src="https://i.pinimg.com/originals/4f/8f/48/4f8f4849d7ca6c6d81964c3c61f9d085.gif" alt="Loading..." width="300">
     </div>
@@ -7,23 +7,11 @@
 </template>
 
 <script>
-
-export default {
-
-  data(){
-    return {
-      readyFlag: false
+  export default {
+    mounted(){
+      console.log("Loader mounted");
     }
-  },
-
-  mounted(){
-    document.addEventListener('readystatechange', (event) => {
-      if(document.readyState === 'complete'){
-        this.readyFlag = true;
-      }
-    });
   }
-}
 </script>
 
 

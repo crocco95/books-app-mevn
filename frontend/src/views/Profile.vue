@@ -12,6 +12,9 @@
           <div class="col-md text-center">
             Following: <strong v-text="following.length"></strong>
           </div>
+          <div class="col-md" v-if="getUser().uid === userId">
+            <router-link to="/profile-edit" class="btn btn-sm btn-primary">Edit profile</router-link>
+          </div>
           <div class="col-md" v-if="getUser().uid !== userId && followButtonVisible && !unfollowButtonVisible">
             <button class="btn btn-sm btn-primary" @click="followUser">Follow</button>
           </div>
@@ -65,7 +68,7 @@
 <script>
 
 import axios from 'axios';
-import UserBookReadList from '../components/UserBookReadList';
+import UserBookReadList from '@/components/UserBookReadList';
 import {mapGetters} from 'vuex';
 
 export default {
@@ -98,7 +101,7 @@ export default {
       const loggedUserId = this.getUser()?.uid;
 
       axios
-        .post(`/users/${loggedUserId}/social`,{
+        .post(`users/${loggedUserId}/social`,{
           followingUserId: this.userId
         })
         .then( res => {
@@ -113,7 +116,7 @@ export default {
       const loggedUserId = this.getUser()?.uid;
 
       axios
-        .delete(`/users/${loggedUserId}/social/${this.userId}`)
+        .delete(`users/${loggedUserId}/social/${this.userId}`)
         .then( res => {
           this.followButtonVisible = true;
           this.unfollowButtonVisible = true;
@@ -125,7 +128,7 @@ export default {
     listSocialRelationships(){
 
       axios
-        .get(`/users/${this.userId}/social`)
+        .get(`users/${this.userId}/social`)
         .then( res => {
           this.following = res.data.following;
           this.followers = res.data.followers;
@@ -138,7 +141,7 @@ export default {
       const loggedUserId = this.getUser()?.uid;
 
       axios
-        .get(`/users/${loggedUserId}/social/${this.userId}`)
+        .get(`users/${loggedUserId}/social/${this.userId}`)
         .then( res => {
           this.followButtonVisible = res.data === null;
           this.unfollowButtonVisible = !this.followButtonVisible;
@@ -149,7 +152,7 @@ export default {
     fetchUserDetails(){
 
       axios
-        .get(`/profiles/${this.userId}`)
+        .get(`profiles/${this.userId}`)
         .then( res => this.profile = res.data )
         .catch( err => console.error(err));
     },
@@ -157,7 +160,7 @@ export default {
     fetchUserBooks(){
 
       axios
-        .get(`/books/read/search?userId=${this.userId}`)
+        .get(`books/read/search?userId=${this.userId}`)
         .then( res => {
           res.data.forEach( b => {
             

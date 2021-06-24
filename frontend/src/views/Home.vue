@@ -14,7 +14,7 @@
 
 <script>
   import axios from 'axios';
-  import availableCategories from '../config/available_categories' 
+  import availableCategories from '@/config/available_categories' 
   import HomeStaticHero from '@/components/HomeStaticHero.vue';
   import HomePreferenceHero from '@/components/HomePreferenceHero.vue';
   import LatestBooks from '@/components/LatestBooks.vue';

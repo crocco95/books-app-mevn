@@ -16,7 +16,7 @@
 
 <script>
 
-import FirebaseLoginModule from '../components/FirebaseLoginModule';
+import FirebaseLoginModule from '@/components/FirebaseLoginModule';
 
 export default {
   components: {

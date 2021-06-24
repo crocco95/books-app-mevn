@@ -17,7 +17,7 @@
 
 <script>
 
-import FirebaseRegistrationModule from '../components/FirebaseRegistrationModule';
+import FirebaseRegistrationModule from '@/components/FirebaseRegistrationModule';
 
 export default {
   components: {

@@ -2,7 +2,7 @@
   
   <div>
     <!-- START Modal -->
-    <div class="modal fade" :id="(review ? 'edit' : 'add') + 'ReviewModal'" tabindex="-1" :aria-labelledby="review ? 'edit' : 'add' + 'ReviewModalLabel'" aria-hidden="true">
+    <div class="modal fade" :id="(review ? 'edit' : 'add') + 'ReviewModal' + (review ? review._id : '')" tabindex="-1" :aria-labelledby="review ? 'edit' : 'add' + 'ReviewModalLabel'" aria-hidden="true">
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">

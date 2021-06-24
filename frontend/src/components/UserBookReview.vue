@@ -5,7 +5,7 @@
         <!-- Title + Author -->
         <div class="col-md-6 col-6">
           <h3 v-text="review.title" class="d-inline"></h3>
-          <small class="mx-2" v-if="author">by <router-link v-text="author.name" :to="`profiles/${author._id}`"></router-link></small>
+          <small class="mx-2" v-if="author">by <router-link v-text="author.name" :to="`/profiles/${author._id}`"></router-link></small>
         </div>
 
         <!-- Edit button -->
@@ -15,7 +15,7 @@
             v-if="sameLoggedUserFlag"
             class="btn btn-sm btn-primary"
             data-bs-toggle="modal"
-            data-bs-target="#editReviewModal">Edit</button>
+            :data-bs-target="`#editReviewModal${review._id}`">Edit</button>
         </div>
       </div>
       

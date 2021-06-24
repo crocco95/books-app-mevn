@@ -1,6 +1,6 @@
 <template>
-  <div class="container profile">
-    <img src="https://thispersondoesnotexist.com/image" alt="Profile picture" class="main-picture" />
+  <div class="container profile pt-5">
+    <span class="h1">😎</span>
     <h1 v-text="profile.name + ' ' + profile.surname"></h1>
     
     <div class="row">
@@ -13,7 +13,7 @@
             Following: <strong v-text="following.length"></strong>
           </div>
           <div class="col-md" v-if="getUser().uid === userId">
-            <router-link to="/profile-edit" class="btn btn-sm btn-primary">Edit profile</router-link>
+            <router-link to="/profile-edit" class="btn btn-sm btn-primary">✏️ Edit profile</router-link>
           </div>
           <div class="col-md" v-if="getUser().uid !== userId && followButtonVisible && !unfollowButtonVisible">
             <button class="btn btn-sm btn-primary" @click="followUser">Follow</button>
@@ -43,7 +43,7 @@
             </tr>
 
             <tr>
-              <th>Total books read</th>
+              <th>Books already read</th>
               <td>
                 <span v-text="readBooks"></span>
               </td>

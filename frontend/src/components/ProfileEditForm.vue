@@ -94,7 +94,7 @@
             type="submit"
             class="btn btn-primary"
             :disabled="isLoading"
-            v-text="isLoading ? 'Loading...' : 'Save'"></button>
+            v-text="isLoading ? '💾 Loading...' : '💾 Save'"></button>
           </div>
           <!-- END Save button -->
 

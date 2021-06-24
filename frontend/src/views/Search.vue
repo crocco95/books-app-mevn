@@ -4,10 +4,6 @@
       <div class="col-md-8 offset-md-2">
         <h1 class="fw-bolder">Search</h1>
         <SearchTextInput />
-
-        <small class="tip text-secondary">
-          <strong>Tip:</strong> Are you searching for a person? Put the "@" in the search bar before her username!
-        </small>
       </div>
     </div>
 

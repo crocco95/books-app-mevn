@@ -19,6 +19,12 @@ const routes = [
     component: () => import('../views/Profile.vue')
   },
   {
+    path: '/profile-edit',
+    props: true,
+    name: 'ProfileEdit',
+    component: () => import('../views/ProfileEdit.vue')
+  },
+  {
     path: '/books/:id',
     props: true,
     name: 'Book',

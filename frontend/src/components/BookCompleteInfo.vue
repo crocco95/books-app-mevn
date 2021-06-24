@@ -22,7 +22,7 @@
               <h4>Internal</h4>
               <div class="review-vote py-1">
                 <h5 class="fw-bolder my-0">
-                  {{ internalReviewsSummary?.avg }}<small class="fw-normal"> / 5</small>
+                  {{ Math.round(internalReviewsSummary?.avg * 100) / 100 }}<small class="fw-normal"> / 5</small>
                 </h5>
               </div>
               <small>{{ internalReviewsSummary.total }} reviews</small>

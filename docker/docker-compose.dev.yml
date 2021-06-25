@@ -1,0 +1,81 @@
+version: '3'
+
+services:
+
+  books:
+    container_name: books
+    build:
+      context: ..
+      dockerfile: docker/dev/all/Dockerfile
+      args:
+        name: book
+    command: npm run dev
+    volumes:
+      - ../book:/opt/book
+    networks:
+      - backend
+      - db
+
+  users:
+    container_name: users
+    build:
+      context: ..
+      dockerfile: docker/dev/all/Dockerfile
+      args:
+        name: user
+    command: npm run dev
+    volumes:
+      - ../user:/opt/user
+    networks:
+      - backend
+      - db
+
+  preferences:
+    container_name: preferences
+    build:
+      context: ..
+      dockerfile: docker/dev/all/Dockerfile
+      args:
+        name: preference
+    command: npm run dev
+    volumes:
+      - ../preference:/opt/preference
+    networks:
+      - backend
+      - db
+
+  gateway: 
+    container_name: gateway
+    build: 
+      context: ..
+      dockerfile: docker/dev/all/Dockerfile
+      args:
+        name: gateway
+    command: npm run dev
+    volumes:
+      - ../gateway:/opt/gateway
+    ports: 
+      - 8080:8080
+    networks: 
+      - backend
+      - frontend
+
+  frontend:
+    container_name: frontend
+    build:
+      context: ..
+      dockerfile: docker/dev/all/Dockerfile
+      args:
+        name: frontend
+    command: npm run serve
+    volumes:
+      - ../frontend:/opt/frontend
+    ports:
+      - 8000:80
+    networks:
+      - frontend
+
+networks:
+  backend:
+  frontend:
+  db:

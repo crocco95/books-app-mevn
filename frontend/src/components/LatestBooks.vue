@@ -46,6 +46,7 @@ import BookPreviewCard from './BookPreviewCard.vue';
 import axios from 'axios';
 import httpUtils from '../utils/http';
 import categories from '../config/books_categories';
+import palette from '../config/palette';
 
 export default {
   name: 'LatestBooks',
@@ -74,6 +75,11 @@ export default {
   methods:{
 
     ...mapGetters(['getUser']),
+
+    getRandomColor(){
+      const index = Math.floor(Math.random() * (palette.colors.length - 1));
+      return palette.colors[index];
+    },
 
     async fetchBooks() {
 
@@ -110,8 +116,10 @@ export default {
 
     this.imageUri = category?.imageUri ?? `https://source.unsplash.com/250x350/?${this.category}`;
     this.imageUriMobile = category?.imageUriMobile ?? `https://source.unsplash.com/350x250/?${this.category}`;
-    this.bgSolidColor = category?.color ?? '#cccccc';
-    this.bgColor = `linear-gradient(90deg, ${this.bgSolidColor}44 0%, ${this.bgSolidColor}aa 75%, ${this.bgSolidColor}ff 100%);`;
+    
+    this.bgSolidColor = category?.color ?? this.getRandomColor()?.hex;
+
+    this.bgColor = `linear-gradient(90deg, ${this.bgSolidColor}44 0%, ${this.bgSolidColor}aa 70%, ${this.bgSolidColor}ff 100%);`;
     this.bgColorMobile = `linear-gradient(180deg, ${this.bgSolidColor}44 0%, ${this.bgSolidColor}aa 75%, ${this.bgSolidColor}ff 100%);`;
     this.title = category?.title ?? this.category.toUpperCase();
     this.titleColor = category?.titleColor ?? '#ffffff';
@@ -190,6 +198,11 @@ a {
   }
 
   @media screen and (max-width: 1000px) {
+
+    .title{
+      font-size: 3rem;
+    }
+
     .line-header{
       display: none;
     }

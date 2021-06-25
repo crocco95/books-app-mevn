@@ -26,7 +26,8 @@
 
 <script>
 
-import { mapActions } from 'vuex';
+import { mapGetters, mapActions } from 'vuex';
+import axios from 'axios';
 
 export default {
   data() {
@@ -40,9 +41,10 @@ export default {
 
   methods: {
 
+    ...mapGetters(['getUser']),
     ...mapActions(['fetchBooks']),
     
-    search: function( event ){
+    async search(event) {
 
       // Prevent the submit event
       event.preventDefault();
@@ -55,11 +57,22 @@ export default {
 
       this.searchingFlag = true;
 
-      // Perform the request
-      this.fetchBooks({
+      const user = this.getUser();
+      const searchParams = {
         query: this.query,
         limit: 12,
-      }).then( () => {
+      };
+
+      if(user){
+        const profile = await axios
+          .get(`profiles/${user.uid}`)
+          .then(response => response.data);
+
+        searchParams.lang = profile.language;
+      }
+
+      // Perform the request
+      this.fetchBooks(searchParams).then( () => {
         this.searchingFlag = false;
       });
     },

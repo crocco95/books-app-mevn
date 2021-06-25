@@ -1,5 +1,5 @@
 <template>
-  <div class="latests-books">
+  <div class="latests-books" v-if="books">
 
     <div class="row line-header-mobile position-relative" :style="`background-image: url(${imageUriMobile})`">
       <div class="col-md-12 p-0">
@@ -41,6 +41,7 @@
 
 <script>
 
+import {mapGetters} from 'vuex';
 import BookPreviewCard from './BookPreviewCard.vue';
 import axios from 'axios';
 import httpUtils from '../utils/http';
@@ -71,11 +72,23 @@ export default {
   },
 
   methods:{
-    fetchBooks(){
 
+    ...mapGetters(['getUser']),
+
+    async fetchBooks() {
+
+      const user = this.getUser();
       const params = {
         query: 'subject:' + this.category,
         orderBy: 'newest',
+      }
+
+      if(user){
+        const profile = await axios
+          .get(`profiles/${user.uid}`)
+          .then(response => response.data);
+
+        params.lang = profile.language;
       }
 
       axios

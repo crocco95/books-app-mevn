@@ -17,7 +17,7 @@ services:
     container_name: books
     build:
       context: ..
-      dockerfile: docker/prod/node/Dockerfile
+      dockerfile: docker/prod/backend/Dockerfile
       args:
         name: book
     networks:
@@ -28,7 +28,7 @@ services:
     container_name: users
     build:
       context: ..
-      dockerfile: docker/prod/node/Dockerfile
+      dockerfile: docker/prod/backend/Dockerfile
       args:
         name: user
     networks:
@@ -39,7 +39,7 @@ services:
     container_name: preferences
     build:
       context: ..
-      dockerfile: docker/prod/node/Dockerfile
+      dockerfile: docker/prod/backend/Dockerfile
       args:
         name: preference
     networks:
@@ -50,7 +50,7 @@ services:
     container_name: gateway
     build: 
       context: ..
-      dockerfile: docker/prod/node/Dockerfile
+      dockerfile: docker/prod/backend/Dockerfile
       args:
         name: gateway
     ports: 
@@ -58,6 +58,17 @@ services:
     networks: 
       - backend
       - frontend
+
+  frontend:
+    container_name: frontend
+    build:
+      context: ..
+      dockerfile: docker/prod/frontend/Dockerfile
+    ports:
+      - 8000:80
+    networks:
+      - backend
+      - db
 
 networks:
   backend:

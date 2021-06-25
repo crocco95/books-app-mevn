@@ -1,63 +1,96 @@
 import axios from 'axios';
-import firebase from 'firebase/app';
+import firebaseApp from '../../config/firebase';
 import 'firebase/firebase-auth';
 
 const state = {
-  userId: false,
-  idToken: false,
+  user: firebaseApp.app.auth().currentUser,
+  isLoadedFlag : false,
 }
 
 const getters = {
-  getUserId: (state) => state.userId,
-  getIdToken: (state) => state.idToken,
+  getUser: (state) => state.user,
+  isLogged: (state) => state.user ? true : false,
+  isLoaded: (state) => state.isLoadedFlag,
 }
 
 const mutations = {
-  setUserId: (state,userId) => ( state.userId = userId ),
-  setIdToken: (state,idToken) => ( state.idToken = idToken ),
+  setUser: (state,user) => ( state.user = user ),
+  setLoadedFlag: (state, value) => ( state.isLoadedFlag = value )
 }
 
 const actions = {
+
+  async registerAuthStateChangedListener({commit}){
+    return await firebaseApp.app
+      .auth()
+      .onAuthStateChanged( async (user) => {
+
+        console.log("Auth state changed!");
+
+        if(user){
+
+          commit('setUser', user);
+
+          user.getIdToken().then(token => {
+
+            commit('setLoadedFlag', true);
+          
+            // Add a request interceptor
+            axios.interceptors.request.use(function (config) {
+              config.headers.Authorization =  token;
+              return config;
+            });
+          });
+        }else{
+          commit('setLoadedFlag', true);
+        }
+      });
+  },
   
   async login({commit}, params) {
 
-    return firebase
+    return firebaseApp.app
         .auth()
         .signInWithEmailAndPassword(params.email, params.password)
         .then( userCredential => userCredential.user)
         .then( user => {
 
-          // Save user id in state
-          commit('setUserId', user.uid);
+          if( !user.emailVerified ){
+            throw {
+              message: 'The email address must be verified, check you email',
+              code: 401
+            }
+          }
+
+          commit('setUser', user);
+
           return user.getIdToken();
         })
-        .then( idToken => commit('setIdToken', idToken) );
+        .then( idToken => {
+          axios.defaults.headers.common['Authorization'] = idToken;
+        });
   },
 
   async register({commit}, prams){
-    return firebase
+    return firebaseApp.app
         .auth()
         .createUserWithEmailAndPassword(prams.email, prams.password)
-        .then( userCredential => userCredential.user.getIdToken(true))
-        .then( idToken => {
+        .then( userCredential => {
 
-          // Save idToken in state
-          commit('setIdToken', idToken);
-
-          return axios.post('http://localhost:8080/api/v1/profiles',{
-            name: prams.name,
-            surname: prams.surname,
-            genre: prams.genre,
-          },{
-            headers: {
-              'Authorization': idToken
-            },
-          });
-
+          // Send email confirmation
+          userCredential.user.sendEmailVerification();
         });
+  },
+
+  async logout({commit}){
+    console.log("Logging out...");
+    firebaseApp.app.auth().signOut().then(() => {
+      delete axios.defaults.headers.common['Authorization'];
+      commit('setUser', null);
+    })
+    .catch(error => console.error(`Impossible to logout: ${error}`));
   }
 }
-
 
 export default {
   state,

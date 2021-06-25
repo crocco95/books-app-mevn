@@ -1,40 +1,36 @@
 <template>
-  <nav class="navbar sticky-top navbar-expand-lg navbar-light bg-light">
-    <div class="container-fluid">
-      <router-link class="navbar-brand" to="/">
-        <img alt="App logo" src="./assets/logo.png" width="30">
-      </router-link>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav">
-          <li class="nav-item">
-            <router-link class="nav-link active" aria-current="page" to="/">Home</router-link>
-          </li>
-          <li class="nav-item">
-            <router-link class="nav-link" to="/search">Search</router-link>
-          </li>
-          <li class="nav-item" v-if="userId">
-            <router-link class="nav-link" :to="'/profiles/' + userId">My Profile</router-link>
-          </li>
-        </ul>
-      </div>
-    </div>
-  </nav>
-  <router-view/>
+  <div v-if="isLoaded()">
+    <Navbar />
+    <router-view/>
+  </div>
 </template>
-
+<style lang="scss" scoped>
+  @import url('./assets/style/style.scss');
+</style>
 <script>
+import Navbar from '@/components/Navbar.vue';
+
+import { mapActions, mapGetters } from 'vuex';
+
 export default {
-  data(){
-    return{
-      userId: ''
-    }
+  components: {
+    Navbar,
   },
 
-  mounted(){
-    this.userId = window.localStorage.getItem('_userId');
+  data(){
+    return {
+      readyFlag: this.isLoaded(),
+    };
+  },
+
+  methods:{
+    ...mapActions(['registerAuthStateChangedListener']),
+    ...mapGetters(['isLoaded']),
+  },
+
+  async mounted(){
+    await this.registerAuthStateChangedListener();
+    console.log("Registered auth changed listener");
   }
 }
 </script>
@@ -46,18 +42,5 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-}
-
-#nav {
-  padding: 30px;
-}
-
-#nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
-
-#nav a.router-link-exact-active {
-  color: #42b983;
 }
 </style>

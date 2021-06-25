@@ -2,11 +2,11 @@
   
   <div>
     <!-- START Modal -->
-    <div class="modal fade" id="addReviewModal" tabindex="-1" aria-labelledby="addReviewModalLabel" aria-hidden="true">
+    <div class="modal fade" :id="(review ? 'edit' : 'add') + 'ReviewModal' + (review ? review._id : '')" tabindex="-1" :aria-labelledby="review ? 'edit' : 'add' + 'ReviewModalLabel'" aria-hidden="true">
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="addReviewModalLabel">Add review</h5>
+            <h5 class="modal-title" :id="(review ? 'edit' : 'add') + 'ReviewModalLabel'">{{ review ? "Edit" : "Add" }} review</h5>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
@@ -43,7 +43,7 @@
 
             <div class="row" v-if="success">
               <div class="col-md-12">
-                <div class="alert alert-success">
+                <div class="alert alert-success text-center">
                   <strong>Done!</strong> {{ success.message }}
                 </div>
               </div>
@@ -53,14 +53,13 @@
 
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-primary" @click="addReview" v-if="!success">Send review</button>
+            <button type="button" class="btn btn-primary" @click="addReview" v-if="!success && !review">Send review</button>
+            <button type="button" class="btn btn-primary" @click="editReview" v-if="!success && review">Edit review</button>
           </div>
         </div>
       </div>
     </div>
     <!-- END Modal -->
-
-    <button class="btn btn-primary w-100" data-bs-toggle="modal" data-bs-target="#addReviewModal">Write a Review</button>
   </div>
 
 </template>
@@ -73,7 +72,8 @@ import { mapGetters } from 'vuex';
 export default {
 
   props:{
-    bookId: String
+    bookId: String,
+    review: Object
   },
 
   data(){
@@ -87,30 +87,55 @@ export default {
     }
   },
 
-  methods: {
+  mounted() {
+    if(this.review){
+      this.title = this.review.title;
+      this.description = this.review.description;
+      this.vote = this.review.vote;
+    }
+  },
 
-    ...mapGetters(['getIdToken']),
+  methods: {
 
     addReview( event ){
 
       event.preventDefault();
 
-      console.log(this.$store.getters.getIdToken);
-
       this.isLoading = true;
 
-      axios.post(`http://localhost:8080/api/v1/books/${this.bookId}/reviews`,{
+      axios.post(`books/${this.bookId}/reviews`,{
         title: this.title,
         description: this.description,
         vote: this.vote,
-      },{
-        headers:{
-          'Authorization': window.localStorage.getItem('_token'),
-        }
       })
       .then( book => {
         this.error = '';
         this.success = {message:'Review added successfully!'};
+      })
+      .catch( err => {
+        console.error(err.response);
+        this.success = '';
+        this.error = err.response.data;
+      })
+      .finally(() => {
+        this.isLoading = false;
+      });
+    },
+
+    editReview(){
+      axios.put(`books/${this.bookId}/reviews/${this.review._id}`,{
+        title: this.title,
+        description: this.description,
+        vote: this.vote,
+      })
+      .then( review => {
+
+        this.title = review.data.title;
+        this.description = review.data.description;
+        this.vote = review.data.vote;
+
+        this.error = '';
+        this.success = {message:'Review edited successfully!'};
       })
       .catch( err => {
         console.error(err.response);

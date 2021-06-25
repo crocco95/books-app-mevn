@@ -4,8 +4,9 @@ const AuthMiddleware = require('./middleware/auth');
 const SocialController = require('../controllers/SocialController');
 
 router
-  .route('/:userId/social')
-    .post(SocialController.add);
+  .use(AuthMiddleware.extractUserIdFromTokenToBody)
+    .route('/:userId/social')
+      .post(SocialController.add);
 
 router
   .route('/:userId/social')

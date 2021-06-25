@@ -1,6 +1,6 @@
 <template>
-  <div class="container profile">
-    <img src="https://thispersondoesnotexist.com/image" alt="Profile picture" class="main-picture" />
+  <div class="container profile pt-5">
+    <span class="h1">😎</span>
     <h1 v-text="profile.name + ' ' + profile.surname"></h1>
     
     <div class="row">
@@ -12,11 +12,20 @@
           <div class="col-md text-center">
             Following: <strong v-text="following.length"></strong>
           </div>
-          <div class="col-md" v-if="followingButtonVisible">
+          <div class="col-md" v-if="getUser()?.uid === userId">
+            <router-link to="/profile-edit" class="btn btn-sm btn-primary">✏️ Edit profile</router-link>
+          </div>
+          <div class="col-md" v-if="getUser()?.uid !== userId && followButtonVisible && !unfollowButtonVisible">
             <button class="btn btn-sm btn-primary" @click="followUser">Follow</button>
           </div>
-          <div class="col-md" v-if="!followingButtonVisible">
+          <div class="col-md" v-if="getUser()?.uid !== userId && !followButtonVisible && unfollowButtonVisible">
             <button class="btn btn-sm btn-danger" @click="unfollowUser">Unfollow</button>
+          </div>
+
+          <div class="col-md" v-if="!isLogged()">
+            <router-link to="/login" class="btn btn-sm btn-primary">
+              <span v-if="!isLogged()">🔒</span>Follow
+            </router-link>
           </div>
         </div>
       </div>
@@ -34,7 +43,7 @@
             </tr>
 
             <tr>
-              <th>Total books read</th>
+              <th>Books already read</th>
               <td>
                 <span v-text="readBooks"></span>
               </td>
@@ -59,7 +68,8 @@
 <script>
 
 import axios from 'axios';
-import UserBookReadList from '../components/UserBookReadList';
+import UserBookReadList from '@/components/UserBookReadList';
+import {mapGetters} from 'vuex';
 
 export default {
   components: {
@@ -77,42 +87,39 @@ export default {
       readBooks: 0,
       followers: 0,
       following: 0,
-      followingButtonVisible: false,
+      followButtonVisible: false,
+      unfollowButtonVisible: false,
     }
   },
 
   methods:{
 
+    ...mapGetters(['getUser', 'isLogged']),
+
     followUser(){
 
-      const loggedUserId = window.localStorage.getItem('_userId');
-      const token = window.localStorage.getItem('_token');
+      const loggedUserId = this.getUser()?.uid;
 
       axios
-        .post(`http://localhost:8080/api/v1/users/${loggedUserId}/social`,{
+        .post(`users/${loggedUserId}/social`,{
           followingUserId: this.userId
-        },{
-          'Authorization': token
         })
         .then( res => {
-          this.followingButtonVisible = false;
+          this.followButtonVisible = false;
+          this.unfollowButtonVisible = true;
         })
         .catch( err => console.error( err ));
     },
 
     unfollowUser(){
 
-      const loggedUserId = window.localStorage.getItem('_userId');
-      const token = window.localStorage.getItem('_token');
+      const loggedUserId = this.getUser()?.uid;
 
       axios
-        .delete(`http://localhost:8080/api/v1/users/${loggedUserId}/social/${this.userId}`,{
-          headers:{
-            'Authorization': token
-          }
-        })
+        .delete(`users/${loggedUserId}/social/${this.userId}`)
         .then( res => {
-          this.followingButtonVisible = true;
+          this.followButtonVisible = true;
+          this.unfollowButtonVisible = true;
           this.followers -= 1;
         })
         .catch(err => console.error(err));
@@ -121,9 +128,8 @@ export default {
     listSocialRelationships(){
 
       axios
-        .get(`http://localhost:8080/api/v1/users/${this.userId}/social`)
+        .get(`users/${this.userId}/social`)
         .then( res => {
-          console.log(res.data);
           this.following = res.data.following;
           this.followers = res.data.followers;
         })
@@ -132,12 +138,13 @@ export default {
 
     checkFollow(){
 
-      const loggedUserId = window.localStorage.getItem('_userId');
+      const loggedUserId = this.getUser()?.uid;
 
       axios
-        .get(`http://localhost:8080/api/v1/users/${loggedUserId}/social/${this.userId}`)
+        .get(`users/${loggedUserId}/social/${this.userId}`)
         .then( res => {
-          this.followingButtonVisible = res.data === null;
+          this.followButtonVisible = res.data === null;
+          this.unfollowButtonVisible = !this.followButtonVisible;
         })
         .catch(err => console.error(err));
     },
@@ -145,7 +152,7 @@ export default {
     fetchUserDetails(){
 
       axios
-        .get(`http://localhost:8080/api/v1/profiles/${this.userId}`)
+        .get(`profiles/${this.userId}`)
         .then( res => this.profile = res.data )
         .catch( err => console.error(err));
     },
@@ -153,7 +160,7 @@ export default {
     fetchUserBooks(){
 
       axios
-        .get(`http://localhost:8080/api/v1/users/${this.userId}/books`)
+        .get(`books/read/search?userId=${this.userId}`)
         .then( res => {
           res.data.forEach( b => {
             
@@ -169,21 +176,14 @@ export default {
   },
 
   mounted(){
-    const loggedUserId = window.localStorage.getItem('_userId');
-
     this.fetchUserDetails();
-    this.fetchUserBooks();
-    this.checkFollow();
+    this.fetchUserBooks();    
     this.listSocialRelationships();
-  }
+  },
 }
 </script>
 
 <style>
-  .profile {
-
-  }
-
   .main-picture {
     display: block;
     margin: 0 auto;

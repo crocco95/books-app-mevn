@@ -1,6 +1,18 @@
 version: '3'
 
 services:
+
+  mongodb:
+    image: mongo
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: nvmroot1357@!
+    ports: 
+      - 27017:27017
+    networks: 
+      - db
+
   books:
     container_name: books
     build:
@@ -10,6 +22,7 @@ services:
         name: book
     networks:
       - backend
+      - db
 
   users:
     container_name: users
@@ -20,6 +33,18 @@ services:
         name: user
     networks:
       - backend
+      - db
+
+  preferences:
+    container_name: preferences
+    build:
+      context: ..
+      dockerfile: docker/prod/node/Dockerfile
+      args:
+        name: preference
+    networks:
+      - backend
+      - db
 
   gateway: 
     container_name: gateway
@@ -37,3 +62,4 @@ services:
 networks:
   backend:
   frontend:
+  db:

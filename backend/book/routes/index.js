@@ -1,7 +1,7 @@
 const express = require('express');
 const BookRoute = require('./books');
 const ReviewRoute = require('./reviews');
-const AuthMiddleware = require('./middlewares/auth');
+const BookReadRoute = require('./bookRead');
 
 const router = express.Router();
 
@@ -12,9 +12,12 @@ const defaultRoutes = [
   },
   {
     path: '/books',
-    route: ReviewRoute,
-    middleware: AuthMiddleware.extractUserIdFromTokenToBody,
+    route: BookReadRoute,
   },
+  {
+    path: '/books',
+    route: ReviewRoute,
+  },  
 ];
 
 defaultRoutes.forEach((route) => {

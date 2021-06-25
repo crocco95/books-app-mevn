@@ -13,6 +13,9 @@ const ProfileSchema = mongoose.Schema({
     type: String,
     required: true
   },
+  language: {
+    type: String,
+  },
   genre: {
     type: String,
   },

@@ -5,13 +5,3 @@
     <router-link to="/">Torna alla Homepage</router-link>
   </div>
 </template>
-
-<script>
-export default {
-
-}
-</script>
-
-<style>
-
-</style>

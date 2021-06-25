@@ -4,10 +4,6 @@
       <div class="col-md-8 offset-md-2">
         <h1 class="fw-bolder">Search</h1>
         <SearchTextInput />
-
-        <small class="tip text-secondary">
-          <strong>Tip:</strong> Are you searching for a person? Put the "@" in the search bar before her username!
-        </small>
       </div>
     </div>
 
@@ -24,7 +20,7 @@
 <script>
 
 import SearchTextInput from '@/components/SearchTextInput.vue'
-import BooksList from '../components/BooksList.vue'
+import BooksList from '@/components/BooksList.vue'
 
 export default {
   components: {
@@ -46,6 +42,7 @@ export default {
     /* background-attachment: fixed; */ /* Great visual impact but not so much usefull here... */
 
     padding: 20vh 0;
+    border-radius: 0 0 1rem 1rem;
   }
 
   .tip {

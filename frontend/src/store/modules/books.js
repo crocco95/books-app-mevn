@@ -19,7 +19,7 @@ const actions = {
     const str = httpUtils.paramsToUrlQuery(params);
 
     return axios
-      .get('http://localhost:8080/api/v1/books?' + str,{
+      .get('/books?' + str,{
         method: 'get'
       })
       .then( res => commit('setBooks', res.data) );

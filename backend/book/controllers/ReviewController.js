@@ -27,7 +27,23 @@ const add = ( req, res ) => {
 }
 
 const edit = ( req, res ) => {
+  const params = pick( req.body , [ 'tokenUserId', 'title', 'description', 'vote' ]);
+  const bookId = req.params.bookId;
+  const reviewId = req.params.reviewId;
 
+  reviewService
+    .edit( bookId, reviewId, params.tokenUserId, params.title, params.description, params.vote )
+    .then(book => res.status(201).json(book))
+    .catch(error => res.status(error.code || 500).json(error));
+}
+
+const avg = ( req, res ) => {
+  const bookId = req.params.bookId;
+
+  reviewService
+    .avg(bookId)
+    .then(result => res.status(200).json(result))
+    .catch(error => res.status(500).json(error));
 }
 
 module.exports = {
@@ -35,4 +51,5 @@ module.exports = {
   get,
   add,
   edit,
+  avg,
 }

@@ -25,6 +25,7 @@
               placeholder="Your name"
               id="name"
               v-model="name"
+              autocomplete="name"
               required
               :disabled="isLoading" />
           </div>
@@ -54,6 +55,22 @@
           </div>
           <!-- END Genre field -->
 
+          <!-- START Language field -->
+          <div class="mb-3">
+            <label for="language" class="form-label">Language</label>
+            <select name="language"
+            id="language"
+            class="form-select"
+            v-model="language">
+              <option
+              v-for="language in languages"
+              :key="language.code"
+              :value="language.code"
+              v-text="language.name"></option>
+            </select>
+          </div>
+          <!-- END Language field -->
+
           <!-- START Email field -->
           <div class="mb-3">
             <label for="email" class="form-label">Email address</label>
@@ -64,6 +81,7 @@
               v-model="email"
               required
               aria-describedby="emailHelp"
+              autocomplete="email"
               :disabled="isLoading" />
             <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
           </div>
@@ -71,13 +89,14 @@
 
           <!-- START Password field -->
           <div class="mb-3">
-            <label for="pasword" class="form-label">Password</label>
+            <label for="password" class="form-label">Password</label>
             <input type="password"
               class="form-control"
               placeholder="Choose a secure password!"
               id="pasword"
               v-model="password"
               required
+              autocomplete="new-password"
               :disabled="isLoading" />
           </div>
           <!-- END Password field -->
@@ -91,6 +110,7 @@
               id="pasword-confirm"
               v-model="passwordConfirm"
               required
+              autocomplete="new-password"
               :disabled="isLoading" />
           </div>
           <!-- END Password confirmation field -->
@@ -117,6 +137,7 @@
 <script>
 
 import { mapActions } from 'vuex';
+import ISO6391 from 'iso-639-1';
 
 export default {
 
@@ -125,6 +146,8 @@ export default {
       name: '',
       surname: '',
       genre: 'none',
+      languages: [],
+      language: 'en',
       email: '',
       password: '',
       passwordConfirm: '',
@@ -158,6 +181,7 @@ export default {
         name: this.name,
         surname: this.surname,
         genre: this.genre,
+        language: this.language,
       })
       .then( () => this.$router.push('/registration-success') )
       .catch( err => this.error = err )
@@ -165,6 +189,17 @@ export default {
         this.isLoading = false;
       });
     }
+  },
+
+  mounted(){
+    const codes = ISO6391.getAllCodes();
+
+    codes.forEach(c => {
+      this.languages.push({
+        code: c,
+        name: ISO6391.getName(c),
+      });
+    });
   }
 }
 </script>

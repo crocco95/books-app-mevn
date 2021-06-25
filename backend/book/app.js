@@ -26,9 +26,8 @@ try{
 const cors = require('cors');
 app.use(cors());
 
-// Setting up body-parser: it permits to extract data from http request body
-const bodyParser = require('body-parser');
-app.use(bodyParser.json());
+// It permits to extract data from http request body
+app.use(express.json());
 
 // Setting up Firebase Admin SDK
 const firebaseAdmin = require('firebase-admin');

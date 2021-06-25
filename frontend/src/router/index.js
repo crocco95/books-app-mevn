@@ -19,6 +19,12 @@ const routes = [
     component: () => import('../views/Profile.vue')
   },
   {
+    path: '/profile-edit',
+    props: true,
+    name: 'ProfileEdit',
+    component: () => import('../views/ProfileEdit.vue')
+  },
+  {
     path: '/books/:id',
     props: true,
     name: 'Book',
@@ -41,6 +47,12 @@ const routes = [
     props: true,
     name: 'SuccessfulRegistration',
     component: () => import('../views/SuccessfulRegistration.vue')
+  },
+  {
+    path: '/logout',
+    props: true,
+    name: 'Logout',
+    component: () => import('../views/Logout.vue')
   },
   {
     path: '/:pathMatch(.*)*',

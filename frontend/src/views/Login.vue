@@ -6,7 +6,7 @@
       </div>
       <div class="col-md-6">
         <div class="p-5">
-          <h1 class="fw-bolder">WELCOME BACK!</h1>
+          <h1 class="fw-bolder">Welcome Back!</h1>
           <FirebaseLoginModule />
         </div>
       </div>
@@ -16,7 +16,7 @@
 
 <script>
 
-import FirebaseLoginModule from '../components/FirebaseLoginModule';
+import FirebaseLoginModule from '@/components/FirebaseLoginModule';
 
 export default {
   components: {

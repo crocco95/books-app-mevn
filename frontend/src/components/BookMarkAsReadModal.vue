@@ -51,7 +51,7 @@
 
             <div class="row" v-if="success">
               <div class="col-md-12">
-                <div class="alert alert-success">
+                <div class="alert alert-success text-center">
                   <strong>Done!</strong> {{ success.message }}
                 </div>
               </div>
@@ -67,14 +67,13 @@
       </div>
     </div>
     <!-- END Modal -->
-
-    <!-- <button class="btn btn-primary w-100" data-bs-toggle="modal" data-bs-target="#bookMarkModal">Mark book as read or in reading</button> -->
   </div>
 
 </template>
 
 <script>
 
+import {mapGetters} from 'vuex';
 import axios from 'axios';
 
 export default {
@@ -93,18 +92,23 @@ export default {
       newBookReadFlag: true,
       success: '',
       error: '',
-      authenticatedUserFlag: window.localStorage.getItem('_token')
     }
   },
 
   methods: {
 
-    fetch(){
-      const userId = window.localStorage.getItem('_userId');
+    ...mapGetters(['getUser', 'isLogged']),
 
-      axios.get(`http://localhost:8080/api/v1/users/${userId}/books/${this.bookId}`)
+    fetch(){
+
+      const userId = this.getUser()?.uid;
+
+      axios
+        .get(`books/${this.bookId}/read/${userId}`,{
+        validateStatus: false,
+      })
       .then( res => {
-        if( res.data ){
+        if( res.data && res.status === 200){
           this.startDate = res.data.startDate.split('T')[0];
           this.finishDate = res.data.finishDate?.split('T')[0];
           this.finishedFlag = this.finishDate ? true : false;
@@ -112,21 +116,19 @@ export default {
           this.newBookReadFlag = false;
         }
       })
-      .catch( err => console.error(err));
+      .catch( err => {
+        console.error(err);
+      });
     },
     
     add(){
-      const userId = window.localStorage.getItem('_userId');
+      const userId = this.getUser()?.uid;
 
-      axios.post(`http://localhost:8080/api/v1/users/${userId}/books`,{
-        bookId: this.bookId,
+      axios.post(`books/${this.bookId}/read`,{
+        userId,
         currentPage: this.finishDate ? null : this.currentPage,
         startDate: this.startDate,
         finishDate: this.finishDate,
-      },{
-        headers:{
-          'Authorization': window.localStorage.getItem('_token')
-        }
       })
       .then( res => {
         this.success = {
@@ -139,17 +141,10 @@ export default {
     },
 
     edit(){
-      const userId = window.localStorage.getItem('_userId');
-      const token = window.localStorage.getItem('_token');
-
-      axios.put(`http://localhost:8080/api/v1/users/${userId}/books/${this.bookId}`,{
+      axios.put(`books/${this.bookId}/read`,{
         currentPage: this.finishDate ? null : this.currentPage,
         startDate: this.startDate,
         finishDate: this.finishDate,
-      },{
-        headers:{
-          'Authorization': token
-        }
       })
       .then( res => {
         this.success = {
@@ -163,7 +158,9 @@ export default {
   },
 
   mounted(){
-    this.fetch();
+    if(this.isLogged()){
+      this.fetch();
+    }
   },
 }
 </script>

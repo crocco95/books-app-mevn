@@ -1,16 +1,41 @@
 <template>
-  <div class="row review my-1">
-    <div class="col-md-12 text-start">
-      <div class="review-header">
-        <h3 v-text="title" class="d-inline"></h3>
-        <small class="mx-2" v-if="author">by <router-link v-text="author.name" :to="`/profiles/${author._id}`"></router-link></small>
+  <div class="review mt-1 mb-1 text-start">
+    <div class="row review-header">
+        
+        <!-- Title + Author -->
+        <div class="col-md-6 col-6">
+          <h3 v-text="review.title" class="d-inline"></h3>
+          <small class="mx-2" v-if="author">by <router-link v-text="author.name" :to="`/profiles/${author._id}`"></router-link></small>
+        </div>
+
+        <!-- Edit button -->
+        <div class="col-md-6 col-6 text-end">
+          <AddBookReviewModal :bookId="review.bookId" :review="review"/>
+          <button
+            v-if="sameLoggedUserFlag"
+            class="btn btn-sm btn-primary"
+            data-bs-toggle="modal"
+            :data-bs-target="`#editReviewModal${review._id}`">Edit</button>
+        </div>
       </div>
-      <LongText :text="description" :max="255" />
+      
+      <!-- Content -->
+      <div class="row">
+        <div class="col-md-12">
+          <LongText :text="review.description" :max="255" />
+        </div>
+      </div>
+
       <hr/>
-      <p>
-        Vote: <strong>{{ vote }}/5</strong>
-      </p>
-    </div>
+      
+      <!-- Vote -->
+      <div class="row">
+        <div class="col-md-12">
+          <p>
+            Vote: <strong>{{ review.vote }}/5</strong>
+          </p>
+        </div>
+      </div>
   </div>
 </template>
 
@@ -18,33 +43,34 @@
 
 import axios from 'axios';
 import LongText from '@/components/LongText';
+import AddBookReviewModal from '@/components/AddBookReviewModal';
+import { mapGetters } from 'vuex';
 
 export default {
   components: {
-    LongText
+    LongText,
+    AddBookReviewModal,
   },
 
   props: {
-    bookId: String,
-    title: String,
-    vote: Number,
-    description: String,
-    userId: String,
+    review: Object,
   },
 
   data(){
     return {
       author: '',
+      sameLoggedUserFlag: false
     }
   },
 
   methods: {
-    fetchUserDetails(){
-      axios
-        .get(`http://localhost:8080/api/v1/profiles/${this.userId}`)
-        .then( res => {
-          this.author = res.data;
-        })
+
+    ...mapGetters(['getUser']),
+
+    async fetchUserDetails(){
+      return axios
+        .get(`profiles/${this.review.userId}`)
+        .then( res => this.author = res.data)
         .catch( err => {
           console.error( err.response.data );
         });
@@ -52,7 +78,10 @@ export default {
   },
 
   mounted(){
-    this.fetchUserDetails();
+    this.fetchUserDetails()
+    .then( author => {
+      this.sameLoggedUserFlag = (author._id === this.getUser().uid);
+    });
   }
 }
 </script>

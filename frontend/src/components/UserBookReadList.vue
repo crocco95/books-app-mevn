@@ -40,8 +40,10 @@
                 <BookMarkAsReadModal :bookId="book.bookId" :totalPages="book.totalPages"/>
                 
                 <router-link :to="'/books/' + book.bookId" class="btn btn-link text-primary">Read more</router-link>
-                <button class="btn btn-link text-primary" data-bs-toggle="modal" :data-bs-target="'#bookMarkModal' + book.bookId">Edit</button>
-                <button class="btn btn-link text-danger" @click="removeBookRead(book.bookId)">Remove</button>
+                <div class="d-inline" v-if="userId === getUser()?.uid">
+                  <button class="btn btn-link text-primary" data-bs-toggle="modal" :data-bs-target="'#bookMarkModal' + book.bookId">Edit</button>
+                  <button class="btn btn-link text-danger" @click="removeBookRead(book.bookId)">Remove</button>
+                </div>
               </div>
 
             </div>
@@ -56,6 +58,7 @@
 
 import axios from 'axios';
 import BookMarkAsReadModal from '@/components/BookMarkAsReadModal.vue';
+import { mapState,mapGetters } from 'vuex';
 
 export default {
 
@@ -69,11 +72,15 @@ export default {
 
   data(){
     return {
-      books: []
+      books: [],
     }
   },
 
+  computed: mapState(['user']),
+
   methods: {
+
+    ...mapGetters(['getUser']),
 
     formatDate(string){
       const date = new Date(string);
@@ -81,7 +88,6 @@ export default {
     },
 
     mergeBookInfo(book){
-      console.log(book);
       this.books.forEach( b => {
         if( b.bookId === book.id ){
           b.coverUrl = book.volumeInfo.imageLinks?.thumbnail;
@@ -93,14 +99,14 @@ export default {
     
     async fetchBook(bookId){
       return axios
-        .get(`http://localhost:8080/api/v1/books/${bookId}?projection=full`)
+        .get(`books/${bookId}?projection=full`)
         .then( res => res.data);
     },
 
     fetchBooks(){
 
       axios
-        .get(`http://localhost:8080/api/v1/users/${this.userId}/books`)
+        .get(`books/read/search?userId=${this.userId}`)
         .then( res => {
 
           this.books = res.data;
@@ -115,15 +121,10 @@ export default {
     },
 
     removeBookRead(bookId){
-      const userId = window.localStorage.getItem('_userId');
-      const token = window.localStorage.getItem('_token');
+      const userId = this.getUser()?.uid;
 
       axios
-        .delete(`http://localhost:8080/api/v1/users/${userId}/books/${bookId}`,{
-          headers:{
-            'Authorization': token
-          }
-        })
+        .delete(`users/${userId}/books/${bookId}`)
         .then( () => this.fetchBooks())
         .catch( err => console.error(err.response.data));
     },
@@ -131,7 +132,7 @@ export default {
 
   mounted(){
     this.fetchBooks();
-  }
+  },
 }
 </script>
 

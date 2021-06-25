@@ -1,23 +1,23 @@
 const bookRead = require('../models/bookRead');
 
-const list = ( userId ) => {
-  return bookRead.find({userId});
+const list = ( bookId ) => {
+  return bookRead.find({bookId});
 };
 
 const get = ( userId, bookId ) => {
   return bookRead.findOne({userId, bookId});
 };
 
-const add = (userId, bookId, currentPage, startDate, finishDate) => {
-  const params = {
-    userId,
-    bookId,
-    currentPage,
-    startDate,
-    finishDate
-  };
+const add = (params) => {
+  return bookRead.find({userId: params.userId, bookId: params.bookId})
+  .then( result => {
+    
+    if( result.length > 0 ){
+      throw 'You have already registered this book read';
+    }
 
-  return bookRead.create(params);
+    return bookRead.create(params);
+  });
 };
 
 const edit = (userId, bookId, params) => {
@@ -30,10 +30,15 @@ const remove = (userId, bookId) => {
   return bookRead.deleteMany({userId, bookId});
 }
 
+const search = ( query ) => {
+  return bookRead.find( query );
+}
+
 module.exports = {
   list,
   get,
   add,
   edit,
   remove,
+  search,
 }

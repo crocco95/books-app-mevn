@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-    <div class="container-fluid">
+    <div class="container-fluid px-0">
       <HomePreferenceHero v-if="getUser()" />
       <HomeStaticHero v-else />
     </div>

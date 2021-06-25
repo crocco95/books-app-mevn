@@ -50,13 +50,18 @@ export default {
 }
 </script>
 
-<style scoped lang="scss">
+<style lang="scss" scoped>
 
-  .carousel-caption{
-    background-color: rgba(0,0,0,.4);
-    padding: 2rem 1rem;
-  }
-  .carousel-item{
-    max-height: 80vh;
+  .container-static-carousel{
+
+    border-radius: 0 0 1rem 1rem;
+
+    .carousel-caption{
+      background-color: rgba(0,0,0,.4);
+      padding: 2rem 1rem;
+    }
+    .carousel-item{
+      max-height: 80vh;
+    }
   }
 </style>

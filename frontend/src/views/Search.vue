@@ -42,6 +42,7 @@ export default {
     /* background-attachment: fixed; */ /* Great visual impact but not so much usefull here... */
 
     padding: 20vh 0;
+    border-radius: 0 0 1rem 1rem;
   }
 
   .tip {

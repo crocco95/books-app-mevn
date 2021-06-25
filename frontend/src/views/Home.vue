@@ -63,7 +63,7 @@
           });
       }
 
-      for(let i = this.categories.length ; i < 10 ; i++){
+      for(let i = this.categories.length ; i < 15 ; i++){
         
         const c = availableCategories.categories[Math.floor(Math.random()*availableCategories.categories.length)];
         

@@ -12,13 +12,13 @@
           <div class="col-md text-center">
             Following: <strong v-text="following.length"></strong>
           </div>
-          <div class="col-md" v-if="getUser().uid === userId">
+          <div class="col-md" v-if="getUser()?.uid === userId">
             <router-link to="/profile-edit" class="btn btn-sm btn-primary">✏️ Edit profile</router-link>
           </div>
-          <div class="col-md" v-if="getUser().uid !== userId && followButtonVisible && !unfollowButtonVisible">
+          <div class="col-md" v-if="getUser()?.uid !== userId && followButtonVisible && !unfollowButtonVisible">
             <button class="btn btn-sm btn-primary" @click="followUser">Follow</button>
           </div>
-          <div class="col-md" v-if="getUser().uid !== userId && !followButtonVisible && unfollowButtonVisible">
+          <div class="col-md" v-if="getUser()?.uid !== userId && !followButtonVisible && unfollowButtonVisible">
             <button class="btn btn-sm btn-danger" @click="unfollowUser">Unfollow</button>
           </div>
 

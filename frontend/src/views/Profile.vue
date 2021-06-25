@@ -184,10 +184,6 @@ export default {
 </script>
 
 <style>
-  .profile {
-
-  }
-
   .main-picture {
     display: block;
     margin: 0 auto;

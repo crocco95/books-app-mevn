@@ -71,7 +71,7 @@ services:
     volumes:
       - ../frontend:/opt/frontend
     ports:
-      - 8000:80
+      - 8081:8081
     networks:
       - frontend
 

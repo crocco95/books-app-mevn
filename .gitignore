@@ -4,3 +4,5 @@ backend/user/config/serviceAccountKey.json
 backend/book/config/serviceAccountKey.json
 
 **/node_modules/
+
+.idea/

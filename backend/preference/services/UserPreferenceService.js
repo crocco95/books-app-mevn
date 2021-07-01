@@ -4,11 +4,6 @@ const list = (userId) => {
   return Preference.findOne({userId});
 }
 
-const get = (userId, category) => {
-
-  const cat = `p.categories.${category}`;
-}
-
 const add = (preference) => {
   return Preference.create(preference);
 }

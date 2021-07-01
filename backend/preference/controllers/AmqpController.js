@@ -1,13 +1,13 @@
 const userPreferenceService = require('../services/UserPreferenceService');
 
 const connect = () => {
-  var amqp = require('amqplib');
+  const amqp = require('amqplib');
 
   amqp.connect(process.env.AMQP_BROKER_URI).then(function(conn) {
     process.once('SIGINT', function() { conn.close(); });
     return conn.createChannel().then(function(ch) {
 
-      var ok = ch.assertQueue('update-preferences', {durable: true});
+      let ok = ch.assertQueue('update-preferences', {durable: true});
 
       ok = ok.then(function(_qok) {
         return ch.consume('update-preferences', function(msg) {

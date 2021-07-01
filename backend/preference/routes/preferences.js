@@ -7,8 +7,4 @@ router
   .route('/:userId/preferences')
   .get(PreferenceController.list);
 
-router
-  .route('/:userId/preferences/:category')
-  .get(PreferenceController.get);
-
 module.exports = router;

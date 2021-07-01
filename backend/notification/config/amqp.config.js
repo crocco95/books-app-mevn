@@ -1,4 +1,4 @@
-const brokerUri = 'amqps://cxgivvzk:UvkDjSVw17WCKTwYsB67_4BmAs-M6us9@cow.rmq2.cloudamqp.com/cxgivvzk';
+const brokerUri = 'amqp://booksmq:booksmq123!@rabbitmq:5672/';
 
 const queues = {
     notifications: 'send-notification',

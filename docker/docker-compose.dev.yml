@@ -11,7 +11,9 @@ services:
         name: book
     command: npm run dev
     volumes:
-      - ../book:/opt/book
+      - type: bind
+        source: ../backend/book
+        target: /opt/book
     networks:
       - backend
       - db
@@ -25,7 +27,9 @@ services:
         name: user
     command: npm run dev
     volumes:
-      - ../user:/opt/user
+      - type: bind
+        source: ../backend/user
+        target: /opt/user
     networks:
       - backend
       - db
@@ -39,7 +43,9 @@ services:
         name: preference
     command: npm run dev
     volumes:
-      - ../preference:/opt/preference
+      - type: bind
+        source: ../backend/preference
+        target: /opt/preference
     networks:
       - backend
       - db
@@ -53,7 +59,9 @@ services:
         name: gateway
     command: npm run dev
     volumes:
-      - ../gateway:/opt/gateway
+      - type: bind
+        source: ../backend/gateway
+        target: /opt/gateway
     ports: 
       - 8080:8080
     networks: 

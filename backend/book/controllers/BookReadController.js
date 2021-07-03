@@ -2,7 +2,7 @@ const bookService = require('../services/BookService');
 const bookReadService = require('../services/BookReadService');
 const amqpController = require('./AmqpController');
 const { validationResult } = require('express-validator');
-const pick = require('../utils/pick');
+const amqpConfig = require('../config/amqp.config');
 
 /**
  * Get all BookRead object related to a specific book
@@ -56,10 +56,10 @@ const get = ( req, res ) => {
 /**
  * Add new object to trace the book read by a user
  */
-const add = ( req, res ) => {
+const add = async (req, res) => {
 
   const validation = validationResult(req).array();
-  if(validation.length > 0){
+  if (validation.length > 0) {
     res.status(422).json(validation);
     return;
   }
@@ -74,9 +74,19 @@ const add = ( req, res ) => {
 
   bookReadService
     .add(params)
-    .then( rd => res.status(201).json(rd) )
-    .then( () => publishPreferences(params.userId, params.bookId) )
-    .catch( err => res.status(400).json({
+    .then(rd => res.status(201).json(rd))
+
+    /*
+    * Publish the categories associated to the book to be saved as users' preferences
+    */
+    .then(() => publishPreferences(params.userId, params.bookId))
+
+    /*
+    * Publish the book's info and the user id to notify all users' followers.
+    */
+    .then(() => notifyFollowers(params.userId, params.bookId))
+
+    .catch(err => res.status(400).json({
       message: err,
       code: 400
     }));
@@ -96,11 +106,21 @@ const publishPreferences = async (userId, bookId) => {
 
         if(category && categories.indexOf(category) === -1){
           categories.push(category);
-          amqpController.publish('update-preferences', {userId, category})
+          amqpController.publish(amqpConfig.updatePreferencesQueue, {userId, category})
         }
       });
     })
     .catch( err => console.error(err));
+};
+
+const notifyFollowers = async (userId, bookId) => {
+
+  bookService
+      .get(bookId)
+      .then( book => {
+        amqpController.publish(amqpConfig.notifyFollowersQueue, {userId, book})
+      })
+      .catch( err => console.error(err));
 };
 
 const edit = ( req, res) => {

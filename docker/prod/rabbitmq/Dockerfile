@@ -11,7 +11,7 @@ RUN chmod u+x /opt/init.sh
 ENV USER=booksmq
 ENV PASSWORD=booksmq123!
 
-ENV QUEUES=send-notification,update-preferences
+ENV QUEUES=send-notification,update-preferences,notify-followers
 
 CMD [ "/opt/init.sh" ]
 

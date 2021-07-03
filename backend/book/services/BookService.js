@@ -1,4 +1,5 @@
-var axios = require('axios');
+const axios = require('axios');
+const googleConfig = require('../config/google.config');
 
 /**
  * 
@@ -15,7 +16,7 @@ const list = async (params) => {
     orderBy: params.orderBy,
     maxResults: params.limit,
     projection: params.projection,
-    key: process.env.GOOGLE_API_KEY,
+    key: googleConfig.booksApiKey,
     langRestrict: params.lang,
   };
 
@@ -31,7 +32,7 @@ const list = async (params) => {
 const get = async (id, projection = 'lite') => {
 
   const params = {
-    key: process.env.GOOGLE_API_KEY,
+    key: googleConfig.booksApiKey,
     projection: projection
   };
 

@@ -1,14 +1,13 @@
 // Setting up Express, the NodeJS framework
 const express = require('express');
+const dbConfig = require('./config/db.config');
 const app = express();
-
-require('dotenv/config');
 
 // Setting up Mongoose
 const mongoose = require('mongoose');
 
 try{
-  mongoose.connect( process.env.MONGO_DB_CONNECTION ,
+  mongoose.connect( dbConfig.connectionUri,
     {
       useUnifiedTopology: true,
       useNewUrlParser:true
@@ -31,7 +30,7 @@ app.use(express.json());
 
 // Setting up Firebase Admin SDK
 const firebaseAdmin = require('firebase-admin');
-var serviceAccount = require("./config/serviceAccountKey.json");
+const serviceAccount = require("./config/serviceAccountKey.json");
 
 firebaseAdmin.initializeApp({
   credential: firebaseAdmin.credential.cert(serviceAccount)

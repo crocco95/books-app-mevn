@@ -1,4 +1,5 @@
-var amqp = require('amqplib');
+const amqp = require('amqplib');
+const amqpConfig = require('../config/amqp.config');
 
 const publish = (topic, message) => {
   const key = 'info';
@@ -7,14 +8,14 @@ const publish = (topic, message) => {
     message = JSON.stringify(message);
   }
 
-  amqp.connect( process.env.AMQP_BROKER_URI ).then(function(conn) {
+  amqp.connect( amqpConfig.broker.uri ).then(function(conn) {
 
     return conn.createChannel().then(function(ch) {
       
-      const ok = ch.assertExchange('amq.topic', 'topic', {durable: true});
+      const ok = ch.assertExchange(amqpConfig.broker.mainTopic, 'topic', {durable: true});
       return ok.then(function() {
         ch.sendToQueue(topic, Buffer.from(message, 'utf8'));
-        console.log(" [x] Sent %s:'%s'", key, message);
+        console.log(" [AMQP] Sent %s:'%s'", key, message);
         return ch.close();
       });
     }).finally(function() { conn.close(); })

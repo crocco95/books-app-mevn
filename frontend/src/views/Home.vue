@@ -49,7 +49,7 @@
 
         return axios
           .get(`user_preferences/${user.uid}/preferences`)
-          .then( response => response.data.categories);
+          .then( response => response.data?.categories ?? []);
       }
     },
 
@@ -59,7 +59,9 @@
       if(user){
         await this.getPreferences()
           .then( preferences => {
-            this.categories = Object.keys(preferences);
+              if(preferences){
+                  this.categories = Object.keys(preferences);
+              }
           });
       }
 

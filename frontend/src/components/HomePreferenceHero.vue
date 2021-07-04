@@ -78,7 +78,10 @@ export default {
 
   async mounted(){
     const preferences = await this.getPreferences();
-    
+
+    if(!preferences)
+        return;
+
     for(let i = 0 ; i < 4 && i < Object.keys(preferences.categories).length; i++ ){
 
       let category = Object.keys(preferences.categories)[i];

@@ -19,7 +19,7 @@ const create = async ( req, res ) => {
   firebaseAdmin
     .auth()
     .verifyIdToken( idToken )
-    .then( decodedToken => params.uid = decodedToken.uid )
+    .then( decodedToken => params._id = decodedToken.uid )
     .then( () => profileService.add( params ))
     .then( profile => res.status( 201 ).json( profile ))
     .catch( err => res.status( 400 ).json( err ));

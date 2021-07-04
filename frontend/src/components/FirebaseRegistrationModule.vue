@@ -34,7 +34,7 @@
           <!-- START Surname field -->
           <div class="mb-3">
             <label for="surname" class="form-label">Surname</label>
-            <input type="surname"
+            <input type="text"
               class="form-control"
               placeholder="Your surname"
               id="surname"
@@ -46,8 +46,12 @@
 
           <!-- START Genre field -->
           <div class="mb-3">
-            <label for="genre" class="form-label">Genre</label>
-            <select name="genre" id="genre" class="form-select" v-model="genre">
+            <label for="genre" class="form-label" >Genre</label>
+            <select name="genre"
+                    id="genre"
+                    class="form-select"
+                    v-model="genre"
+                    :disabled="isLoading">
               <option value="none">I don't want say that</option>
               <option value="male">Male</option>
               <option value="female">Female</option>
@@ -61,7 +65,8 @@
             <select name="language"
             id="language"
             class="form-select"
-            v-model="language">
+            v-model="language"
+            :disabled="isLoading">
               <option
               v-for="language in languages"
               :key="language.code"
@@ -137,6 +142,7 @@
 <script>
 
 import { mapActions } from 'vuex';
+import axios from 'axios';
 import ISO6391 from 'iso-639-1';
 
 export default {
@@ -159,6 +165,21 @@ export default {
   methods: {
 
     ...mapActions([ 'register' ]),
+
+    async addProfile(user, name, surname, language, genre) {
+
+        return axios
+            .post('profiles', {
+                name,
+                surname,
+                language,
+                genre,
+            }, {
+                headers: {
+                    'Authorization': await user.getIdToken(),
+                }
+            });
+    },
 
     registerWithEmailAndPassword: function( event ){
 
@@ -183,6 +204,13 @@ export default {
         genre: this.genre,
         language: this.language,
       })
+      .then(user => this.addProfile(
+          user,
+          this.name,
+          this.surname,
+          this.language,
+          this.genre,
+      ))
       .then( () => this.$router.push('/registration-success') )
       .catch( err => this.error = err )
       .finally( () => {

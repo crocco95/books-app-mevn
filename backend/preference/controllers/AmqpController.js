@@ -9,7 +9,7 @@ const connect = () => {
     process.once('SIGINT', function() { conn.close(); });
     return conn.createChannel().then(function(ch) {
 
-      let ok = ch.assertQueue(amqpConfig.brokerUri, {durable: true});
+      let ok = ch.assertQueue(amqpConfig.queues.updatePreferences, {durable: true});
 
       ok = ok.then(function(_qok) {
         return ch.consume(amqpConfig.queues.updatePreferences, function(msg) {

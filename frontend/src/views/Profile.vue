@@ -143,6 +143,7 @@ export default {
       axios
         .get(`users/${loggedUserId}/social/${this.userId}`)
         .then( res => {
+            console.log(res.data);
           this.followButtonVisible = res.data === null;
           this.unfollowButtonVisible = !this.followButtonVisible;
         })
@@ -176,6 +177,7 @@ export default {
   },
 
   mounted(){
+    this.checkFollow();
     this.fetchUserDetails();
     this.fetchUserBooks();    
     this.listSocialRelationships();

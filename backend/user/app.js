@@ -36,7 +36,7 @@ app.use(bodyParser.json());
 
 // Setting up Firebase Admin SDK
 const firebaseAdmin = require('firebase-admin');
-var serviceAccount = require("./config/serviceAccountKey.json");
+const serviceAccount = require("./config/serviceAccountKey.json");
 
 firebaseAdmin.initializeApp({
   credential: firebaseAdmin.credential.cert(serviceAccount)
@@ -48,6 +48,10 @@ app.use('/api/v1',routes);
 // Setting up application port
 const port = process.env.PORT || 3000;
 console.log(`Listening on port ${port}`);
+
+console.log(`Listening for AMQP`);
+amqpController = require('./controllers/AmqpController');
+amqpController.listen();
 
 // Listen for connections
 app.listen(port);

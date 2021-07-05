@@ -2,11 +2,8 @@ const axios = require('axios');
 const googleConfig = require('../config/google.config');
 
 /**
- * 
- * @param {String} query The search query
- * @param {*} filter 
- * @param {*} limit 
- * @param {*} orderBy 
+ *
+ * @param params
  */
 const list = async (params) => {
 
@@ -40,7 +37,7 @@ const get = async (id, projection = 'lite') => {
 
   return axios({
     method: 'GET',
-    url: 'https://www.googleapis.com/books/v1/volumes/'.concat(id),
+    url: `https://www.googleapis.com/books/v1/volumes/${id}`,
     params: params,
   });
 }

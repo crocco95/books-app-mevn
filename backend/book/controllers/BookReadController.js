@@ -36,8 +36,6 @@ const list = async ( req, res ) => {
 
 const get = ( req, res ) => {
 
-  console.log("Ei");
-
   const userId = req.params.userId;
   const bookId = req.params.bookId;
 
@@ -72,20 +70,16 @@ const add = async (req, res) => {
     finishDate: req.body.finishDate,
   }
 
+  /*
+  * 1) BookService add the info to db
+  * 2) Publish the categories associated to the book to be saved as users' preferences
+  * 3) Publish the book's info and the user id to notify all users' followers
+  */
   bookReadService
     .add(params)
     .then(rd => res.status(201).json(rd))
-
-    /*
-    * Publish the categories associated to the book to be saved as users' preferences
-    */
+    .then(async () => notifyFollowers(params.userId, params.bookId))
     .then(() => publishPreferences(params.userId, params.bookId))
-
-    /*
-    * Publish the book's info and the user id to notify all users' followers.
-    */
-    .then(() => notifyFollowers(params.userId, params.bookId))
-
     .catch(err => res.status(400).json({
       message: err,
       code: 400
@@ -94,7 +88,7 @@ const add = async (req, res) => {
 
 const publishPreferences = async (userId, bookId) => {
 
-  bookService
+  return bookService
     .get(bookId, 'full')
     .then( book => {
 
@@ -115,10 +109,15 @@ const publishPreferences = async (userId, bookId) => {
 
 const notifyFollowers = async (userId, bookId) => {
 
-  bookService
-      .get(bookId)
-      .then( book => {
-        amqpController.publish(amqpConfig.notifyFollowersQueue, {userId, book})
+  console.log(`Notifying users for ${userId} & ${bookId}`);
+  return bookService
+      .get(bookId, 'full')
+      .then( response => {
+        const message = {
+          userId,
+          book: response.data,
+        }
+        return amqpController.publish(amqpConfig.notifyFollowersQueue, message);
       })
       .catch( err => console.error(err));
 };

@@ -1,5 +1,5 @@
 const broker = {
-    uri: 'amqps://cxgivvzk:UvkDjSVw17WCKTwYsB67_4BmAs-M6us9@cow.rmq2.cloudamqp.com/cxgivvzk',
+    uri: 'amqp://booksmq:booksmq123!@rabbitmq:5672/',
     mainTopic: 'amq.topic',
 }
 

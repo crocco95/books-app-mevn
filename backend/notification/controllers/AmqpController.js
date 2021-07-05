@@ -14,18 +14,21 @@ const connect = () => {
         let ok = ch.assertQueue(amqpConfig.queues.notifications, {durable: true});
 
         ok = ok.then(function(_qok) {
-          return ch.consume(amqpConfig.queues.notifications, function(msg) {
-            console.log("[AMQP] Received '%s'", msg.content.toString());
+          return ch.consume(amqpConfig.queues.notifications, async function (msg) {
             const message = JSON.parse(msg.content.toString());
 
+            console.log("[AMQP] Received '%s'", message);
+
             // Check if the message packet has the required fields
-            if(message.target && message.subject && message.textBody && message.htmlBody){
+            if (message.target && message.subject && message.textBody && message.htmlBody) {
 
               // Call the send function on EmailService
-              emailService
+              await emailService
                   .send(message.target, message.subject, message.textBody, message.htmlBody)
-                  .then(p => console.log(`[AMQP] Done : ${JSON.stringify(p)}`))
-                  .catch(err => console.error(err));
+                  .then(p => console.log(`[AMQP] Done, message ID : ${p.messageId}`))
+                  .catch(err => console.log(`[ERROR] Error: ${err}`));
+            } else {
+              console.log(`[WARNING] Message did not respect the standard`);
             }
 
           }, {noAck: true});

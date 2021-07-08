@@ -7,13 +7,14 @@ A simple NEVM application to manage books 📚
 * Search books using the search page on frontend (powered by Google APIs)
 * Users registration & login (powered by Google Firebase Authentication APIs)
 * Users reviews
+* Email notifications
 * Saving on DB personal data such as page read for each book, books read, etc.
 * Decent user profile page
 * Follow - Following users logic
 * Docker infrastructure
 
 ## Next features
-* Email notifications
+* No additional features expected
 
 ## Instructions
 ### Start frontend

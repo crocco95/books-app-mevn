@@ -1,25 +1,31 @@
 const nodemailer = require('nodemailer');
+const emailConfig = require('../config/email.config');
 
 /*
+* The function send a main to a target (email address).
 * Most of the following code is taken from NodeMailer documentation and sightly edited to match project requirements
 * Source: https://nodemailer.com
 */
 const send = async (target, subject, textBody, htmlBody) => {
 
+    console.log(`[INFO] Preparing transporter ${emailConfig.server.host}`);
+
     // create reusable transporter object using the default SMTP transport
     let transporter = nodemailer.createTransport({
-        host: process.env.SMTP_HOST,
-        port: process.env.SMTP_PORT,
-        secure: process.env.SMTP_SECURE, // true for 465, false for other ports
+        host: emailConfig.server.host,
+        port: emailConfig.server.port,
+        secure: emailConfig.server.secure, // true for 465, false for other ports
         auth: {
-            user: process.env.SMTP_USERNAME, // generated ethereal user
-            pass: process.env.SMTP_PASSWORD, // generated ethereal password
+            user: emailConfig.user.smtp_username, // generated ethereal user
+            pass: emailConfig.user.smtp_password, // generated ethereal password
         },
     });
 
+    console.log(`[INFO] Sending mail to ${target}`);
+
     // send mail with defined transport object
-    let info = await transporter.sendMail({
-        from: `"${process.env.SMTP_NAME}" <${process.env.SMTP_USERNAME}>`, // sender address
+    return await transporter.sendMail({
+        from: `"${emailConfig.user.smtp_name}" <${emailConfig.user.smtp_username}>`, // sender address
         to: target, // list of receivers
         subject: subject, // Subject line
         text: textBody, // plain text body

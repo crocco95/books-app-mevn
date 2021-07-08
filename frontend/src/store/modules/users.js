@@ -21,30 +21,28 @@ const mutations = {
 const actions = {
 
   async registerAuthStateChangedListener({commit}){
-    return await firebaseApp.app
-      .auth()
-      .onAuthStateChanged( async (user) => {
+    return firebaseApp.app
+        .auth()
+        .onAuthStateChanged(async (user) => {
 
-        console.log("Auth state changed!");
+            if (user && user.emailVerified) {
 
-        if(user){
+                commit('setUser', user);
 
-          commit('setUser', user);
+                user.getIdToken().then(token => {
 
-          user.getIdToken().then(token => {
+                    commit('setLoadedFlag', true);
 
-            commit('setLoadedFlag', true);
-          
-            // Add a request interceptor
-            axios.interceptors.request.use(function (config) {
-              config.headers.Authorization =  token;
-              return config;
-            });
-          });
-        }else{
-          commit('setLoadedFlag', true);
-        }
-      });
+                    // Add a request interceptor
+                    axios.interceptors.request.use(function(config) {
+                        config.headers.Authorization = token;
+                        return config;
+                    });
+                });
+            } else {
+                commit('setLoadedFlag', true);
+            }
+        })
   },
   
   async login({commit}, params) {
@@ -79,6 +77,8 @@ const actions = {
 
           // Send email confirmation
           userCredential.user.sendEmailVerification();
+
+          return userCredential.user;
         });
   },
 

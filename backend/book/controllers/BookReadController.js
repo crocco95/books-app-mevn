@@ -2,7 +2,7 @@ const bookService = require('../services/BookService');
 const bookReadService = require('../services/BookReadService');
 const amqpController = require('./AmqpController');
 const { validationResult } = require('express-validator');
-const pick = require('../utils/pick');
+const amqpConfig = require('../config/amqp.config');
 
 /**
  * Get all BookRead object related to a specific book
@@ -36,8 +36,6 @@ const list = async ( req, res ) => {
 
 const get = ( req, res ) => {
 
-  console.log("Ei");
-
   const userId = req.params.userId;
   const bookId = req.params.bookId;
 
@@ -56,10 +54,10 @@ const get = ( req, res ) => {
 /**
  * Add new object to trace the book read by a user
  */
-const add = ( req, res ) => {
+const add = async (req, res) => {
 
   const validation = validationResult(req).array();
-  if(validation.length > 0){
+  if (validation.length > 0) {
     res.status(422).json(validation);
     return;
   }
@@ -72,11 +70,17 @@ const add = ( req, res ) => {
     finishDate: req.body.finishDate,
   }
 
+  /*
+  * 1) BookService add the info to db
+  * 2) Publish the categories associated to the book to be saved as users' preferences
+  * 3) Publish the book's info and the user id to notify all users' followers
+  */
   bookReadService
     .add(params)
-    .then( rd => res.status(201).json(rd) )
-    .then( () => publishPreferences(params.userId, params.bookId) )
-    .catch( err => res.status(400).json({
+    .then(rd => res.status(201).json(rd))
+    .then(async () => notifyFollowers(params.userId, params.bookId))
+    .then(() => publishPreferences(params.userId, params.bookId))
+    .catch(err => res.status(400).json({
       message: err,
       code: 400
     }));
@@ -84,7 +88,7 @@ const add = ( req, res ) => {
 
 const publishPreferences = async (userId, bookId) => {
 
-  bookService
+  return bookService
     .get(bookId, 'full')
     .then( book => {
 
@@ -96,11 +100,26 @@ const publishPreferences = async (userId, bookId) => {
 
         if(category && categories.indexOf(category) === -1){
           categories.push(category);
-          amqpController.publish('update-preferences', {userId, category})
+          amqpController.publish(amqpConfig.updatePreferencesQueue, {userId, category})
         }
       });
     })
     .catch( err => console.error(err));
+};
+
+const notifyFollowers = async (userId, bookId) => {
+
+  console.log(`Notifying users for ${userId} & ${bookId}`);
+  return bookService
+      .get(bookId, 'full')
+      .then( response => {
+        const message = {
+          userId,
+          book: response.data,
+        }
+        return amqpController.publish(amqpConfig.notifyFollowersQueue, message);
+      })
+      .catch( err => console.error(err));
 };
 
 const edit = ( req, res) => {

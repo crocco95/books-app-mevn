@@ -1,17 +1,19 @@
+const amqp = require('amqplib');
+const amqpConfig = require('../config/amqp.config');
 const userPreferenceService = require('../services/UserPreferenceService');
 
 const connect = () => {
-  var amqp = require('amqplib');
 
-  amqp.connect(process.env.AMQP_BROKER_URI).then(function(conn) {
+  amqp
+    .connect(amqpConfig.brokerUri).then(function(conn) {
     process.once('SIGINT', function() { conn.close(); });
     return conn.createChannel().then(function(ch) {
 
-      var ok = ch.assertQueue('update-preferences', {durable: true});
+      let ok = ch.assertQueue(amqpConfig.queues.updatePreferences, {durable: true});
 
       ok = ok.then(function(_qok) {
-        return ch.consume('update-preferences', function(msg) {
-          console.log(" [x] Received '%s'", msg.content.toString());
+        return ch.consume(amqpConfig.queues.updatePreferences, function(msg) {
+          console.log("[AMQP] Received '%s'", msg.content.toString());
           const preference = JSON.parse(msg.content.toString());
 
           userPreferenceService.list(preference.userId)
@@ -23,17 +25,18 @@ const connect = () => {
               }
             }))
           })
-          .then(p => console.log(`Done : ${JSON.stringify(p)}`))
+          .then(p => console.log(`[AMQP] Done : ${JSON.stringify(p)}`))
           .catch(err => console.error(err));
-          
+
         }, {noAck: true});
       });
 
       return ok.then(function(_consumeOk) {
-        console.log(' [*] Waiting for messages.');
+        console.log('[AMQP]  Waiting for messages.');
       });
     });
-  }).catch(console.warn);
+  })
+  .catch(console.warn);
 }
 
 module.exports = {

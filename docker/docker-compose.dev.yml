@@ -2,6 +2,20 @@ version: '3'
 
 services:
 
+  # AMQP RabbitMQ Broker
+  rabbitmq:
+    container_name: rabbitmq
+    build: 
+      context: ..
+      dockerfile: docker/dev/rabbitmq/Dockerfile
+    ports: 
+      - 5672:5672
+      - 15672:15672
+    networks: 
+      - backend
+
+  # ======================================================
+  # Backend service(s)
   books:
     container_name: books
     build:
@@ -11,9 +25,7 @@ services:
         name: book
     command: npm run dev
     volumes:
-      - type: bind
-        source: ../backend/book
-        target: /opt/book
+      - ../backend/book:/opt/book
     networks:
       - backend
       - db
@@ -27,9 +39,7 @@ services:
         name: user
     command: npm run dev
     volumes:
-      - type: bind
-        source: ../backend/user
-        target: /opt/user
+      - ../backend/user:/opt/user
     networks:
       - backend
       - db
@@ -43,12 +53,23 @@ services:
         name: preference
     command: npm run dev
     volumes:
-      - type: bind
-        source: ../backend/preference
-        target: /opt/preference
+      - ../backend/preference:/opt/preference
     networks:
       - backend
       - db
+
+  notifications:
+    container_name: notifications
+    build:
+      context: ..
+      dockerfile: docker/dev/all/Dockerfile
+      args:
+        name: notification
+    command: npm run dev
+    volumes:
+      - ../backend/notification:/opt/notification
+    networks:
+      - backend
 
   gateway: 
     container_name: gateway
@@ -59,15 +80,15 @@ services:
         name: gateway
     command: npm run dev
     volumes:
-      - type: bind
-        source: ../backend/gateway
-        target: /opt/gateway
+      - ../backend/gateway:/opt/gateway
     ports: 
       - 8080:8080
     networks: 
       - backend
       - frontend
 
+  # ======================================================
+  # Frontend service(s)
   frontend:
     container_name: frontend
     build:

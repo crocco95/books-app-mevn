@@ -4,7 +4,8 @@
   "description": "MEVN Books App - Book service",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest",
+    "test-n-watch": "jest --watch-all --verbose",
     "dev": "nodemon app.js",
     "start": "node app.js"
   },
@@ -19,6 +20,7 @@
     "express": "^4.17.1",
     "express-validator": "^6.12.0",
     "firebase-admin": "^9.10.0",
+    "jest": "^27.0.6",
     "mongoose": "^5.13.1",
     "mongoose-types-ext": "^0.2.0"
   },

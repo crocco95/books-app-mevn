@@ -62,24 +62,21 @@ const add = async (req, res) => {
     return;
   }
 
-  const params = {
-    userId: req.body.tokenUserId,
-    bookId: req.params.bookId,
-    currentPage: req.body.currentPage,
-    startDate: req.body.startDate,
-    finishDate: req.body.finishDate,
-  }
-
   /*
   * 1) BookService add the info to db
   * 2) Publish the categories associated to the book to be saved as users' preferences
   * 3) Publish the book's info and the user id to notify all users' followers
   */
   bookReadService
-    .add(params)
+    .add(req.body.tokenUserId,
+        req.params.bookId,
+        req.body.currentPage,
+        req.body.startDate,
+        req.body.finishDate
+    )
     .then(rd => res.status(201).json(rd))
-    .then(async () => notifyFollowers(params.userId, params.bookId))
-    .then(() => publishPreferences(params.userId, params.bookId))
+    .then(async () => notifyFollowers(req.params.userId, req.params.bookId))
+    .then(() => publishPreferences(req.params.userId, req.params.bookId))
     .catch(err => res.status(400).json({
       message: err,
       code: 400

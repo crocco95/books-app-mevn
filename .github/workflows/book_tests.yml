@@ -7,8 +7,6 @@ on:
   # Triggers the workflow on push or pull request events but only for the main branch
   push:
     branches: [ main ]
-  pull_request:
-    branches: [ main ]
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -24,6 +22,11 @@ jobs:
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
+      
+      - name: Run Mongo DB Books container
+        run: |
+            cd ./backend/book
+            docker-compose -f docker-compose.dev.yml up --build -d mongodb-books
 
       # Runs a single command using the runners shell
       - name: Install Book BE dependencies & run tests

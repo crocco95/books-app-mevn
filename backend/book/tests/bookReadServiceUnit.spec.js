@@ -10,20 +10,21 @@ const startDate = '2021-01-01';
 
 beforeAll( async () => {
     try{
-        dbUtil.connect();
+        await dbUtil.connect();
     }catch(err){
         console.log(err);
     }
 });
 
 beforeEach(() => {
-    userId = 'test-user-' + Math.round(Math.random() * 1000);
+    userId = 'test-user-' + Math.round(Math.random() * 10000);
 });
 
 test('List all users have read a book', async () => {
     const books = await bookReadService
         .list(volumeId);
 
+    expect(books).toBeDefined();
     expect(books.length).toBeGreaterThanOrEqual(0);
 })
 
@@ -132,7 +133,6 @@ test('Search all books read by a user', async () => {
     expect(userReads.length).toBe(2);
 });
 
-
 test('Try to add the same book to the same user twice and expect to fail', async () => {
     const add1 = await bookReadService.add(userId, volumeId, currentPage, startDate);
     let exception;
@@ -144,4 +144,5 @@ test('Try to add the same book to the same user twice and expect to fail', async
     }
 
     expect(exception).toBeDefined();
+    expect(add2).toBeUndefined();
 });

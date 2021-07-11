@@ -11,6 +11,11 @@ const connect = async () => {
     );
 }
 
+const disconnect = async () => {
+    return mongoose.disconnect();
+}
+
 module.exports = {
     connect,
+    disconnect,
 }

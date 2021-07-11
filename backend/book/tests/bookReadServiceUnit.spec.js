@@ -16,6 +16,14 @@ beforeAll( async () => {
     }
 });
 
+afterAll( async () => {
+    try{
+        await dbUtil.disconnect();
+    }catch(err){
+        console.log(err);
+    }
+});
+
 beforeEach(() => {
     userId = 'test-user-' + Math.round(Math.random() * 10000);
 });
@@ -112,7 +120,11 @@ test('Try to update an existing read', async () => {
 
 test('Delete a read entry', async () => {
 
-    await bookReadService.add(userId, volumeId, currentPage, startDate);
+    const read = await bookReadService.get(userId, volumeId);
+
+    if(!read){
+        await bookReadService.add(userId, volumeId, currentPage, startDate);
+    }
 
     const remove = await bookReadService
         .remove(userId, volumeId);

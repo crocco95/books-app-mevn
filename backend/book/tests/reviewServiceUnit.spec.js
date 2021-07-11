@@ -12,6 +12,14 @@ beforeAll( async () => {
     }
 });
 
+afterAll( async () => {
+    try{
+        await dbUtil.disconnect();
+    }catch(err){
+        console.log(err);
+    }
+});
+
 test('Add new review to Harry Potter book', async () => {
 
     const title = 'Lorem ipsum';

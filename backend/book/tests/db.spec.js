@@ -14,3 +14,15 @@ test('MongoDB connection', async () => {
     expect(exception).toBeUndefined();
     expect(connection).toBeDefined();
 });
+
+test('MongoDB disconnection', async () => {
+    let exception;
+
+    try {
+        await db.disconnect();
+    }catch(ex){
+        exception = ex;
+    }
+
+    expect(exception).toBeUndefined();
+});

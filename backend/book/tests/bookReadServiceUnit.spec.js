@@ -146,9 +146,16 @@ test('Search all books read by a user', async () => {
 });
 
 test('Try to add the same book to the same user twice and expect to fail', async () => {
-    const add1 = await bookReadService.add(userId, volumeId, currentPage, startDate);
+
+    const read = await bookReadService.get(userId, volumeId);
     let exception;
     let add2;
+
+
+    if(!read){
+        await bookReadService.add(userId, volumeId, currentPage, startDate);
+    }
+
     try{
         add2 = await bookReadService.add(userId, volumeId, currentPage, startDate);
     }catch(ex){

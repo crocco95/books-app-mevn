@@ -18,7 +18,9 @@ test('Add new review to Harry Potter book', async () => {
     const description = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut' +
         'labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut' +
         'aliquip ex ea commodo consequat.';
-    const vote = Math.round(Math.random() * 10 / 2);
+    let vote = Math.round(Math.random() * 10 / 2);
+
+    if(vote <= 0) vote = 3;
 
     const add = await reviewService.add(
         bookId,

@@ -1,8 +1,8 @@
-const username = 'mongo-db-user';
-const password = 'AwZ0XqZ4z7hzMblm';
-const host = 'cluster0.g9zhx.mongodb.net';
-const port = null;
-const defaultAuthDb = 'mevn-books-app';
+const username = 'books';
+const password = 'MongoMevn2021!';
+const host = '127.0.0.1';
+const port = 27017;
+const defaultAuthDb = 'admin';
 const options = [
     'retryWrites=true',
     'w=majority',

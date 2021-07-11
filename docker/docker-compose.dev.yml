@@ -10,9 +10,45 @@ services:
       dockerfile: docker/dev/rabbitmq/Dockerfile
     ports: 
       - 5672:5672
-      - 15672:15672
+      - 15672:15672 # Management
     networks: 
       - backend
+
+  # ======================================================
+  # Databases
+
+  mongodb-books:
+    image: mongo
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: books
+      MONGO_INITDB_ROOT_PASSWORD: MongoMevn2021!
+    ports: 
+      - 27017:27017
+    networks: 
+      - db
+  
+  mongodb-users:
+    image: mongo
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: users
+      MONGO_INITDB_ROOT_PASSWORD: MongoMevn2021!
+    ports:
+      - 27018:27017
+    networks: 
+      - db
+
+  mongodb-preferences:
+    image: mongo
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: prefrences
+      MONGO_INITDB_ROOT_PASSWORD: MongoMevn2021!
+    ports:
+      - 27019:27017
+    networks: 
+      - db
 
   # ======================================================
   # Backend service(s)

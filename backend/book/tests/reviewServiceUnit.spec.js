@@ -66,6 +66,7 @@ test('Add the same review of Harry Potter and expect to fail', async () => {
 
     expect(fail).toBeUndefined();
     expect(exception).toBeDefined();
+    expect(exception.code).toBe(400);
 });
 
 test('List all reviews made by the user', async () => {

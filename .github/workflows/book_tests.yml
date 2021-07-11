@@ -25,7 +25,7 @@ jobs:
       
       - name: Run Mongo DB Books container
         run: |
-            cd ./backend/book
+            cd ./docker
             docker-compose -f docker-compose.dev.yml up --build -d mongodb-books
 
       # Runs a single command using the runners shell

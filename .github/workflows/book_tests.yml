@@ -30,4 +30,4 @@ jobs:
         run: |
           cd ./backend/book
           npm i
-          jest
+          npm test

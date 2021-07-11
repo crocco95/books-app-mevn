@@ -1,16 +1,13 @@
 const mongoose = require('mongoose');
 const dbConfig = require('../config/db.config');
 
-const connect = () => {
+const connect = async () => {
     return mongoose.connect( dbConfig.connectionUri,
         {
             useUnifiedTopology: true,
-            useNewUrlParser:true
-        },
-        (o) => console.log({
-            log:'DB Connected successfully!',
-            o: o
-        })
+            useNewUrlParser:true,
+            useFindAndModify: false,
+        }
     );
 }
 

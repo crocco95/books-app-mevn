@@ -44,6 +44,10 @@ const edit = async ( bookId, reviewId, userId, title, description, vote ) => {
           });
 }
 
+const search = (params) => {
+  return Review.find(params);
+}
+
 const avg = async (bookId) => {
   return Review.aggregate([
     {
@@ -65,5 +69,6 @@ module.exports = {
   get,
   add,
   edit,
+  search,
   avg,
 }

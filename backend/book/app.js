@@ -4,21 +4,14 @@ const dbConfig = require('./config/db.config');
 const app = express();
 
 // Setting up Mongoose
-const mongoose = require('mongoose');
-
+const dbUtil = require('./utils/db');
 try{
-  mongoose.connect( dbConfig.connectionUri,
-    {
-      useUnifiedTopology: true,
-      useNewUrlParser:true
-    },
-    (o) => console.log({
-      log:'DB Connected successfully!',
-      o: o
-    })
-  );
-}catch(err){
-  console.log({error: err});
+    console.log('Connecting to DB ...');
+    await dbUtil.connect();
+    console.log('Connecting to DB: Done.');
+}catch (ex) {
+    console.error(ex);
+    return;
 }
 
 // Setting up cors: it helps to solve cors policy problem when client calls API

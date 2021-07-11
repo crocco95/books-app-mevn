@@ -6,7 +6,9 @@ const app = express();
 // Setting up Mongoose
 const dbUtil = require('./utils/db');
 try{
-    dbUtil.connect();
+    console.log('Connecting to DB ...');
+    await dbUtil.connect();
+    console.log('Connecting to DB: Done.');
 }catch (ex) {
     console.error(ex);
     return;

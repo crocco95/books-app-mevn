@@ -24,10 +24,7 @@ const add = async ( bookId, userId, title, description, vote ) => {
           .find({bookId: bookId, userId: userId})
           .then( res => {
             if(res.length > 0){
-              throw {
-                code: 400,
-                message: 'You have already wrote a review for this book.',
-              }
+              throw new TypeError('You have already wrote a review for this book');
             }
           })
           .then(() => Review.create(params));

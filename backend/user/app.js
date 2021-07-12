@@ -2,22 +2,12 @@
 const express = require('express');
 const app = express();
 
-require('dotenv/config');
-
-// Setting up Mongoose
-const mongoose = require('mongoose');
-
 try{
-  mongoose.connect( process.env.MONGO_DB_CONNECTION ,
-    {
-      useUnifiedTopology: true,
-      useNewUrlParser:true
-    },
-    (o) => console.log({
-      log:'DB Connected successfully!',
-      o: o
-    })
-  );
+  const dbUtil = require('./utils/db');
+
+  console.log('Connecting to DB ...');
+  await dbUtil.connect();
+  console.log('Connecting to DB: Done.');
 }catch(err){
   console.log({error: err});
 }

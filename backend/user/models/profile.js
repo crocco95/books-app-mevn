@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const ProfileSchema = mongoose.Schema({
+const profileSchema = mongoose.Schema({
   _id: {
     type: String,
     required: true
@@ -36,4 +36,4 @@ const ProfileSchema = mongoose.Schema({
   }
 }, { _id: false });
 
-module.exports = mongoose.model('Profile', ProfileSchema);
+module.exports = mongoose.model('Profile', profileSchema);

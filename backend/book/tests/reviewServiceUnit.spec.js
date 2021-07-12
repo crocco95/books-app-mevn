@@ -64,6 +64,7 @@ test('Add the same review of Harry Potter and expect to fail', async () => {
         exception = ex;
     }
 
+    console.log(JSON.stringify(exception));
     expect(fail).toBeUndefined();
     expect(exception).toBeDefined();
     expect(exception.code).toBe(400);

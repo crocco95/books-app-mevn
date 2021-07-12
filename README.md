@@ -62,6 +62,13 @@ $ docker-compose -f docker-compose.prod.yml --project-name=mevn_books up --build
 The Dockerfile in this case will execute the command ```npm run build``` and than
 copy the distribution directory to be served using NGINX web server.
 By default the gateway listen on port ```8080```, the other services are hidden behind it and they are not accessible directly.
+
+#### Tests
+There are tests for all microservices and for each one there are 2 commands to execute tests:
+* ```npm test``` : run all tests with coverage and exit.
+* ```npm run test-n-watch``` : run all tests and remain in watch mode.
+
+At the moment the code coverage is good and there are both unit and integration tests.
 ### Start frontend
 First thing first, go to ```fronted/config``` and taking the file ```firebase_sample.js``` as example, create a new one named ```firebase.js```
 with inside the Firebase API configs taken from Firebase Console.

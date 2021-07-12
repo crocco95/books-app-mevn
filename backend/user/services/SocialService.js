@@ -41,9 +41,7 @@ const add = async ( userId, followingUserId ) => {
     .findOne({userId, followingUserId})
     .then( res => {
       if( res ){
-        throw {
-          message: `The user ${userId} already follow the user ${followingUserId}`
-        }
+        throw new TypeError(`The user ${userId} already follow the user ${followingUserId}`);
       }
     })
     .then(() => social.create({userId, followingUserId}));

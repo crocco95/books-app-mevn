@@ -9,7 +9,7 @@
       <div class="carousel-inner">
         <div class="carousel-item active" data-bs-interval="10000">
           <img src="/img/static_carousel/search.jpg" class="d-block w-100" alt="Carousel search">
-          <div class="carousel-caption d-none d-md-block">
+          <div class="carousel-caption d-block">
             <h5 class="h1 fw-bolder">START TO SEARCH</h5>
             <p>Check our database, search a book and discover new ones!</p>
             <router-link to="/search" class="btn btn-primary">🔍 Search now</router-link>
@@ -17,7 +17,7 @@
         </div>
         <div class="carousel-item" data-bs-interval="2000">
           <img src="/img/static_carousel/friends.jpg" class="d-block w-100" alt="...">
-          <div class="carousel-caption d-none d-md-block">
+          <div class="carousel-caption d-block">
             <h5 class="h1 fw-bolder">FOLLOW YOUR FRIENDS</h5>
             <p>Some representative placeholder content for the second slide.</p>
             <router-link to="/register" class="btn btn-primary">🤜 🤛 Register now!</router-link>
@@ -25,7 +25,7 @@
         </div>
         <div class="carousel-item">
           <img src="/img/static_carousel/book.jpg" class="d-block w-100" alt="...">
-          <div class="carousel-caption d-none d-md-block">
+          <div class="carousel-caption d-block">
             <h5 class="h1 fw-bolder">DISCOVER NEW RELEASES</h5>
             <p>Some representative placeholder content for the third slide.</p>
             <router-link to="/register" class="btn btn-primary">🤩 Register now!</router-link>

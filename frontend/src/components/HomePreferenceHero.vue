@@ -16,7 +16,7 @@
         
         <div :class="'carousel-item ' + (slide.id <= 0 ? 'active' : '')" v-for="slide in slides" :key="slide.id">
           <img :src="slide.imageUri" class="d-block w-100" alt="...">
-          <div class="carousel-caption d-none d-md-block">
+          <div class="carousel-caption d-block">
             <h1 class="text-uppercase fw-bolder" v-text="slide.title"></h1>
             <p v-text="slide.description"></p>
             <router-link  class="btn btn-primary"

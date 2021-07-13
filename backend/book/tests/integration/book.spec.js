@@ -7,10 +7,11 @@ app.use('/api/v1',routes);
 
 describe('Book service integration tests', () => {
 
-    test("Get all 'Harry Potter' books", async () => {
-        const response = await request(app).get('/api/v1/books?query=Harry+Potter'); //use the request function that we can use the app// save the response to body variable
+    test("Get first 5 results for 'Harry Potter' search", async () => {
+        const response = await request(app).get('/api/v1/books?query=Harry+Potter&limit=5'); //use the request function that we can use the app// save the response to body variable
 
         expect(response.status).toBe(200);
+        expect(response.body.items.length).toBe(5);
     });
 
     test("Get the book 'Harry Potter e la pietra filosofale", async () => {

@@ -8,7 +8,7 @@ const ReviewController = require('../controllers/ReviewController');
  * List all reviews associated to a specific book
  */
 router
-  .route('/:bookId/reviews/')
+  .route('/:bookId/reviews')
   .get(ReviewController.list);
 
 router

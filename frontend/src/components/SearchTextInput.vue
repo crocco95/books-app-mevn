@@ -66,9 +66,10 @@ export default {
       if(user){
         const profile = await axios
           .get(`profiles/${user.uid}`)
-          .then(response => response.data);
+          .then(response => response.data)
+          .catch( err => console.error(err.message));
 
-        searchParams.lang = profile.language;
+        searchParams.lang = profile?.language ?? '';
       }
 
       // Perform the request

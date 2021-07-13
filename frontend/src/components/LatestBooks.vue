@@ -20,7 +20,7 @@
         <img v-if="imageUri" :src="imageUri" alt="">
       </div>
 
-      <div class="col col-md-3 col-sm-4 col-6"
+      <div class="col col-md-3 col-sm-4 col-6 pb-5 pb-md-0"
         v-for="book in books"
         :key="book.id">
         
@@ -92,9 +92,10 @@ export default {
       if(user){
         const profile = await axios
           .get(`profiles/${user.uid}`)
-          .then(response => response.data);
+          .then(response => response.data)
+          .catch( err => console.error(err.message));
 
-        params.lang = profile.language;
+        params.lang = profile?.language ?? '';
       }
 
       axios

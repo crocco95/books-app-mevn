@@ -1,28 +1,31 @@
 const db = require('../../utils/db');
 
-test('MongoDB connection', async () => {
+describe('Test MongoDB connection', () => {
 
-    let exception;
-    let connection;
+    test('MongoDB connection', async () => {
 
-    try {
-        connection = await db.connect();
-    }catch(ex){
-        exception = ex;
-    }
+        let exception;
+        let connection;
 
-    expect(exception).toBeUndefined();
-    expect(connection).toBeDefined();
-});
+        try {
+            connection = await db.connect();
+        }catch(ex){
+            exception = ex;
+        }
 
-test('MongoDB disconnection', async () => {
-    let exception;
+        expect(exception).toBeUndefined();
+        expect(connection).toBeDefined();
+    });
 
-    try {
-        await db.disconnect();
-    }catch(ex){
-        exception = ex;
-    }
+    test('MongoDB disconnection', async () => {
+        let exception;
 
-    expect(exception).toBeUndefined();
+        try {
+            await db.disconnect();
+        }catch(ex){
+            exception = ex;
+        }
+
+        expect(exception).toBeUndefined();
+    });
 });

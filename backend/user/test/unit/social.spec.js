@@ -1,9 +1,9 @@
-const socialService = require('../services/SocialService');
-const profileService = require('../services/ProfileService');
+const socialService = require('../../services/SocialService');
+const profileService = require('../../services/ProfileService');
 let profileList = [];
 const userId = 'yvphy03pftV0qCMxRXzcUnocC912';
 let follower;
-const dbUtil = require('../utils/db');
+const dbUtil = require('../../utils/db');
 
 const addRandomProfile = () => {
     return profileService.add({

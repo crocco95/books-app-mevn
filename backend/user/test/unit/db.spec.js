@@ -1,4 +1,4 @@
-const db = require('../utils/db');
+const db = require('../../utils/db');
 
 test('MongoDB connection', async () => {
 

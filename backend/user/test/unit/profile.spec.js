@@ -1,6 +1,6 @@
-const profileService = require('../services/ProfileService');
+const profileService = require('../../services/ProfileService');
 const userId = 'yvphy03pftV0qCMxRXzcUnocC912';
-const dbUtil = require('../utils/db');
+const dbUtil = require('../../utils/db');
 
 beforeAll(async () => {
     await dbUtil.connect();

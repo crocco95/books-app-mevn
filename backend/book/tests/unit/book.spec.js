@@ -1,4 +1,4 @@
-const bookService = require('../services/BookService');
+const bookService = require('../../services/BookService');
 
 describe('Search a list of books by genre using whe Google Books API', () => {
     test('List all books by searching Harry Potter', async () => {

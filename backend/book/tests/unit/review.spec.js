@@ -1,5 +1,5 @@
-const dbUtil = require('../utils/db');
-const reviewService = require('../services/ReviewService');
+const dbUtil = require('../../utils/db');
+const reviewService = require('../../services/ReviewService');
 
 const bookId = '9CJWTbd-RYoC';
 const userId = 'test-user-' + Math.round(Math.random() * 1000);

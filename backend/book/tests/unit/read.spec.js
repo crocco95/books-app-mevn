@@ -1,5 +1,5 @@
-const dbUtil = require('../utils/db');
-const bookReadService = require('../services/BookReadService');
+const dbUtil = require('../../utils/db');
+const bookReadService = require('../../services/BookReadService');
 
 let userId = '';
 const volumeId = '9CJWTbd-RYoC';

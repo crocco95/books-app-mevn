@@ -13,7 +13,7 @@
             <li v-for="author in volumeInfo.authors">{{ author }}</li>
           </ul>
         </div>
-        <div class="col-md-4 col-sm-6">
+        <div class="col-md-4 col-sm-6" v-if="internalReviewsSummary || volumeInfo.averageRating">
           <h3>Rating</h3>
           <div class="row">
             

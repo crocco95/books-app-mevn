@@ -28,13 +28,11 @@ jobs:
             cd ./docker
             docker-compose -f docker-compose.dev.yml up --build -d mongodb-users
 
-      - name: Add Google Service Account file
-        run: echo "${{secrets.GOOGLE_SERVICE_ACCOUNT_KEY}}" > ./backend/user/config/serviceAccountKey.json
-
       # Runs a single command using the runners shell
       - name: Install User BE dependencies & run tests
         run: |
           cd ./backend/user
+          echo "${{secrets.GOOGLE_SERVICE_ACCOUNT_KEY}}" > ./config/serviceAccountKey.json
           mv ./config/db.ci.config.js ./config/db.config.js
           npm i
           npm test

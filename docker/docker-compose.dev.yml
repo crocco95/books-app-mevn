@@ -18,6 +18,7 @@ services:
   # Databases
 
   mongodb-books:
+    container_name: mongodb-books
     image: mongo
     restart: always
     environment:
@@ -29,6 +30,7 @@ services:
       - db
   
   mongodb-users:
+    container_name: mongodb-users
     image: mongo
     restart: always
     environment:
@@ -40,6 +42,7 @@ services:
       - db
 
   mongodb-preferences:
+    container_name: mongodb-preferences
     image: mongo
     restart: always
     environment:

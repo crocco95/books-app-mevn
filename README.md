@@ -28,6 +28,7 @@ In order to do that execute:
 
 ```bash
 #!/bin/bash
+$ cd ./docker
 $ docker-compose -f docker-compose.[dev/prod].yml --project-name=mevn_books up --build -d rabbitmq
 ```
 
@@ -40,15 +41,10 @@ Before to run the project, go inside backend/book/.env file and change the
 Google Books API key with yours.
 
 #### Development
-You can run every service on local using the following command inside the
-service directory (not recommended):
+Use Docker dev/local infrastructure by launching:
 ```bash
 #!/bin/bash
-$ npm run dev
-```
-You can also (recommended) use Docker dev/local infrastructure by launching:
-```bash
-#!/bin/bash
+$ cd ./docker
 $ docker-compose -f docker-compose.dev.yml --project-name=mevn_books up --build -d [service name]
 ```
 There isn't a dedicated web server and by default the gateway service listen on port ```8080```, the other services are hidden behind it and they are not
@@ -57,6 +53,7 @@ accessible directly.
 Go to Docker directory and execute:
 ```bash
 #!/bin/bash
+$ cd ./docker
 $ docker-compose -f docker-compose.prod.yml --project-name=mevn_books up --build -d [service name]
 ```
 The Dockerfile in this case will execute the command ```npm run build``` and than
@@ -68,7 +65,10 @@ There are tests for all microservices and for each one there are 2 commands to e
 * ```npm test``` : run all tests with coverage and exit.
 * ```npm run test-n-watch``` : run all tests and remain in watch mode.
 
+**NOTE**: In order to run these commands it's necessary to edit DB config file ```host``` value or execute the commands directly inside the container because the DB host is set on container internal Docker hostname. If you want to change the ```host``` value, I suggest to use the IP address ```0.0.0.0``` and change port according to the exposed Docker container port.
+
 At the moment the code coverage is good and there are both unit and integration tests.
+All tests are triggered by CI GitHub actions (source on ```.github/workflows```)
 ### Start frontend
 First thing first, go to ```fronted/config``` and taking the file ```firebase_sample.js``` as example, create a new one named ```firebase.js```
 with inside the Firebase API configs taken from Firebase Console.

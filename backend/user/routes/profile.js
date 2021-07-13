@@ -5,7 +5,8 @@ const AuthMiddleware = require('./middleware/auth');
 const ProfileController = require('../controllers/ProfileController');
 
 router
-  .route('/')
+    .use(AuthMiddleware.extractUserIdFromTokenToBody)
+    .route('/')
     .post(ProfileController.create);
 
 router

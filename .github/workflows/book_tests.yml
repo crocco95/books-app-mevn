@@ -32,5 +32,6 @@ jobs:
       - name: Install Book BE dependencies & run tests
         run: |
           cd ./backend/book
+          mv ./config/db.ci.config.js ./config/db.config.js
           npm i
           npm test

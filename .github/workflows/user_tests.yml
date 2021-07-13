@@ -27,9 +27,11 @@ jobs:
         run: |
             cd ./docker
             docker-compose -f docker-compose.dev.yml up --build -d mongodb-users
+            
       # Runs a single command using the runners shell
       - name: Install User BE dependencies & run tests
         run: |
           cd ./backend/user
+          mv ./config/db.ci.config.js ./config/db.config.js
           npm i
           npm test

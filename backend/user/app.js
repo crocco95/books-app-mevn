@@ -2,16 +2,6 @@
 const express = require('express');
 const app = express();
 
-try{
-  const dbUtil = require('./utils/db');
-
-  console.log('Connecting to DB ...');
-  await dbUtil.connect();
-  console.log('Connecting to DB: Done.');
-}catch(err){
-  console.log({error: err});
-}
-
 // Setting up cors: it helps to solve cors policy problem when client calls API
 const cors = require('cors');
 const corsOptions = {
@@ -32,16 +22,24 @@ firebaseAdmin.initializeApp({
   credential: firebaseAdmin.credential.cert(serviceAccount)
 });
 
-const routes = require('./routes');
-app.use('/api/v1',routes);
+console.log('Connecting to DB ...');
 
-// Setting up application port
-const port = process.env.PORT || 3000;
-console.log(`Listening on port ${port}`);
+const dbUtil = require('./utils/db');
+dbUtil
+    .connect()
+    .then( () => {
+        console.log('Setting up routes ...');
+        const routes = require('./routes');
+        app.use('/api/v1',routes);
+    }).then( () => {
+      console.log(`Listening for AMQP`);
+      const amqpController = require('./controllers/AmqpController');
+      amqpController.listen();
+    }).then( () => {
+      // Setting up application port
+      const port = process.env.PORT || 3000;
+      console.log(`Listening on port ${port}`);
 
-console.log(`Listening for AMQP`);
-amqpController = require('./controllers/AmqpController');
-amqpController.listen();
-
-// Listen for connections
-app.listen(port);
+      app.listen(port);
+    })
+    .catch( ex => console.log(ex.message));

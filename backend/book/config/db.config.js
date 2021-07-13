@@ -1,6 +1,6 @@
 const username = 'books';
 const password = 'MongoMevn2021!';
-const host = '127.0.0.1';
+const host = 'mongodb-books';
 const port = 27017;
 const defaultAuthDb = 'admin';
 const options = [

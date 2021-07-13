@@ -12,7 +12,14 @@ const list = ( req, res ) => {
 }
 
 const get = ( req, res ) => {
-  console.log("Prams: " + JSON.stringify(req.params));
+
+  const bookId = req.params.bookId;
+  const reviewId = req.params.reviewId;
+
+  reviewService
+      .get(bookId, reviewId)
+      .then(review => res.status(200).json(review))
+      .catch(error => res.status(error.code).json(error));
 }
 
 const add = ( req, res ) => {

@@ -9,7 +9,7 @@ const state = {
 
 const getters = {
   getUser: (state) => state.user,
-  isLogged: (state) => state.user ? true : false,
+  isLogged: (state) => !!state.user,
   isLoaded: (state) => state.isLoadedFlag,
 }
 

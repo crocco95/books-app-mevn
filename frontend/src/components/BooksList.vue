@@ -29,7 +29,7 @@
                 <button
                     class='btn btn-outline-primary'
                     v-on:click='loadMore()'>
-                    Load more results
+                    ➕Load more results
                 </button>
             </div>
         </div>

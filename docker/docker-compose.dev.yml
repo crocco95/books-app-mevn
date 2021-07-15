@@ -46,7 +46,7 @@ services:
     image: mongo
     restart: always
     environment:
-      MONGO_INITDB_ROOT_USERNAME: prefrences
+      MONGO_INITDB_ROOT_USERNAME: preferences
       MONGO_INITDB_ROOT_PASSWORD: MongoMevn2021!
     ports:
       - 27019:27017

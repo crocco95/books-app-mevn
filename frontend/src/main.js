@@ -2,8 +2,6 @@ import axios from 'axios';
 axios.create();
 axios.defaults.baseURL = process.env.VUE_APP_API_BASE_URL;
 
-console.log(process.env);
-
 import { createApp } from 'vue'
 import App from './App.vue'
 import router from './router'

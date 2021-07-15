@@ -114,6 +114,6 @@ export default {
     padding: 2rem 1rem;
   }
   .carousel-item{
-    max-height: 80vh;
+    max-height: 60vh;
   }
 </style>

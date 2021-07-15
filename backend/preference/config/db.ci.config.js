@@ -1,7 +1,7 @@
 const username = 'preferences';
 const password = 'MongoMevn2021!';
-const host = 'mongodb-preferences';
-const port = 27017;
+const host = '0.0.0.0';
+const port = 27019;
 const defaultAuthDb = 'admin';
 const options = [
     'retryWrites=true',

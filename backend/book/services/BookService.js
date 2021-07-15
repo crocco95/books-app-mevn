@@ -15,6 +15,7 @@ const list = async (params) => {
     projection: params.projection,
     key: googleConfig.booksApiKey,
     langRestrict: params.lang,
+    startIndex: params.startIndex,
   };
 
   console.log("Called list BookService.list with params: " + JSON.stringify(params));

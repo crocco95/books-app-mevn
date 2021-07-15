@@ -9,7 +9,7 @@ const BookService = require('../services/BookService');
 const list = async (req,res) => {
 
   // Pick from request query just the parameters we need
-  const params = pick(req.query, ['query', 'filter', 'limit', 'startIndex', 'orderBy', 'projection', 'lang']);
+  const params = pick(req.query, ['query', 'filter', 'limit', 'startIndex', 'orderBy', 'projection', 'lang', 'startIndex']);
   
   // Call the service to perform the effective API call
   BookService

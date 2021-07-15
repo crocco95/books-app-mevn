@@ -2,24 +2,23 @@
 const express = require('express');
 const app = express();
 
-// Setting up Mongoose
-const mongoose = require('mongoose');
-const dbConfig = require('./config/db.config');
+console.log('Connecting to DB ...');
 
-try{
-  mongoose.connect( dbConfig.connectionUri ,
-    {
-      useUnifiedTopology: true,
-      useNewUrlParser:true
-    },
-    (o) => console.log({
-      log:'DB Connected successfully!',
-      o: o
-    })
-  );
-}catch(err){
-  console.log({error: err});
-}
+const dbUtil = require('./utils/db');
+dbUtil
+    .connect()
+    .then( () => {
+        console.log('Setting up routes ...');
+        const routes = require('./routes');
+        app.use('/api/v1',routes);
+    }).then( () => {
+    // Setting up application port
+    const port = process.env.PORT || 3000;
+    console.log(`Listening on port ${port}`);
+
+    app.listen(port);
+})
+    .catch( ex => console.log(ex.message));
 
 const routes = require('./routes');
 app.use('/api/v1',routes);

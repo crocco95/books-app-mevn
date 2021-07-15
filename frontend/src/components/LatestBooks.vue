@@ -1,5 +1,5 @@
 <template>
-  <div class="latests-books" v-if="books">
+  <div class="latest-books" v-if="books">
 
     <div class="row line-header-mobile position-relative" :style="`background-image: url(${imageUriMobile})`">
       <div class="col-md-12 p-0">
@@ -34,6 +34,17 @@
           :authors="book.volumeInfo.authors"/>
         </router-link>
       </div>
+
+        <div class="col col-md-3 col-sm-4 col-6 p-0">
+            <router-link :to="`/search?query=subject:${encodeURIComponent(title)}`">
+                <div class='read-more-card'>
+                    <h1>🚀</h1>
+                    <h2>Read more</h2>
+                    <button class='btn btn-outline-primary'>Let's Explore!</button>
+                </div>
+            </router-link>
+        </div>
+
     </div>
 
   </div>
@@ -134,14 +145,14 @@ a {
     text-decoration: none!important;
 }
 
-.latests-books{
+.latest-books{
 
   /* The heart of the matter */
   .books-row {
     display: flex;
     overflow-x: auto;
     white-space: nowrap;
-    border-radius: 10px;
+    border-radius: 1rem;
     align-items: center;
     justify-content: flex-start;
     align-content: center;
@@ -235,4 +246,20 @@ a {
       }
     }
   }
+
+.read-more-card{
+    color: #333;
+    text-align: center;
+
+    background-color: #fff;
+
+    display: inline-block;
+    height: 100%;
+    width: 90%;
+    max-width: 20rem;
+
+    padding-top: 20%;
+    padding-bottom: 20%;
+    border-radius: 1rem;
+}
 </style>

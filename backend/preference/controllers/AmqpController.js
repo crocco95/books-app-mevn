@@ -16,7 +16,7 @@ const connect = () => {
           console.log("[AMQP] Received '%s'", msg.content.toString());
           const preference = JSON.parse(msg.content.toString());
 
-          userPreferenceService.list(preference.userId)
+          userPreferenceService.get(preference.userId)
           .then(p => {
             return (p ? userPreferenceService.edit(preference) : userPreferenceService.add({
               userId: preference.userId,

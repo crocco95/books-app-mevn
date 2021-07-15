@@ -1,6 +1,6 @@
 const Preference = require("../models/Preference");
 
-const list = (userId) => {
+const get = (userId) => {
   return Preference.findOne({userId});
 }
 
@@ -11,9 +11,7 @@ const add = (preference) => {
 const edit = (preference) => {
   const pc = `categories.${preference.category}`;
 
-  console.log(pc);
-
-  return Preference.updateOne({userId: preference.userId}, {
+  return Preference.findOneAndUpdate({userId: preference.userId}, {
     $inc : {
       [pc] : 1
     }
@@ -23,7 +21,7 @@ const edit = (preference) => {
 }
 
 module.exports = {
-  list,
+  get,
   add,
   edit,
 }

@@ -5,6 +5,6 @@ const PreferenceController = require('../controllers/PreferenceController');
 
 router
   .route('/:userId/preferences')
-  .get(PreferenceController.list);
+  .get(PreferenceController.get);
 
 module.exports = router;

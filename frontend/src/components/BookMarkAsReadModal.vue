@@ -14,20 +14,30 @@
               <!-- START Start date -->
               <div class="mb-3">
                 <label for="date-start" class="col-form-label">Start reading date (if you remember)</label>
-                <input type="date" class="form-control" id="date-start" v-model="startDate">
+                <input type="date" class="form-control" id="date-start" v-model="startDate" :disabled='loadingFlag'>
               </div>
               <!-- END Start date -->
 
               <!-- START Current page -->
               <div class="mb-3" v-if="!finishedFlag">
                 <label for="review-vote" class="col-form-label">Current page: <strong>{{ currentPage }}/{{ totalPages }}</strong> ({{ parseInt(currentPage * 100 / totalPages) }}%)</label>
-                <input type="range" min="0" :max="totalPages" class="form-range" id="review-vote" v-model="currentPage">
+                <input type="range"
+                       min="0"
+                       :max="totalPages"
+                       class="form-range"
+                       id="review-vote"
+                       v-model="currentPage"
+                       :disabled='loadingFlag'>
               </div>
               <!-- END Current page -->
 
               <!-- START Current page -->
               <div class="mb-3">
-                <input type="checkbox" class="form-checkbox" id="finished-flag" v-model="finishedFlag">
+                <input type="checkbox"
+                       class="form-checkbox"
+                       id="finished-flag"
+                       v-model="finishedFlag"
+                       :disabled='loadingFlag'>
                 <label for="finished-flag" class="col-form-label px-1">I have already finished this book</label>
               </div>
               <!-- END Current page -->
@@ -35,7 +45,11 @@
               <!-- START End date -->
               <div class="mb-3" v-if="finishedFlag">
                 <label for="date-end" class="col-form-label">End reading date</label>
-                <input type="date" class="form-control" id="date-end" v-model="finishDate">
+                <input type="date"
+                       class="form-control"
+                       id="date-end"
+                       v-model="finishDate"
+                    :disabled='loadingFlag'>
               </div>
               <!-- END End date -->
 
@@ -61,7 +75,8 @@
 
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-primary" @click="newBookReadFlag ? add() : edit()" v-if="!success">Save</button>
+            <button type="button" class="btn btn-primary" @click="newBookReadFlag ? add() : edit()" v-if="!success">
+                {{ loadingFlag ? 'Saving...' : 'Save' }}</button>
           </div>
         </div>
       </div>
@@ -92,6 +107,7 @@ export default {
       newBookReadFlag: true,
       success: '',
       error: '',
+    loadingFlag: false,
     }
   },
 
@@ -124,6 +140,8 @@ export default {
     add(){
       const userId = this.getUser()?.uid;
 
+      this.loadingFlag = true;
+
       axios.post(`books/${this.bookId}/read`,{
         userId,
         currentPage: this.finishDate ? null : this.currentPage,
@@ -137,10 +155,16 @@ export default {
         };
         this.error = '';
       })
-      .catch( err => this.error = err.response.data);
+      .catch( err => this.error = err.response.data)
+      .finally(() => {
+          this.loadingFlag = false;
+        });
     },
 
     edit(){
+
+        this.loadingFlag = true;
+
       axios.put(`books/${this.bookId}/read`,{
         currentPage: this.finishDate ? null : this.currentPage,
         startDate: this.startDate,
@@ -153,7 +177,10 @@ export default {
         };
         this.error = '';
       })
-      .catch( err => this.error = err.response.data);
+      .catch( err => this.error = err.response.data)
+    .finally(() => {
+            this.loadingFlag = false;
+        });
     }
   },
 

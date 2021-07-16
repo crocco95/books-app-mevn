@@ -26,7 +26,7 @@ export default {
     showMore(moreFlag){
       this.moreFlag = moreFlag;
       this.shortText = this.moreFlag ? this.text : this.text.substr(0,this.max);
-      if(this.shortText.length >= this.max){
+      if(this.shortText.length >= this.max && !moreFlag ) {
         this.shortText += '...';
       }
     }

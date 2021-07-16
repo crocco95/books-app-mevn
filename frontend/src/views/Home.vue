@@ -6,7 +6,11 @@
     </div>
     <div class="container">
       <div v-if="readyFlag">
-        <LatestBooks v-for="category in categories" :key="categories.indexOf(category)" :category="category" limit="12" class="mt-5"/>
+        <LatestBooks v-for="category in categories"
+                     :key="categories.indexOf(category)"
+                     :category="category"
+                     limit="12"
+                     class="mt-5"/>
       </div>
     </div>
   </div>
@@ -14,7 +18,7 @@
 
 <script>
   import axios from 'axios';
-  import availableCategories from '@/config/available_categories' 
+  import availableCategories from '@/config/available_categories'
   import HomeStaticHero from '@/components/HomeStaticHero.vue';
   import HomePreferenceHero from '@/components/HomePreferenceHero.vue';
   import LatestBooks from '@/components/LatestBooks.vue';
@@ -66,14 +70,19 @@
       }
 
       for(let i = this.categories.length ; i < 15 ; i++){
-        
-        const c = availableCategories.categories[Math.floor(Math.random()*availableCategories.categories.length)];
-        
+
+        const c = availableCategories
+            .categories[
+                Math.floor(
+                    Math.random() * availableCategories.categories.length
+                )
+            ];
+
         if(this.categories.indexOf(c) === -1){
           this.categories.push(c);
         }
       }
-      
+
       this.readyFlag = true;
     }
   }

@@ -75,8 +75,8 @@ const add = async (req, res) => {
         req.body.finishDate
     )
     .then(rd => res.status(201).json(rd))
-    .then(async () => notifyFollowers(req.params.userId, req.params.bookId))
-    .then(() => publishPreferences(req.params.userId, req.params.bookId))
+    .then(async () => notifyFollowers(req.body.tokenUserId, req.params.bookId))
+    .then(() => publishPreferences(req.body.tokenUserId, req.params.bookId))
     .catch(err => res.status(400).json({
       message: err,
       code: 400

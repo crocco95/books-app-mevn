@@ -12,23 +12,13 @@ dbUtil
         const routes = require('./routes');
         app.use('/api/v1',routes);
     }).then( () => {
-    // Setting up application port
-    const port = process.env.PORT || 3000;
-    console.log(`Listening on port ${port}`);
+        // Setting up application port
+        const port = process.env.PORT || 3000;
+        console.log(`Listening on port ${port}`);
 
-    app.listen(port);
-})
+        app.listen(port);
+    })
     .catch( ex => console.log(ex.message));
-
-const routes = require('./routes');
-app.use('/api/v1',routes);
-
-// Setting up application port
-const port = process.env.PORT || 3000;
-console.log(`Listening on port ${port}`);
-
-// Listen for connections
-app.listen(port);
 
 const amqpController = require('./controllers/AmqpController');
 amqpController.connect();

@@ -16,9 +16,9 @@ dbUtil
         const port = process.env.PORT || 3000;
         console.log(`Listening on port ${port}`);
 
+        const amqpController = require('./controllers/AmqpController');
+        amqpController.connect();
+
         app.listen(port);
     })
     .catch( ex => console.log(ex.message));
-
-const amqpController = require('./controllers/AmqpController');
-amqpController.connect();

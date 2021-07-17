@@ -1,8 +1,8 @@
 const httpUtils = {
   paramsToUrlQuery(params) {
-    var str = '';
+      let str = ''
       for (let key in params) {
-          if (str != "") {
+          if (str !== "") {
               str += "&";
           }
           str += key + "=" + params[key];

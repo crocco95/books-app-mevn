@@ -22,8 +22,7 @@
             <router-link  class="btn btn-primary"
               v-for="button in slide.buttons" :key="button.id"
               v-text="button.title"
-              :to="button.uri"
-              v-on:click="prepareSearch(slide.title)"></router-link>
+              :to="button.uri"></router-link>
           </div>
         </div>
         
@@ -65,15 +64,6 @@ export default {
         .get(`user_preferences/${user.uid}/preferences`)
         .then( res => res.data )
     },
-
-    prepareSearch(category){
-      this.fetchBooks({
-        query: `subject=${category}&orderBy=newest`,
-        limit: 12,
-      }).then( () => {
-        this.searchingFlag = false;
-      });
-    }
   },
 
   async mounted(){
@@ -95,7 +85,7 @@ export default {
           {
             id: 0,
             title: '🔝 Discover the newest releases',
-            uri: '/search',
+            uri: `/search?query=subject:${encodeURIComponent(category)}`,
           },
         ]
       });

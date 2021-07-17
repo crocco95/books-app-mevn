@@ -84,7 +84,7 @@ const actions = {
 
   async logout({commit}){
     console.log("Logging out...");
-    firebaseApp.app.auth().signOut().then(() => {
+    return firebaseApp.app.auth().signOut().then(() => {
       delete axios.defaults.headers.common['Authorization'];
       commit('setUser', null);
     })

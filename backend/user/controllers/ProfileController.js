@@ -3,6 +3,7 @@ const profileService = require('../services/ProfileService');
 const create = async ( req, res ) => {
 
   let params = {
+    _id: req.body.tokenUserId,
     surname: req.body.surname,
     name: req.body.name,
     genre: req.body.genre,

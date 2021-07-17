@@ -14,8 +14,8 @@
 
             <div class="line-header">
                 <div class="dark-overlay" :style="`background: ${bgColor};`"></div>
-                <div class="w-100 text-center">
-                    <h1 class="title w-100" :style="`color: ${titleColor}`">{{ title }}</h1>
+                <div class="w-100 text-center title-container">
+                    <h1 class="title w-100" :style="`color: ${titleColor}`">{{ title.replace(' ','\n') }}</h1>
                 </div>
                 <img v-if="imageUri" :src="imageUri" alt="">
             </div>
@@ -165,11 +165,8 @@ a {
     }
 }
 
-.title{
+.title-container{
     position: absolute;
-    text-align: center;
-    font-weight: 900;
-    font-size: 2rem;
 
     display: flex;
     flex-wrap: nowrap;
@@ -178,6 +175,13 @@ a {
     align-items: center;
 
     height: 100%;
+
+    .title{
+        text-align: center;
+        font-weight: 900;
+        font-size: 2rem;
+        word-break: break-all;
+    }
 }
 
 .dark-overlay{

@@ -60,11 +60,11 @@ export default {
 
     ...mapActions(['login']),
 
-    loginWithEmailAndPassword: function( event ){
+    async loginWithEmailAndPassword(event) {
 
-      event.preventDefault();
+        event.preventDefault();
 
-      this.isLoading = true;
+        this.isLoading = true;
 
       this.$store.dispatch('login',{
         email: this.email,

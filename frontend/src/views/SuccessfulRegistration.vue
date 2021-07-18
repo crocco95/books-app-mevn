@@ -28,6 +28,22 @@
 
   </div>
 </template>
+
+<script>
+export default {
+    data(){
+        return {
+            pageTitle: 'You are in! | MEVN Books App',
+        }
+    },
+
+    mounted() {
+        // Set page meta title
+        document.title = this.pageTitle;
+    }
+}
+</script>
+
 <style scoped>
   .category-emoji{
     font-size: 5rem;

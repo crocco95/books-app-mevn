@@ -11,4 +11,9 @@ import store from './store'
 import bootstrapCss from 'bootstrap/dist/css/bootstrap.min.css'
 import bootstrapJs from 'bootstrap/dist/js/bootstrap'
 
-createApp(App).use(store).use(bootstrapCss).use(bootstrapJs).use(router).mount('#app');
+createApp(App)
+    .use(store)
+    .use(bootstrapCss)
+    .use(bootstrapJs)
+    .use(router)
+    .mount('#app');

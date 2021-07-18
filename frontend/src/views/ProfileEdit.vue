@@ -18,6 +18,17 @@ import ProfileEditForm from "@/components/ProfileEditForm";
 export default {
   components: {
     ProfileEditForm,
-  } 
+  },
+
+    data(){
+      return {
+          pageTitle: 'Profile Edit | MEVN Books App',
+      }
+    },
+
+    mounted() {
+        // Set page meta title
+        document.title = this.pageTitle;
+    }
 }
 </script>

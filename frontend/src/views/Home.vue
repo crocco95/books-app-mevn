@@ -1,91 +1,96 @@
 <template>
-  <div class="home">
-    <div class="container-fluid px-0">
-      <HomePreferenceHero v-if="getUser()" />
-      <HomeStaticHero v-else />
+    <div class="home">
+        <div class="container-fluid px-0">
+            <HomePreferenceHero v-if="getUser()" />
+            <HomeStaticHero v-else />
+        </div>
+        <div class="container">
+            <div v-if="readyFlag">
+                <LatestBooks v-for="category in categories"
+                             :key="categories.indexOf(category)"
+                             :category="category"
+                             limit="12"
+                             class="mt-5"/>
+            </div>
+        </div>
     </div>
-    <div class="container">
-      <div v-if="readyFlag">
-        <LatestBooks v-for="category in categories"
-                     :key="categories.indexOf(category)"
-                     :category="category"
-                     limit="12"
-                     class="mt-5"/>
-      </div>
-    </div>
-  </div>
 </template>
 
 <script>
-  import axios from 'axios';
-  import availableCategories from '@/config/available_categories'
-  import HomeStaticHero from '@/components/HomeStaticHero.vue';
-  import HomePreferenceHero from '@/components/HomePreferenceHero.vue';
-  import LatestBooks from '@/components/LatestBooks.vue';
-  import MostReadBooks from '@/components/MostReadBooks.vue';
-  import PageLoader from '@/components/PageLoader.vue';
+import axios from 'axios';
+import availableCategories from '@/config/available_categories'
+import HomeStaticHero from '@/components/HomeStaticHero.vue';
+import HomePreferenceHero from '@/components/HomePreferenceHero.vue';
+import LatestBooks from '@/components/LatestBooks.vue';
+import MostReadBooks from '@/components/MostReadBooks.vue';
+import PageLoader from '@/components/PageLoader.vue';
 
-  import {mapGetters} from 'vuex';
+import {mapGetters} from 'vuex';
 
-  export default {
+export default {
     name: 'Home',
     components: {
-      HomeStaticHero,
-      HomePreferenceHero,
-      LatestBooks,
-      MostReadBooks,
-      PageLoader,
+        HomeStaticHero,
+        HomePreferenceHero,
+        LatestBooks,
+        MostReadBooks,
+        PageLoader,
     },
 
     data() {
-      return {
-        categories: [],
-        readyFlag: false,
-      };
+        return {
+            pageTitle: 'Home | MEVN Books App',
+            categories: [],
+            readyFlag: false,
+        };
     },
 
     methods:{
-      ...mapGetters(['getUser', 'isLogged']),
+        ...mapGetters(['getUser', 'isLogged']),
 
-      async getPreferences(){
+        async getPreferences(){
 
-        const user = this.getUser();
+            const user = this.getUser();
 
-        return axios
-          .get(`user_preferences/${user.uid}/preferences`)
-          .then( response => response.data?.categories ?? []);
-      }
+            return axios
+                .get(`user_preferences/${user.uid}/preferences`)
+                .then( response => response.data?.categories ?? []);
+        }
     },
 
     async mounted(){
-      const user = this.getUser();
 
-      if(user){
-        await this.getPreferences()
-          .then( preferences => {
-              if(preferences){
-                  this.categories = Object.keys(preferences);
-              }
-          });
-      }
+        // Set page meta title
+        document.title = this.pageTitle;
 
-      for(let i = this.categories.length ; i < 15 ; i++){
+        const user = this.getUser();
 
-        const c = availableCategories
-            .categories[
+        if(user){
+            await this.getPreferences()
+                .then( preferences => {
+                    if(preferences){
+                        this.categories = Object.keys(preferences);
+                    }
+                });
+        }
+
+        for(let i = this.categories.length ; i < 15 ; i++){
+
+            const c = availableCategories
+                .categories[
                 Math.floor(
                     Math.random() * availableCategories.categories.length
                 )
-            ];
+                ];
 
-        if(this.categories.indexOf(c) === -1){
-          this.categories.push(c);
+            if(this.categories.indexOf(c) === -1){
+                this.categories.push(c);
+            }
         }
-      }
 
-      this.readyFlag = true;
+        this.readyFlag = true;
     }
-  }
+}
 </script>
 
 <style scoped>

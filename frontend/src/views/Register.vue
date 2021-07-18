@@ -23,6 +23,17 @@ export default {
   components: {
     FirebaseRegistrationModule
   },
+
+    data(){
+      return {
+          pageTitle: 'Register | MEVN Books App',
+      }
+    },
+
+    mounted() {
+        // Set page meta title
+        document.title = this.pageTitle;
+    }
 }
 </script>
 

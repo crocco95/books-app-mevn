@@ -30,12 +30,17 @@ export default {
 
     data(){
       return {
+          pageTitle: 'Search | MEVN Books App',
           doneFlag: false,
           query: '',
       }
     },
 
     mounted(){
+
+        // Set page meta title
+        document.title = this.pageTitle;
+
         const query = this.$route.query.query;
         if(query){
             this.query = query;

@@ -20,8 +20,16 @@
 
               <!-- START Review description -->
               <div class="mb-3">
-                <label for="review-text" class="col-form-label">Description</label>
-                <textarea class="form-control" id="review-text" placeholder="Write here what you think about this book" rows="5" v-model="description"></textarea>
+                <label for="review-text" class="col-form-label d-block">Description</label>
+                  <div class='alert alert-warning text-center' v-if='description.length < 50'>
+                      The review must be at least 50 characters (current: {{description.length}})
+                  </div>
+                <textarea
+                    class="form-control"
+                    id="review-text"
+                    placeholder="Write here what you think about this book"
+                    rows="5"
+                    v-model="description"></textarea>
               </div>
               <!-- END Review description -->
 
@@ -52,9 +60,17 @@
           </div>
 
           <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-primary" @click="addReview" v-if="!success && !review">Send review</button>
-            <button type="button" class="btn btn-primary" @click="editReview" v-if="!success && review">Edit review</button>
+            <button type="button"
+                    class="btn btn-secondary"
+                    data-bs-dismiss="modal">Close</button>
+            <button type="button"
+                    class="btn btn-primary"
+                    :disabled='description.length < 50'
+                    @click="addReview" v-if="!success && !review">Send review</button>
+            <button type="button"
+                    class="btn btn-primary"
+                    :disabled='description.length < 50'
+                    @click="editReview" v-if="!success && review">Edit review</button>
           </div>
         </div>
       </div>

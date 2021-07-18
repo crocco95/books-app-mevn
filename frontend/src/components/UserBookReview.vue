@@ -3,13 +3,13 @@
     <div class="row review-header">
         
         <!-- Title + Author -->
-        <div class="col-md-6 col-6">
+        <div class="col-md-8 col-8">
           <h3 v-text="review.title" class="d-inline"></h3>
           <small class="mx-2" v-if="author">by <router-link v-text="author.name" :to="`/profiles/${author._id}`"></router-link></small>
         </div>
 
         <!-- Edit button -->
-        <div class="col-md-6 col-6 text-end">
+        <div class="col-md-4 col-4 text-end">
           <AddBookReviewModal :bookId="review.bookId" :review="review"/>
           <button
             v-if="sameLoggedUserFlag"
@@ -21,7 +21,7 @@
       
       <!-- Content -->
       <div class="row">
-        <div class="col-md-12">
+        <div class="col-md-12 content">
           <LongText :text="review.description" :max="255" />
         </div>
       </div>
@@ -87,5 +87,7 @@ export default {
 </script>
 
 <style>
-
+.content{
+    word-break: break-all;
+}
 </style>

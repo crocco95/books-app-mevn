@@ -202,13 +202,9 @@ export default {
             const user = this.getUser();
             let foundFlag = false;
 
-            console.log(this.reviews.length);
-
             if(!user) return false;
 
             this.reviews.forEach( review => {
-                console.log(review.userId);
-                console.log(user.uid);
                if(review.userId === user.uid){
                    foundFlag = true;
                }
@@ -219,7 +215,12 @@ export default {
     },
 
     mounted(){
-        this.fetchData();
+
+        this.fetchData()
+        .then( () => {
+            document.title = `${this.volumeInfo.title} | MEVN Books App`;
+        });
+
         this.fetchAverageInternalReviews();
 
         this.fetchReviews()

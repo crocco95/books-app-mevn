@@ -1,6 +1,6 @@
 <template>
     <div class="container profile pt-5">
-        <span class="h1">😎</span>
+        <span class="h1" v-text='emoji'></span>
         <h1 v-text="profile.name + ' ' + profile.surname"></h1>
 
         <div class="row">
@@ -90,6 +90,7 @@ export default {
             following: 0,
             followButtonVisible: false,
             unfollowButtonVisible: false,
+            emoji: '',
         }
     },
 
@@ -101,7 +102,7 @@ export default {
 
             const loggedUserId = this.getUser()?.uid;
 
-            axios
+            return axios
                 .post(`users/${loggedUserId}/social`,{
                     followingUserId: this.userId
                 })
@@ -116,7 +117,7 @@ export default {
 
             const loggedUserId = this.getUser()?.uid;
 
-            axios
+            return axios
                 .delete(`users/${loggedUserId}/social/${this.userId}`)
                 .then( res => {
                     this.followButtonVisible = true;
@@ -128,7 +129,7 @@ export default {
 
         listSocialRelationships(){
 
-            axios
+            return axios
                 .get(`users/${this.userId}/social`)
                 .then( res => {
                     this.following = res.data.following;
@@ -141,7 +142,7 @@ export default {
 
             const loggedUserId = this.getUser()?.uid;
 
-            axios
+            return axios
                 .get(`users/${loggedUserId}/social/${this.userId}`)
                 .then( res => {
                     console.log(res.data);
@@ -153,7 +154,7 @@ export default {
 
         fetchUserDetails(){
 
-            axios
+            return axios
                 .get(`profiles/${this.userId}`)
                 .then( res => this.profile = res.data )
                 .catch( err => console.error(err));
@@ -183,7 +184,23 @@ export default {
         document.title = this.pageTitle;
 
         this.checkFollow();
-        this.fetchUserDetails();
+
+        this.fetchUserDetails()
+        .then( details => {
+            switch (details.genre){
+                case 'male':
+                    this.emoji = '👨';
+                    break;
+                case 'female':
+                    this.emoji = '👩';
+                    break;
+                default:
+                    this.emoji = '🧑';
+                    break;
+
+            }
+        });
+
         this.fetchUserBooks();
         this.listSocialRelationships();
     },

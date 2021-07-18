@@ -4,7 +4,7 @@ import httpUtils from '../../utils/http';
 const state = {
   lastSearch: '',
   books: [],
-  booksFinishedFlag: false,
+  booksFinishedFlag: true,
 }
 
 const getters = {

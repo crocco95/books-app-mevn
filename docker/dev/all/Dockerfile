@@ -6,4 +6,6 @@ RUN mkdir /opt/${name}
 
 WORKDIR /opt/${name}
 
-RUN npm install
+RUN echo pwd
+
+ENTRYPOINT [ "npm","run","dev" ]

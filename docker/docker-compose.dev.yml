@@ -62,7 +62,6 @@ services:
       dockerfile: docker/dev/all/Dockerfile
       args:
         name: book
-    command: npm run dev
     volumes:
       - ../backend/book:/opt/book
     networks:
@@ -76,7 +75,6 @@ services:
       dockerfile: docker/dev/all/Dockerfile
       args:
         name: user
-    command: npm run dev
     volumes:
       - ../backend/user:/opt/user
     networks:
@@ -90,7 +88,6 @@ services:
       dockerfile: docker/dev/all/Dockerfile
       args:
         name: preference
-    command: npm run dev
     volumes:
       - ../backend/preference:/opt/preference
     networks:
@@ -104,7 +101,6 @@ services:
       dockerfile: docker/dev/all/Dockerfile
       args:
         name: notification
-    command: npm run dev
     volumes:
       - ../backend/notification:/opt/notification
     networks:
@@ -117,7 +113,6 @@ services:
       dockerfile: docker/dev/all/Dockerfile
       args:
         name: gateway
-    command: npm run dev
     volumes:
       - ../backend/gateway:/opt/gateway
     ports: 
@@ -135,7 +130,6 @@ services:
       dockerfile: docker/dev/all/Dockerfile
       args:
         name: frontend
-    command: npm run serve
     volumes:
       - ../frontend:/opt/frontend
     ports:

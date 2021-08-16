@@ -20,7 +20,14 @@ A simple NEVM application to manage books 📚
 * Docker 
 * Docker Swarm
 * Docker Compose (if Docker version does not include Docker Compose)
-## Installation
+
+## Quick start
+For a simple quick start there are 2 files, one for dev stage and another pro production:
+* start_dev.sh : start the Docker environment in dev stage
+* start_prod.sh : start the Docker environment in prod stage
+
+NOTE: to start the infrastructure you have to insert in the project the Service Account Key, a JSON file that contains the Google Firebase authentication infos. If you have not the file, follow the instruction in the CLI after run the start_*.sh file.
+## Manual Installation
 
 ### Start RabbitMQ instance
 Before to start every other component is necessary to start RabbitMQ container instance.

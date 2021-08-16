@@ -6,6 +6,6 @@ RUN mkdir /opt/${name}
 
 WORKDIR /opt/${name}
 
-RUN echo pwd
+RUN npm install
 
 ENTRYPOINT [ "npm","run","dev" ]

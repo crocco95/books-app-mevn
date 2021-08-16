@@ -77,6 +77,17 @@ services:
       - backend
       - db
 
+  notifications:
+      container_name: notifications
+      build:
+        context: ..
+        dockerfile: docker/prod/backend/Dockerfile
+        args:
+          name: notification
+      networks:
+        - backend
+        - db
+
   gateway: 
     container_name: gateway
     build: 

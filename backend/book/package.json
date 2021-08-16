@@ -6,7 +6,7 @@
   "scripts": {
     "test": "jest",
     "test-n-watch": "jest --watch-all --verbose",
-    "dev": "nodemon app.js",
+    "dev": "npm install && npm update && nodemon app.js",
     "start": "node app.js"
   },
   "keywords": [],

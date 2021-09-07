@@ -7,7 +7,7 @@ services:
     container_name: rabbitmq
     build: 
       context: ..
-      dockerfile: docker/dev/rabbitmq/Dockerfile
+      dockerfile: docker/prod/rabbitmq/Dockerfile
     networks: 
       - backend
 
